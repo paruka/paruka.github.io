@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="Q_ua7o9LQCS2oeTafRR2RjjoHfjs_h3d6nKJ7k1KW58" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Effective Modern C++,Press Ban,禁止转载," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Eloquent Programmer" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+<meta name="keywords" content="Effective Modern C++,Press Ban,禁止转载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="条款24：区别通用引用与右值引用">
+<meta property="og:url" content="http://paruka.me/translation/effective_modern_cpp/item24.html">
+<meta property="og:site_name" content="Eloquent Programmer">
+<meta property="og:description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-08-06T18:39:43.695Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="条款24：区别通用引用与右值引用">
+<meta name="twitter:description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://paruka.me/translation/effective_modern_cpp/item24.html"/>
+
+
+
+
+
+  <title>条款24：区别通用引用与右值引用 | Eloquent Programmer</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-85750364-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Eloquent Programmer</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paruka.me/translation/effective_modern_cpp/item24.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paruka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eloquent Programmer">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">条款24：区别通用引用与右值引用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-10T15:22:00+08:00">
+                2017-07-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Translation/" itemprop="url" rel="index">
+                    <span itemprop="name">Translation</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Translation/Effective-Modern-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Effective Modern C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/translation/effective_modern_cpp/item24.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="translation/effective_modern_cpp/item24.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/translation/effective_modern_cpp/item24.html" class="leancloud_visitors" data-flag-title="条款24：区别通用引用与右值引用">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <div id="content">
+<p>
+&#x90FD;&#x8BF4;&#x771F;&#x7406;&#x8BA9;&#x4EBA;&#x5982;&#x83B7;&#x81EA;&#x7531;&#xFF0C;&#x4F46;&#x5728;&#x6B63;&#x786E;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x4E00;&#x4E2A;&#x6070;&#x5F53;&#x7684;&#x8C0E;&#x8A00;&#x5374;&#x80FD;&#x4EA7;&#x751F;&#x540C;&#x6837;&#x7684;&#x6548;&#x679C;&#x3002;&#x6B64;&#x6761;&#x6B3E;&#x4FBF;&#x662F;&#x4E00;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x8C0E;&#x8A00;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x5728;&#x4E0E;&#x8F6F;&#x4EF6;&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5E94;&#x907F;&#x514D;&#x4F7F;&#x7528;&quot;&#x8C0E;&#x8A00;&quot;&#x8FD9;&#x6837;&#x7684;&#x654F;&#x611F;&#x8BCD;&#x6C47;&#xFF0C;&#x6545;&#x7528;&quot;&#x62BD;&#x8C61;&quot;&#x4E00;&#x8BCD;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#x3002;
+</p>
+
+<p>
+&#x4F60;&#x4F7F;&#x7528; <b>T&amp;&amp;</b> &#x7684;&#x65B9;&#x5F0F;&#x6765;&#x58F0;&#x660E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5047;&#x5B9A;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x5230;&#x7684;&quot;T&amp;&amp;&quot;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4F3C;&#x4E4E;&#x5408;&#x4E4E;&#x60C5;&#x7406;&#x3002;&#x54CE;&#xFF0C;&#x53EF;&#x60DC;&#x5B83;&#x5E76;&#x975E;&#x5982;&#x6B64;&#x7B80;&#x5355;&#x3002;
+</p>
+
+<a id="more"></a>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Widget&amp;&amp; param)</span></span>;           <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line">Widget&amp;&amp; val1 = Widget();         <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp;&amp; var2 = val1;               <span class="comment">// not rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&amp;&amp; param)</span></span>;   <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                <span class="comment">// not rvalue reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&quot;T&amp;&amp;&quot;&#x6709;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x542B;&#x4E49;&#x3002;&#x5176;&#x4E00;&#x5F53;&#x7136;&#x5C31;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x8FD9;&#x79CD;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x8868;&#x73B0;&#x7684;&#x4E0E;&#x4F60;&#x671F;&#x671B;&#x7684;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#xFF1A;&#x5B83;&#x4EEC;&#x53EA;&#x80FD;&#x7ED1;&#x5B9A;&#x81F3;&#x53F3;&#x503C;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x5B58;&#x5728;&#x76EE;&#x7684;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>&#x4E3A;&#x6807;&#x8BC6;&#x90A3;&#x4E9B;&#x80FD;&#x79FB;&#x52A8;&#x7684;&#x5BF9;&#x8C61;&#x3002;
+</p>
+
+<p>
+&quot;T&amp;&amp;&quot;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x542B;&#x4E49;&#x65E2;&#x4E0D;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x4E0D;&#x662F;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x79CD;&#x5F15;&#x7528;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x8D77;&#x6765;&#x50CF;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF08;&quot;T&amp;&amp;&quot;&#xFF09;&#xFF0C;&#x5374;&#x53EF;&#x4EE5;&#x8868;&#x73B0;&#x51FA;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7684;&#x884C;&#x4E3A;&#xFF08;&quot;T&amp;&quot;&#xFF09;&#x3002;&#x8FD9;&#x79CD;&#x53CC;&#x91CD;&#x6027;&#x5141;&#x8BB8;&#x5B83;&#x4EEC;&#x65E2;&#x80FD;&#x7ED1;&#x5B9A;&#x53F3;&#x503C;&#xFF08;&#x50CF;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF09;&#x4E5F;&#x80FD;&#x7ED1;&#x5B9A;&#x5DE6;&#x503C;&#xFF08;&#x50CF;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#xFF09;&#xFF0C;&#x800C;&#x4E14;&#x8FD8;&#x80FD;&#x7ED1;&#x5B9A;&#x81F3; <b>const</b> &#x3001; <b>non-const</b> &#x3001; <b>volatile</b> &#x3001; <b>non-volatile</b> &#x5C5E;&#x6027;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5373;&#x4F7F;&#x5B83;&#x4EEC;&#x540C;&#x65F6;&#x62E5;&#x6709; <b>const</b> &#x548C; <b>volatile</b> &#x5C5E;&#x6027;&#x4E5F;&#x6BEB;&#x4E0D;&#x4F8B;&#x5916;&#xFF08;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#xFF09;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x81F3;&#x4EFB;&#x4F55;&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x79CD;&#x7A7A;&#x524D;&#x590D;&#x6742;&#x7684;&#x5F15;&#x7528;&#x5E94;&#x5F53;&#x88AB;&#x8D4B;&#x4E88;&#x4E00;&#x4E13;&#x5C5E;&#x540D;&#x5B57;&#x3002;&#x6211;&#x79F0;&#x4E4B;&#x4E3A; <b>&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF08;universal references&#xFF09;<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></b> &#x3002;
+</p>
+
+<p>
+&#x901A;&#x7528;&#x5F15;&#x7528;&#x4E8E;&#x4E24;&#x79CD;&#x60C5;&#x5883;&#x4E2D;&#x51FA;&#x73B0;&#x3002;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x60C5;&#x5883;&#x4E3A;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x3002;&#x6B63;&#x5982;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x4F8B;&#x5B50;&#x4E2D;&#x5F15;&#x51FA;&#x7684;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                 <span class="comment">// param is a universal reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x7B2C;&#x4E8C;&#x79CD;&#x60C5;&#x5883;&#x4FBF;&#x662F; <b>auto</b> &#x58F0;&#x660E;&#xFF0C;&#x4EE5;&#x4E0B;&#x4F8B;&#x5B50;&#x540C;&#x6837;&#x5F15;&#x7528;&#x81EA;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x793A;&#x4F8B;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span>&amp;&amp; var2 = var1;                <span class="comment">// var2 is a universal reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x8FD9;&#x4E9B;&#x60C5;&#x5883;&#x7684;&#x5171;&#x901A;&#x70B9;&#x4FBF;&#x662F; <b>&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</b> &#x3002;&#x5BF9;&#x4E8E;&#x6A21;&#x677F;&#x51FD;&#x6570;f&#xFF0C; <b>param</b> &#x7684;&#x7C7B;&#x578B;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#xFF0C;var2&#x7684;&#x58F0;&#x660E;&#x540C;&#x6837;&#x5982;&#x6B64;&#xFF0C;&#x4ED6;&#x7684;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#x3002;&#x4E0E;&#x5982;&#x4E0B;&#x4F8B;&#x5B50;&#x5BF9;&#x6BD4;&#xFF08;&#x540C;&#x6837;&#x5F15;&#x81EA;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x793A;&#x4F8B;&#xFF09;&#xFF0C;&#x5B83;&#x4EEC;&#x7F3A;&#x4E4F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5F53;&#x4F60;&#x53D1;&#x73B0;&quot;T&amp;&amp;&quot;&#x6CA1;&#x6709;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C;&#x5B83;&#x4FBF;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Widget&amp;&amp; param)</span></span>;             <span class="comment">// no type deduction;</span></span><br><span class="line">				    <span class="comment">// param is an rvalue reference</span></span><br><span class="line"></span><br><span class="line">Widget&amp;&amp; var1 = Widget();           <span class="comment">// no type deduction;</span></span><br><span class="line">				    <span class="comment">// var1 is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x901A;&#x7528;&#x5F15;&#x7528;&#x4E5F;&#x662F;&#x5F15;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5B83;&#x4EEC;&#x5FC5;&#x987B;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x3002;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x521D;&#x59CB;&#x503C;&#x51B3;&#x5B9A;&#x4E86;&#x5B83;&#x5E94;&#x8868;&#x73B0;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x6216;&#x662F;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5982;&#x679C;&#x521D;&#x59CB;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x901A;&#x7528;&#x5F15;&#x7528;&#x76F8;&#x5F53;&#x4E0E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5982;&#x679C;&#x521D;&#x59CB;&#x503C;&#x4E3A;&#x5DE6;&#x503C;&#xFF0C;&#x5B83;&#x4FBF;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5BF9;&#x4E8E;&#x6A21;&#x677F;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x5B83;&#x7684;&#x521D;&#x59CB;&#x5316;&#x7531;&#x8C03;&#x7528;&#x7AEF;&#x63D0;&#x4F9B;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                   <span class="comment">// param is a universal reference</span></span><br><span class="line"></span><br><span class="line">Widget w;</span><br><span class="line">f(w);                                <span class="comment">// lvalue passed to f; param&apos;s type is</span></span><br><span class="line">				     <span class="comment">// Widget&amp; (i.e., an lvalue reference)</span></span><br><span class="line"></span><br><span class="line">f(<span class="built_in">std</span>::move(w));                     <span class="comment">// rvalue passed to f; param&apos;s type is</span></span><br><span class="line">				     <span class="comment">// Widget&amp;&amp; (i.e., an rvalue reference)</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5BF9;&#x4E8E;&#xFF08;&#x6210;&#x4E3A;&#xFF09;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x5374;&#x5E76;&#x4E0D;&#x8DB3;&#x591F;&#x3002;&#x5176;&#x5F15;&#x7528;&#x58F0;&#x660E;&#x5F62;&#x5F0F;&#x5FC5;&#x987B;&#x6B63;&#x786E;&#xFF0C;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#x975E;&#x5E38;&#x56FA;&#x5B9A;&#xFF0C;&#x5FC5;&#x987B;&#x4E3A;&#x7CBE;&#x786E;&#x7684;&quot;T&amp;&amp;&quot;&#x6837;&#x5F0F;&#x3002;&#x53C2;&#x770B;&#x5F15;&#x81EA;&#x4E4B;&#x524D;&#x4F8B;&#x5B50;&#x7684;&#x4EE3;&#x7801;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&amp;&amp; param)</span></span>;      <span class="comment">// param is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5F53;f&#x88AB;&#x8C03;&#x7528;&#xFF0C;&#x7C7B;&#x578B; <b>T</b> &#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#xFF08;&#x9664;&#x975E;&#x8C03;&#x7528;&#x8005;&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#xFF0C;&#x8FD9;&#x79CD;&#x8FB9;&#x7F18;&#x60C5;&#x51B5;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x5173;&#x5FC3;&#xFF09;&#x3002;&#x4F46; <b>param</b> &#x7684;&#x7C7B;&#x578B;&#x58F0;&#x660E;&#x5E76;&#x4E0D;&#x662F;&quot;T&amp;&amp;&quot;&#xFF0C;&#x800C;&#x662F;&quot;std::vector&lt;T&gt;&amp;&amp;&quot;&#xFF0C;&#x5B83;&#x5E76;&#x4E0D;&#x6EE1;&#x8DB3;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x89C4;&#x5219;&#x3002;&#x56E0;&#x6B64;&#xFF0C; <b>param</b> &#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8BD5;&#x56FE;&#x5411; <b>f</b> &#x4F20;&#x5165;&#x4E00;&#x5DE6;&#x503C;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5C06;&#x5F88;&#x4E50;&#x4E8E;&#x5411;&#x4F60;&#x8BC1;&#x660E;&#x8FD9;&#x70B9;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">f(v);                                <span class="comment">// error! can&apos;t bind lvalue to</span></span><br><span class="line">				     <span class="comment">// rvalue reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x54EA;&#x6015;&#x662F;&#x4E00;&#x5C0F;&#x5C0F;&#x7684; <b>const</b> &#x4FEE;&#x9970;&#x7B26;&#xFF0C;&#x4E5F;&#x8DB3;&#x4EE5;&#x8BA9;&#x5B83;&#x5931;&#x53BB;&#x6210;&#x4E3A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x8D44;&#x683C;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> T&amp;&amp; param)</span></span>;             <span class="comment">// param is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x4E8E;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x4E2D;&#x770B;&#x5230; <b>T&amp;&amp;</b> &#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x4F1A;&#x8BA4;&#x4E3A;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;&#x4F46;&#x8FD9;&#x5E76;&#x4E0D;&#x603B;&#x662F;&#x6B63;&#x786E;&#xFF0C;&#x56E0;&#x4E3A;&#x6A21;&#x677F;&#x5E76;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x7684;&#x53D1;&#x751F;&#x3002;&#x8003;&#x8651; <b>std::vector</b> &#x7684; <b>push_back</b> &#x6210;&#x5458;&#x51FD;&#x6570;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> Allocator = allocator&lt;T&gt;&gt;    <span class="comment">// from C++</span></span><br><span class="line"><span class="keyword">class</span> <span class="built_in">vector</span>{                                         <span class="comment">// Standards</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(T&amp;&amp; x)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+<b>push_back</b> &#x7684;&#x53C2;&#x6570;&#x5B8C;&#x5168;&#x7B26;&#x5408;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#xFF0C;&#x4F46;&#x5374;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A; <b>push_back</b> &#x662F;&#x4F5C;&#x4E3A; <b>vector</b> &#x5B9E;&#x4F8B;&#x5316;&#x540E;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x5B58;&#x5728;&#x7684;&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;&#x5B9E;&#x4F8B;&#x5316;&#x5DF2;&#x7ECF;&#x5B8C;&#x5168;&#x786E;&#x5B9A;&#x4E86; <b>push_back</b> &#x7684;&#x58F0;&#x660E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Widget&gt; v;</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x4F1A;&#x4F7F; <b>std::vector</b> &#x5B9E;&#x4F8B;&#x5316;&#x4E3A;&#x5982;&#x4E0B;&#x6837;&#x5F0F;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Vector&lt;Widget, allocator&lt;Widget&gt;&gt;</span><br><span class="line">{</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(Widget&amp;&amp; x)</span></span>;                       <span class="comment">// rvalue reference</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x73B0;&#x5728;&#x4F60;&#x53EF;&#x4EE5;&#x5F88;&#x6E05;&#x695A;&#x7684;&#x770B;&#x5230;&#xFF0C; <b>push_back</b> &#x5E76;&#x6CA1;&#x6709;&#x89E6;&#x53D1;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002; <b>std::vector</b> &#x7684; <b>push_back</b> &#x65B9;&#x6CD5;&#xFF08;&#x6709;&#x4E24;&#x4E2A;&#x2500;&#x2500;&#x51FD;&#x6570;&#x91CD;&#x8F7D;&#xFF09;&#x603B;&#x662F;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A; <b>T</b> &#x7C7B;&#x578B;&#x7684;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x4E0E;&#x5176;&#x529F;&#x80FD;&#x7C7B;&#x4F3C;&#x7684;&#x53E6;&#x4E00;&#x6210;&#x5458;&#x51FD;&#x6570; <b>emplace_back</b> &#x5219;&#x89E6;&#x53D1;&#x4E86;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> Allocator = allocator&lt;T&gt;&gt;    <span class="comment">// still from</span></span><br><span class="line"><span class="keyword">class</span> <span class="built_in">vector</span> {                                        <span class="comment">// C++</span></span><br><span class="line"><span class="keyword">public</span>:                                               <span class="comment">// Standards</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span>... Args&gt;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">emplace_back</span><span class="params">(Args&amp;&amp;... args)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x8FD9;&#x91CC;&#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570; <b>Args</b> &#x4E0E; <b>vector</b> &#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x72EC;&#x7ACB;&#xFF0C;&#x56E0;&#x6B64;&#x6BCF;&#x6B21; <b>emplace_back</b> &#x8C03;&#x7528;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x4F1A;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#xFF08;&#x597D;&#x5427;&#xFF0C;&#x5176;&#x5B9E; <b>Args</b> &#x662F;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x5305;&#xFF0C;&#x4E0D;&#x662F;&#x4E00;&#x5177;&#x4F53;&#x7684;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#xFF0C;&#x4F46;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x8BA8;&#x8BBA;&#x8FD9;&#x4E00;&#x8BDD;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x89C6;&#x5176;&#x4E3A;&#x4E00;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#xFF09;&#x3002;
+</p>
+
+<p>
+&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C; <b>emplace_back</b> &#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x4E3A; <b>Args</b> &#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x4E00;&#x4E8B;&#x5B9E;&#x5DE9;&#x56FA;&#x4E86;&#x6211;&#x4E4B;&#x524D;&#x6240;&#x8FF0;&#x7684;&#x89C2;&#x70B9;&#xFF1A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#x5FC5;&#x987B;&#x4E3A;&quot;T&amp;&amp;&quot;&#xFF0C;&#x4F46;&#x5E76;&#x6CA1;&#x6709;&#x5BF9;&#x540D;&#x5B57; <b>T</b> &#x7684;&#x4F7F;&#x7528;&#x6709;&#x8981;&#x6C42;&#x3002;&#x4F8B;&#x5982;&#x5982;&#x4E0B;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x4FBF;&#x63A5;&#x6536;&#x4E00;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5B83;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#xFF08;&quot;type&amp;&amp;&quot;&#xFF09;&#x6B63;&#x786E;&#xFF0C;&#x4E14;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x9700;&#x8981;&#x63A8;&#x5BFC;&#xFF08;&#x518D;&#x6B21;&#x5F3A;&#x8C03;&#xFF1A;&#x9700;&#x6392;&#x9664;&#x8C03;&#x7528;&#x8005;&#x663E;&#x793A;&#x6307;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x6781;&#x7AEF;&#x60C5;&#x51B5;&#xFF09;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> MyTemplateType&gt;          <span class="comment">// param is a</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">someFunc</span><span class="params">(MyTemplateType&amp;&amp; param)</span></span>;      <span class="comment">// universal reference</span></span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x6211;&#x4E4B;&#x524D;&#x8BB2;&#x8FC7;&#xFF0C; <b>auto</b> &#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;&#x66F4;&#x7CBE;&#x786E;&#x7684;&#x8BF4;&#xFF0C;&#x58F0;&#x660E;&#x4E3A; <b>auto&amp;&amp;</b> &#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x5C31;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x6EE1;&#x8DB3;&#x901A;&#x7528;&#x5F15;&#x7528;&#x6837;&#x5F0F;&#xFF08;&quot;T&amp;&amp;&quot;&#xFF09;&#x4E14;&#x89E6;&#x53D1;&#x4E86;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002; <b>auto</b> &#x901A;&#x7528;&#x5F15;&#x7528;&#x5E76;&#x4E0D;&#x50CF;&#x6A21;&#x677F;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#x90A3;&#x4E48;&#x5E38;&#x89C1;&#xFF0C;&#x5B83;&#x4EEC;&#x5728; <b>C++11</b> &#x4E2D;&#x5076;&#x6709;&#x51FA;&#x73B0;&#xFF0C;&#x4E8E; <b>C++14</b> &#x4E2D;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x9891;&#x7E41;&#xFF0C;&#x56E0;&#x4E3A; <b>C++14</b> &#x5141;&#x8BB8;&#x5728; <b>lambda</b> &#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4F7F;&#x7528; <b>auto&amp;&amp;</b> &#x58F0;&#x660E;&#x53C2;&#x6570;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728; <b>C++14</b> &#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x7F16;&#x5199;&#x4E00; <b>lambda</b> &#x8868;&#x8FBE;&#x5F0F;&#x4EE5;&#x8BB0;&#x5F55;&#x4EFB;&#x4E00;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x8017;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x7F16;&#x5199;&#xFF1A;
+</p>
+
+<div class="org-src-container">
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> timeFuncInvocation =</span><br><span class="line">    [](<span class="keyword">auto</span>&amp;&amp; func, <span class="keyword">auto</span>&amp;&amp;... params)                  <span class="comment">// C++14</span></span><br><span class="line">    {</span><br><span class="line">	start timer;</span><br><span class="line">	<span class="built_in">std</span>::forward&lt;<span class="keyword">decltype</span>(func)&gt;(func)(            <span class="comment">// invoke func</span></span><br><span class="line">	    <span class="built_in">std</span>::forward&lt;<span class="keyword">decltype</span>(params)&gt;(params)...  <span class="comment">// on params</span></span><br><span class="line">	);</span><br><span class="line">	stop timer and record elapsed time;</span><br><span class="line">    };</span><br></pre></td></tr></table></figure>
+</div>
+
+<p>
+&#x5982;&#x679C;&#x4F60;&#x5BF9;&quot;<b>std::forward&lt;decltype(blah blah blah)&gt;</b>&quot;&#x7684;&#x53CD;&#x5E94;&#x662F;&quot;&#x8A92;&#xFF1F;&#xFF01;&quot;&#xFF0C;&#x90A3;&#x5C31;&#x8BF4;&#x660E;&#x4F60;&#x5C1A;&#x672A;&#x9605;&#x8BFB;<a href="./item33.html">&#x6761;&#x6B3E;33</a>&#xFF0C;&#x4E0D;&#x8FC7;&#x4E0D;&#x7528;&#x62C5;&#x5FC3;&#x3002;&#x8FD9;&#x91CC;&#x5173;&#x6CE8;&#x7684;&#x91CD;&#x70B9;&#x662F; <b>lambda</b> &#x4E2D;&#x7684; <b>auto&amp;&amp;</b> &#x58F0;&#x660E;&#x7684;&#x53C2;&#x6570;&#x3002; <b>func</b> &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x7ED1;&#x5B9A;&#x81F3;&#x4EFB;&#x4E00;&#x53EF;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x4E0D;&#x8BBA;&#x5DE6;&#x503C;&#x6216;&#x53F3;&#x503C;&#x3002; <b>args</b> &#x662F;&#x96F6;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF08;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x53C2;&#x6570;&#x5305;&#xFF09;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x4EFB;&#x610F;&#x4E2A;&#x6570;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x7ED3;&#x679C;&#x5C31;&#x662F;&#xFF0C;&#x62DC; <b>auto</b> &#x901A;&#x7528;&#x5F15;&#x7528;&#x6240;&#x8D50;&#xFF0C; <b>timeFuncInvocation</b> &#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x51FD;&#x6570;&#x7684;&#x6267;&#x884C;&#x8017;&#x65F6;&#x3002;&#xFF08;&#x5173;&#x4E8E;&quot;&#x4EFB;&#x610F;&quot;&#x548C;&quot;&#x51E0;&#x4E4E;&#x6240;&#x6709;&quot;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x8BF7;&#x53C2;&#x770B;<a href="./item30.html">&#x6761;&#x6B3E;30</a>&#x3002;&#xFF09;
+</p>
+
+<p>
+&#x8BB0;&#x4F4F;&#xFF0C;&#x6B64;&#x6761;&#x6B3E; &#x2500;&#x2500;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x57FA;&#x7840;&#x2500;&#x2500; &#x662F;&#x4E2A;&#x8C0E;&#x8A00;&#x2026;&#x5443;&#xFF0C;&#x5E94;&#x8BE5;&#x53EB;&quot;&#x62BD;&#x8C61;&quot;&#x3002;&#x9690;&#x542B;&#x5176;&#x4E2D;&#x7684;&#x771F;&#x76F8;&#x662F;&#x5F15;&#x7528;&#x6298;&#x53E0;&#xFF0C;&#x65E2;<a href="./item28.html">&#x6761;&#x6B3E;28</a>&#x7684;&#x4E3B;&#x9898;&#x3002;&#x4F46;&#x8FD9;&#x4E00;&#x771F;&#x76F8;&#x5E76;&#x6CA1;&#x6709;&#x51CF;&#x5C11;&#x6B64;&#x62BD;&#x8C61;&#x7684;&#x7528;&#x5904;&#x3002;&#x533A;&#x5206;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x4E0E;&#x901A;&#x7528;&#x5F15;&#x7528;&#x80FD;&#x5E2E;&#x52A9;&#x4F60;&#x66F4;&#x7CBE;&#x786E;&#x7684;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#xFF08;&quot;&#x8FD9;&#x91CC;&#x7684; <b>T&amp;&amp;</b> &#x53EA;&#x80FD;&#x7ED1;&#x5B9A;&#x5230;&#x53F3;&#x503C;&#xFF1F;&#x8FD8;&#x662F;&#x90FD;&#x80FD;&#x7ED1;&#x5B9A;&#xFF1F;&quot;&#xFF09;&#xFF0C;&#x4E5F;&#x80FD;&#x8BA9;&#x4F60;&#x4E0E;&#x540C;&#x4E8B;&#x7684;&#x4EA4;&#x6D41;&#x66F4;&#x52A0;&#x987A;&#x7545;&#xFF08;&quot;&#x5728;&#x8FD9;&#x91CC;&#x6211;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x4E0D;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x2026;&#x2026;&quot;&#xFF09;&#x3002;&#x4E5F;&#x5C06;&#x4F7F;&#x4F60;&#x66F4;&#x6613;&#x7406;&#x89E3;<a href="./item25.html">&#x6761;&#x6B3E;25</a>&#x4E0E;<a href="./item26.html">&#x6761;&#x6B3E;26</a>&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x4F9D;&#x8D56;&#x4E8E;&#x8FD9;&#x4E00;&#x533A;&#x5206;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x62E5;&#x62B1;&#x5B83;&#x5427;&#x3002;&#x5E76;&#x9676;&#x9189;&#x5176;&#x4E2D;&#x3002;&#x6B63;&#x5982;&#x725B;&#x987F;&#x8FD0;&#x52A8;&#x5B9A;&#x5F8B;&#xFF08;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4E0D;&#x6B63;&#x786E;&#x7684;&#xFF09;&#xFF0C;&#x5B83;&#x901A;&#x5E38;&#x6BD4;&#x7231;&#x56E0;&#x65AF;&#x5766;&#x7684;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#xFF08;&quot;&#x771F;&#x76F8;&quot;&#xFF09;&#x66F4;&#x4E3A;&#x6709;&#x7528;&#x3001;&#x7B80;&#x5355;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x6982;&#x5FF5;&#x901A;&#x5E38;&#x6BD4;&#x5B83;&#x7684;&#x7EC6;&#x8282;&#x2500;&#x2500;&#x5F15;&#x7528;&#x6298;&#x53E0;&#x66F4;&#x4E3A;&#x53EF;&#x53D6;&#x3002;
+</p>
+
+<div id="outline-container-orgd7575dc" class="outline-2">
+<h2 id="&#x8BB0;&#x4F4F;"><a id="orgd7575dc"></a>&#x8BB0;&#x4F4F;</h2>
+<div class="outline-text-2" id="text-&#x8BB0;&#x4F4F;">
+<ul class="org-ul">
+<li>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x662F; <b>T&amp;&amp;</b> &#xFF0C;&#x4E14; <b>T</b> &#x9700;&#x8981;&#x88AB;&#x63A8;&#x5BFC;&#xFF0C;&#x6216;&#x8005;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x88AB;&#x58F0;&#x660E;&#x4E3A; <b>auto&amp;&amp;</b> &#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x53C2;&#x6570;&#x6216;&#x6B64;&#x5BF9;&#x8C61;&#x4E3A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;</li>
+<li>&#x5982;&#x679C;&#x7C7B;&#x578B;&#x58F0;&#x660E;&#x5E76;&#x672A;&#x6EE1;&#x8DB3;&#x4E25;&#x683C;&#x7684; <b>type&amp;&amp;</b> &#x6837;&#x5F0F;&#xFF0C;&#x6216;&#x8005;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C; <b>type&amp;&amp;</b> &#x8868;&#x793A;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;</li>
+<li>&#x901A;&#x7528;&#x5F15;&#x7528;&#x5728;&#x4F7F;&#x7528;&#x53F3;&#x503C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5728;&#x4F7F;&#x7528;&#x5DE6;&#x503C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;</li>
+</ul>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+&#x6CD5;&#x8BED;&#xFF1A;raison d&apos;&#xEA;tre
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<a href="./item25.html">&#x6761;&#x6B3E;25</a>&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#xFF1A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x51E0;&#x4E4E;&#x90FD;&#x8981;&#x914D;&#x5408;*std::forward*&#x4F7F;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#x6B64;&#x4E66;&#x5373;&#x5C06;&#x51FA;&#x7248;&#x65F6;&#xFF0C;&#x8BB8;&#x591A;C++&#x6807;&#x51C6;&#x59D4;&#x5458;&#x4F1A;&#x7684;&#x6210;&#x5458;&#x5F00;&#x59CB;&#x79F0; <b>universal references</b> &#x4E3A; <b>forwarding references</b> &#x3002;
+</p></div></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated 2017-08-07 Mon 04:12. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Effective-Modern-C/" rel="tag"># Effective Modern C++</a>
+          
+            <a href="/tags/Press-Ban/" rel="tag"># Press Ban</a>
+          
+            <a href="/tags/禁止转载/" rel="tag"># 禁止转载</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/translation/cppreference/copy_elision.html" rel="next" title="Copy elision">
+                <i class="fa fa-chevron-left"></i> Copy elision
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/study_notes/mit-6.828/Lab-0.html" rel="prev" title="Lab 0：环境搭建">
+                Lab 0：环境搭建 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/header.jpg"
+               alt="Paruka" />
+          <p class="site-author-name" itemprop="name">Paruka</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">posts</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/paruukaa" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#记住"><span class="nav-number">1.</span> <span class="nav-text">记住</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">Footnotes: </span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Paruka</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://paruuka.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://paruka.me/translation/effective_modern_cpp/item24.html';
+          this.page.identifier = 'translation/effective_modern_cpp/item24.html';
+          this.page.title = '条款24：区别通用引用与右值引用';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://paruuka.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("02JnwaxQh2JSgsPGLWzeCVYO-gzGzoHsz", "U712O4wAGBr2arqb8RnaKGgj");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
