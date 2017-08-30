@@ -97,18 +97,18 @@
 
 
 
-<meta name="description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+<meta name="description" content="都说真理让人如获自由，但在正确的情形下，一个恰当的谎言却能产生同样的效果。此条款便是一个这样的谎言。不过，我们是在与软件打交道，因此，应避免使用&quot;谎言&quot;这样的敏感词汇，故用&quot;抽象&quot;一词取而代之。    你使用 T&amp;amp;&amp;amp; 的方式来声明一右值引用。因此，假定代码中看到的&quot;T&amp;amp;&amp;amp;&quot;为右值引用，似乎合乎情理。哎，可惜它并非如此简单。">
 <meta name="keywords" content="Effective Modern C++,Press Ban,禁止转载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="条款24：区别通用引用与右值引用">
 <meta property="og:url" content="http://paruka.me/translation/effective_modern_cpp/item24.html">
 <meta property="og:site_name" content="Eloquent Programmer">
-<meta property="og:description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+<meta property="og:description" content="都说真理让人如获自由，但在正确的情形下，一个恰当的谎言却能产生同样的效果。此条款便是一个这样的谎言。不过，我们是在与软件打交道，因此，应避免使用&quot;谎言&quot;这样的敏感词汇，故用&quot;抽象&quot;一词取而代之。    你使用 T&amp;amp;&amp;amp; 的方式来声明一右值引用。因此，假定代码中看到的&quot;T&amp;amp;&amp;amp;&quot;为右值引用，似乎合乎情理。哎，可惜它并非如此简单。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-08-06T18:39:43.695Z">
+<meta property="og:updated_time" content="2017-08-07T06:09:51.713Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条款24：区别通用引用与右值引用">
-<meta name="twitter:description" content="&amp;#x90FD;&amp;#x8BF4;&amp;#x771F;&amp;#x7406;&amp;#x8BA9;&amp;#x4EBA;&amp;#x5982;&amp;#x83B7;&amp;#x81EA;&amp;#x7531;&amp;#xFF0C;&amp;#x4F46;&amp;#x5728;&amp;#x6B63;&amp;#x786E;&amp;#x7684;&amp;#x60C5;&amp;#x5F62;&amp;#x4E0B;&amp;#xFF0C;&amp;#x4E00;&amp;#x4E2A;&amp;#x6070;&amp;#x5F53;&amp;#x768">
+<meta name="twitter:description" content="都说真理让人如获自由，但在正确的情形下，一个恰当的谎言却能产生同样的效果。此条款便是一个这样的谎言。不过，我们是在与软件打交道，因此，应避免使用&quot;谎言&quot;这样的敏感词汇，故用&quot;抽象&quot;一词取而代之。    你使用 T&amp;amp;&amp;amp; 的方式来声明一右值引用。因此，假定代码中看到的&quot;T&amp;amp;&amp;amp;&quot;为右值引用，似乎合乎情理。哎，可惜它并非如此简单。">
 
 
 
@@ -401,150 +401,214 @@
       
         <div id="content">
 <p>
-&#x90FD;&#x8BF4;&#x771F;&#x7406;&#x8BA9;&#x4EBA;&#x5982;&#x83B7;&#x81EA;&#x7531;&#xFF0C;&#x4F46;&#x5728;&#x6B63;&#x786E;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x4E00;&#x4E2A;&#x6070;&#x5F53;&#x7684;&#x8C0E;&#x8A00;&#x5374;&#x80FD;&#x4EA7;&#x751F;&#x540C;&#x6837;&#x7684;&#x6548;&#x679C;&#x3002;&#x6B64;&#x6761;&#x6B3E;&#x4FBF;&#x662F;&#x4E00;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x8C0E;&#x8A00;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x5728;&#x4E0E;&#x8F6F;&#x4EF6;&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5E94;&#x907F;&#x514D;&#x4F7F;&#x7528;&quot;&#x8C0E;&#x8A00;&quot;&#x8FD9;&#x6837;&#x7684;&#x654F;&#x611F;&#x8BCD;&#x6C47;&#xFF0C;&#x6545;&#x7528;&quot;&#x62BD;&#x8C61;&quot;&#x4E00;&#x8BCD;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#x3002;
+都说真理让人如获自由，但在正确的情形下，一个恰当的谎言却能产生同样的效果。此条款便是一个这样的谎言。不过，我们是在与软件打交道，因此，应避免使用"谎言"这样的敏感词汇，故用"抽象"一词取而代之。
 </p>
 
 <p>
-&#x4F60;&#x4F7F;&#x7528; <b>T&amp;&amp;</b> &#x7684;&#x65B9;&#x5F0F;&#x6765;&#x58F0;&#x660E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5047;&#x5B9A;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x5230;&#x7684;&quot;T&amp;&amp;&quot;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4F3C;&#x4E4E;&#x5408;&#x4E4E;&#x60C5;&#x7406;&#x3002;&#x54CE;&#xFF0C;&#x53EF;&#x60DC;&#x5B83;&#x5E76;&#x975E;&#x5982;&#x6B64;&#x7B80;&#x5355;&#x3002;
+你使用 <b>T&amp;&amp;</b> 的方式来声明一右值引用。因此，假定代码中看到的"T&amp;&amp;"为右值引用，似乎合乎情理。哎，可惜它并非如此简单。
 </p>
 
 <a id="more"></a>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Widget&amp;&amp; param)</span></span>;           <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line">Widget&amp;&amp; val1 = Widget();         <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp;&amp; var2 = val1;               <span class="comment">// not rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&amp;&amp; param)</span></span>;   <span class="comment">// rvalue reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                <span class="comment">// not rvalue reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr"> 1 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">param</span>);           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue reference</span>
+<span class="linenr"> 2 </span>
+<span class="linenr"> 3 </span><span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">val1</span> = Widget();         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue reference</span>
+<span class="linenr"> 4 </span>
+<span class="linenr"> 5 </span><span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">var2</span> = val1;               <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">not rvalue reference</span>
+<span class="linenr"> 6 </span>
+<span class="linenr"> 7 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr"> 8 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">vector</span>&lt;<span style="color: #00d7af;">T</span>&gt;&amp;&amp; <span style="color: #ff8700;">param</span>);   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue reference</span>
+<span class="linenr"> 9 </span>
+<span class="linenr">10 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">11 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>);                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">not rvalue reference</span>
+</pre>
 </div>
 
 <p>
-&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&quot;T&amp;&amp;&quot;&#x6709;&#x4E24;&#x4E2A;&#x4E0D;&#x540C;&#x7684;&#x542B;&#x4E49;&#x3002;&#x5176;&#x4E00;&#x5F53;&#x7136;&#x5C31;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x8FD9;&#x79CD;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x8868;&#x73B0;&#x7684;&#x4E0E;&#x4F60;&#x671F;&#x671B;&#x7684;&#x5B8C;&#x5168;&#x4E00;&#x81F4;&#xFF1A;&#x5B83;&#x4EEC;&#x53EA;&#x80FD;&#x7ED1;&#x5B9A;&#x81F3;&#x53F3;&#x503C;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x5B58;&#x5728;&#x76EE;&#x7684;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>&#x4E3A;&#x6807;&#x8BC6;&#x90A3;&#x4E9B;&#x80FD;&#x79FB;&#x52A8;&#x7684;&#x5BF9;&#x8C61;&#x3002;
+事实上，"T&amp;&amp;"有两个不同的含义。其一当然就是右值引用。这种引用类型表现的与你期望的完全一致：它们只能绑定至右值，主要的存在目的<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>为标识那些能移动的对象。
 </p>
 
 <p>
-&quot;T&amp;&amp;&quot;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x542B;&#x4E49;&#x65E2;&#x4E0D;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x4E0D;&#x662F;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x79CD;&#x5F15;&#x7528;&#x5728;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x8D77;&#x6765;&#x50CF;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF08;&quot;T&amp;&amp;&quot;&#xFF09;&#xFF0C;&#x5374;&#x53EF;&#x4EE5;&#x8868;&#x73B0;&#x51FA;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7684;&#x884C;&#x4E3A;&#xFF08;&quot;T&amp;&quot;&#xFF09;&#x3002;&#x8FD9;&#x79CD;&#x53CC;&#x91CD;&#x6027;&#x5141;&#x8BB8;&#x5B83;&#x4EEC;&#x65E2;&#x80FD;&#x7ED1;&#x5B9A;&#x53F3;&#x503C;&#xFF08;&#x50CF;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF09;&#x4E5F;&#x80FD;&#x7ED1;&#x5B9A;&#x5DE6;&#x503C;&#xFF08;&#x50CF;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#xFF09;&#xFF0C;&#x800C;&#x4E14;&#x8FD8;&#x80FD;&#x7ED1;&#x5B9A;&#x81F3; <b>const</b> &#x3001; <b>non-const</b> &#x3001; <b>volatile</b> &#x3001; <b>non-volatile</b> &#x5C5E;&#x6027;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x5373;&#x4F7F;&#x5B83;&#x4EEC;&#x540C;&#x65F6;&#x62E5;&#x6709; <b>const</b> &#x548C; <b>volatile</b> &#x5C5E;&#x6027;&#x4E5F;&#x6BEB;&#x4E0D;&#x4F8B;&#x5916;&#xFF08;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#xFF09;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#xFF0C;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x81F3;&#x4EFB;&#x4F55;&#x5BF9;&#x8C61;&#x3002;&#x8FD9;&#x79CD;&#x7A7A;&#x524D;&#x590D;&#x6742;&#x7684;&#x5F15;&#x7528;&#x5E94;&#x5F53;&#x88AB;&#x8D4B;&#x4E88;&#x4E00;&#x4E13;&#x5C5E;&#x540D;&#x5B57;&#x3002;&#x6211;&#x79F0;&#x4E4B;&#x4E3A; <b>&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF08;universal references&#xFF09;<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></b> &#x3002;
+"T&amp;&amp;"的另一个含义既不是右值引用，也不是左值引用，这种引用在代码中看起来像是右值引用（"T&amp;&amp;"），却可以表现出左值引用的行为（"T&amp;"）。这种双重性允许它们既能绑定右值（像右值引用）也能绑定左值（像左值引用），而且还能绑定至 <b>const</b> 、 <b>non-const</b> 、 <b>volatile</b> 、 <b>non-volatile</b> 属性的对象，即使它们同时拥有 <b>const</b> 和 <b>volatile</b> 属性也毫不例外（可以绑定），实际上，它们可以绑定至任何对象。这种空前复杂的引用应当被赋予一专属名字。我称之为 <b>通用引用（universal references）<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup></b> 。
 </p>
 
 <p>
-&#x901A;&#x7528;&#x5F15;&#x7528;&#x4E8E;&#x4E24;&#x79CD;&#x60C5;&#x5883;&#x4E2D;&#x51FA;&#x73B0;&#x3002;&#x6700;&#x5E38;&#x89C1;&#x7684;&#x60C5;&#x5883;&#x4E3A;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x3002;&#x6B63;&#x5982;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x4F8B;&#x5B50;&#x4E2D;&#x5F15;&#x51FA;&#x7684;&#x5982;&#x4E0B;&#x4EE3;&#x7801;&#xFF1A;
+通用引用于两种情境中出现。最常见的情境为模板函数的参数。正如之前所列例子中引出的如下代码：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                 <span class="comment">// param is a universal reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>);                 <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is a universal reference</span>
+</pre>
 </div>
 
 <p>
-&#x7B2C;&#x4E8C;&#x79CD;&#x60C5;&#x5883;&#x4FBF;&#x662F; <b>auto</b> &#x58F0;&#x660E;&#xFF0C;&#x4EE5;&#x4E0B;&#x4F8B;&#x5B50;&#x540C;&#x6837;&#x5F15;&#x7528;&#x81EA;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x793A;&#x4F8B;&#xFF1A;
+第二种情境便是 <b>auto</b> 声明，以下例子同样引用自之前所列示例：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span>&amp;&amp; var2 = var1;                <span class="comment">// var2 is a universal reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">var2</span> = var1;                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">var2 is a universal reference</span>
+</pre>
 </div>
 
 <p>
-&#x8FD9;&#x4E9B;&#x60C5;&#x5883;&#x7684;&#x5171;&#x901A;&#x70B9;&#x4FBF;&#x662F; <b>&#x7C7B;&#x578B;&#x63A8;&#x5BFC;</b> &#x3002;&#x5BF9;&#x4E8E;&#x6A21;&#x677F;&#x51FD;&#x6570;f&#xFF0C; <b>param</b> &#x7684;&#x7C7B;&#x578B;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#xFF0C;var2&#x7684;&#x58F0;&#x660E;&#x540C;&#x6837;&#x5982;&#x6B64;&#xFF0C;&#x4ED6;&#x7684;&#x7C7B;&#x578B;&#x4E00;&#x6837;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#x3002;&#x4E0E;&#x5982;&#x4E0B;&#x4F8B;&#x5B50;&#x5BF9;&#x6BD4;&#xFF08;&#x540C;&#x6837;&#x5F15;&#x81EA;&#x4E4B;&#x524D;&#x6240;&#x5217;&#x793A;&#x4F8B;&#xFF09;&#xFF0C;&#x5B83;&#x4EEC;&#x7F3A;&#x4E4F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5F53;&#x4F60;&#x53D1;&#x73B0;&quot;T&amp;&amp;&quot;&#x6CA1;&#x6709;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C;&#x5B83;&#x4FBF;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF1A;
+这些情境的共通点便是 <b>类型推导</b> 。对于模板函数f， <b>param</b> 的类型会被推导，var2的声明同样如此，他的类型一样会被推导。与如下例子对比（同样引自之前所列示例），它们缺乏类型推导。因此，当你发现"T&amp;&amp;"没有类型推导，它便是右值引用：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Widget&amp;&amp; param)</span></span>;             <span class="comment">// no type deduction;</span></span><br><span class="line">				    <span class="comment">// param is an rvalue reference</span></span><br><span class="line"></span><br><span class="line">Widget&amp;&amp; var1 = Widget();           <span class="comment">// no type deduction;</span></span><br><span class="line">				    <span class="comment">// var1 is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">param</span>);             <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">no type deduction;</span>
+<span class="linenr">2 </span>                                    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is an rvalue reference</span>
+<span class="linenr">3 </span>
+<span class="linenr">4 </span><span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">var1</span> = Widget();           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">no type deduction;</span>
+<span class="linenr">5 </span>                                    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">var1 is an rvalue reference</span>
+</pre>
 </div>
 
 <p>
-&#x901A;&#x7528;&#x5F15;&#x7528;&#x4E5F;&#x662F;&#x5F15;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5B83;&#x4EEC;&#x5FC5;&#x987B;&#x88AB;&#x521D;&#x59CB;&#x5316;&#x3002;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x521D;&#x59CB;&#x503C;&#x51B3;&#x5B9A;&#x4E86;&#x5B83;&#x5E94;&#x8868;&#x73B0;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x6216;&#x662F;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5982;&#x679C;&#x521D;&#x59CB;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x901A;&#x7528;&#x5F15;&#x7528;&#x76F8;&#x5F53;&#x4E0E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5982;&#x679C;&#x521D;&#x59CB;&#x503C;&#x4E3A;&#x5DE6;&#x503C;&#xFF0C;&#x5B83;&#x4FBF;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5BF9;&#x4E8E;&#x6A21;&#x677F;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x5B83;&#x7684;&#x521D;&#x59CB;&#x5316;&#x7531;&#x8C03;&#x7528;&#x7AEF;&#x63D0;&#x4F9B;&#xFF1A;
+通用引用也是引用，因此，它们必须被初始化。通用引用的初始值决定了它应表现为右值引用或是左值引用。如果初始值为右值，通用引用相当与一右值引用。如果初始值为左值，它便相当于一左值引用。对于模板参数中的通用引用，它的初始化由调用端提供：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;                   <span class="comment">// param is a universal reference</span></span><br><span class="line"></span><br><span class="line">Widget w;</span><br><span class="line">f(w);                                <span class="comment">// lvalue passed to f; param&apos;s type is</span></span><br><span class="line">				     <span class="comment">// Widget&amp; (i.e., an lvalue reference)</span></span><br><span class="line"></span><br><span class="line">f(<span class="built_in">std</span>::move(w));                     <span class="comment">// rvalue passed to f; param&apos;s type is</span></span><br><span class="line">				     <span class="comment">// Widget&amp;&amp; (i.e., an rvalue reference)</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>);                   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is a universal reference</span>
+<span class="linenr">3 </span>
+<span class="linenr">4 </span><span style="color: #00d7af;">Widget</span> <span style="color: #ff8700;">w</span>;
+<span class="linenr">5 </span>f(w);                                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">lvalue passed to f; param's type is</span>
+<span class="linenr">6 </span>                                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">Widget&amp; (i.e., an lvalue reference)</span>
+<span class="linenr">7 </span>
+<span class="linenr">8 </span>f(<span style="color: #5fafd7;">std</span>::move(w));                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue passed to f; param's type is</span>
+<span class="linenr">9 </span>                                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">Widget&amp;&amp; (i.e., an rvalue reference)</span>
+</pre>
 </div>
 
 <p>
-&#x5BF9;&#x4E8E;&#xFF08;&#x6210;&#x4E3A;&#xFF09;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x5374;&#x5E76;&#x4E0D;&#x8DB3;&#x591F;&#x3002;&#x5176;&#x5F15;&#x7528;&#x58F0;&#x660E;&#x5F62;&#x5F0F;&#x5FC5;&#x987B;&#x6B63;&#x786E;&#xFF0C;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#x975E;&#x5E38;&#x56FA;&#x5B9A;&#xFF0C;&#x5FC5;&#x987B;&#x4E3A;&#x7CBE;&#x786E;&#x7684;&quot;T&amp;&amp;&quot;&#x6837;&#x5F0F;&#x3002;&#x53C2;&#x770B;&#x5F15;&#x81EA;&#x4E4B;&#x524D;&#x4F8B;&#x5B50;&#x7684;&#x4EE3;&#x7801;&#xFF1A;
+对于（成为）通用引用，类型推导是必须的，却并不足够。其引用声明形式必须正确，声明样式非常固定，必须为精确的"T&amp;&amp;"样式。参看引自之前例子的代码：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;T&gt;&amp;&amp; param)</span></span>;      <span class="comment">// param is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">vector</span>&lt;<span style="color: #00d7af;">T</span>&gt;&amp;&amp; <span style="color: #ff8700;">param</span>);      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is an rvalue reference</span>
+</pre>
 </div>
 
 <p>
-&#x5F53;f&#x88AB;&#x8C03;&#x7528;&#xFF0C;&#x7C7B;&#x578B; <b>T</b> &#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#xFF08;&#x9664;&#x975E;&#x8C03;&#x7528;&#x8005;&#x76F4;&#x63A5;&#x6307;&#x5B9A;&#xFF0C;&#x8FD9;&#x79CD;&#x8FB9;&#x7F18;&#x60C5;&#x51B5;&#x6211;&#x4EEC;&#x5E76;&#x4E0D;&#x5173;&#x5FC3;&#xFF09;&#x3002;&#x4F46; <b>param</b> &#x7684;&#x7C7B;&#x578B;&#x58F0;&#x660E;&#x5E76;&#x4E0D;&#x662F;&quot;T&amp;&amp;&quot;&#xFF0C;&#x800C;&#x662F;&quot;std::vector&lt;T&gt;&amp;&amp;&quot;&#xFF0C;&#x5B83;&#x5E76;&#x4E0D;&#x6EE1;&#x8DB3;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x89C4;&#x5219;&#x3002;&#x56E0;&#x6B64;&#xFF0C; <b>param</b> &#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x8BD5;&#x56FE;&#x5411; <b>f</b> &#x4F20;&#x5165;&#x4E00;&#x5DE6;&#x503C;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5C06;&#x5F88;&#x4E50;&#x4E8E;&#x5411;&#x4F60;&#x8BC1;&#x660E;&#x8FD9;&#x70B9;&#xFF1A;
+当f被调用，类型 <b>T</b> 会被推导（除非调用者直接指定，这种边缘情况我们并不关心）。但 <b>param</b> 的类型声明并不是"T&amp;&amp;"，而是"std::vector&lt;T&gt;&amp;&amp;"，它并不满足通用引用的声明规则。因此， <b>param</b> 为右值引用，如果你试图向 <b>f</b> 传入一左值，编译器将很乐于向你证明这点：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">f(v);                                <span class="comment">// error! can&apos;t bind lvalue to</span></span><br><span class="line">				     <span class="comment">// rvalue reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">vector</span>&lt;<span style="color: #00d7af;">int</span>&gt; <span style="color: #ff8700;">v</span>;
+<span class="linenr">2 </span>f(v);                                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">error! can't bind lvalue to</span>
+<span class="linenr">3 </span>                                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue reference</span>
+</pre>
 </div>
 
 <p>
-&#x54EA;&#x6015;&#x662F;&#x4E00;&#x5C0F;&#x5C0F;&#x7684; <b>const</b> &#x4FEE;&#x9970;&#x7B26;&#xFF0C;&#x4E5F;&#x8DB3;&#x4EE5;&#x8BA9;&#x5B83;&#x5931;&#x53BB;&#x6210;&#x4E3A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x8D44;&#x683C;&#xFF1A;
+哪怕是一小小的 <b>const</b> 修饰符，也足以让它失去成为通用引用的资格：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">const</span> T&amp;&amp; param)</span></span>;             <span class="comment">// param is an rvalue reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #a1db00;">const</span> <span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>);             <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is an rvalue reference</span>
+</pre>
 </div>
 
 <p>
-&#x4E8E;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x4E2D;&#x770B;&#x5230; <b>T&amp;&amp;</b> &#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x80FD;&#x4F1A;&#x8BA4;&#x4E3A;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;&#x4F46;&#x8FD9;&#x5E76;&#x4E0D;&#x603B;&#x662F;&#x6B63;&#x786E;&#xFF0C;&#x56E0;&#x4E3A;&#x6A21;&#x677F;&#x5E76;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x7684;&#x53D1;&#x751F;&#x3002;&#x8003;&#x8651; <b>std::vector</b> &#x7684; <b>push_back</b> &#x6210;&#x5458;&#x51FD;&#x6570;&#xFF1A;
+于模板函数中看到 <b>T&amp;&amp;</b> 类型的参数时，你可能会认为它是一个通用引用。但这并不总是正确，因为模板并不能保证类型推导的发生。考虑 <b>std::vector</b> 的 <b>push_back</b> 成员函数：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> Allocator = allocator&lt;T&gt;&gt;    <span class="comment">// from C++</span></span><br><span class="line"><span class="keyword">class</span> <span class="built_in">vector</span>{                                         <span class="comment">// Standards</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(T&amp;&amp; x)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">class</span> <span style="color: #00d7af;">T</span>, <span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Allocator</span> = <span style="color: #00d7af;">allocator</span>&lt;<span style="color: #00d7af;">T</span>&gt;&gt;    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">from C++</span>
+<span class="linenr">2 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">vector</span>{                                         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">Standards</span>
+<span class="linenr">3 </span>    <span style="color: #00d7af;">void</span> <span style="color: #ffd700;">push_back</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">x</span>);
+<span class="linenr">4 </span>    ...
+<span class="linenr">5 </span>}
+</pre>
 </div>
 
 <p>
-<b>push_back</b> &#x7684;&#x53C2;&#x6570;&#x5B8C;&#x5168;&#x7B26;&#x5408;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#xFF0C;&#x4F46;&#x5374;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#x8FD9;&#x662F;&#x56E0;&#x4E3A; <b>push_back</b> &#x662F;&#x4F5C;&#x4E3A; <b>vector</b> &#x5B9E;&#x4F8B;&#x5316;&#x540E;&#x7684;&#x4E00;&#x90E8;&#x5206;&#x5B58;&#x5728;&#x7684;&#xFF0C;&#x800C;&#x8FD9;&#x4E2A;&#x5B9E;&#x4F8B;&#x5316;&#x5DF2;&#x7ECF;&#x5B8C;&#x5168;&#x786E;&#x5B9A;&#x4E86; <b>push_back</b> &#x7684;&#x58F0;&#x660E;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF1A;
+<b>push_back</b> 的参数完全符合通用引用的声明样式，但却没有发生类型推导。这是因为 <b>push_back</b> 是作为 <b>vector</b> 实例化后的一部分存在的，而这个实例化已经完全确定了 <b>push_back</b> 的声明，也就是说：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Widget&gt; v;</span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">vector</span>&lt;Widget&gt; <span style="color: #ff8700;">v</span>;
+</pre>
 </div>
 
 <p>
-&#x4F1A;&#x4F7F; <b>std::vector</b> &#x5B9E;&#x4F8B;&#x5316;&#x4E3A;&#x5982;&#x4E0B;&#x6837;&#x5F0F;&#xFF1A;
+会使 <b>std::vector</b> 实例化为如下样式：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Vector&lt;Widget, allocator&lt;Widget&gt;&gt;</span><br><span class="line">{</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">push_back</span><span class="params">(Widget&amp;&amp; x)</span></span>;                       <span class="comment">// rvalue reference</span></span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Vector</span>&lt;Widget, <span style="color: #00d7af;">allocator</span>&lt;Widget&gt;&gt;
+<span class="linenr">2 </span>{
+<span class="linenr">3 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr">4 </span>    <span style="color: #00d7af;">void</span> <span style="color: #ffd700;">push_back</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">x</span>);                       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">rvalue reference</span>
+<span class="linenr">5 </span>}
+</pre>
 </div>
 
 <p>
-&#x73B0;&#x5728;&#x4F60;&#x53EF;&#x4EE5;&#x5F88;&#x6E05;&#x695A;&#x7684;&#x770B;&#x5230;&#xFF0C; <b>push_back</b> &#x5E76;&#x6CA1;&#x6709;&#x89E6;&#x53D1;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002; <b>std::vector</b> &#x7684; <b>push_back</b> &#x65B9;&#x6CD5;&#xFF08;&#x6709;&#x4E24;&#x4E2A;&#x2500;&#x2500;&#x51FD;&#x6570;&#x91CD;&#x8F7D;&#xFF09;&#x603B;&#x662F;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A; <b>T</b> &#x7C7B;&#x578B;&#x7684;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x3002;&#x76F8;&#x53CD;&#xFF0C;&#x4E0E;&#x5176;&#x529F;&#x80FD;&#x7C7B;&#x4F3C;&#x7684;&#x53E6;&#x4E00;&#x6210;&#x5458;&#x51FD;&#x6570; <b>emplace_back</b> &#x5219;&#x89E6;&#x53D1;&#x4E86;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF1A;
+现在你可以很清楚的看到， <b>push_back</b> 并没有触发类型推导。 <b>std::vector</b> 的 <b>push_back</b> 方法（有两个──函数重载）总是声明了一个 <b>T</b> 类型的右值引用作为参数。相反，与其功能类似的另一成员函数 <b>emplace_back</b> 则触发了类型推导：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">class</span> T, <span class="keyword">class</span> Allocator = allocator&lt;T&gt;&gt;    <span class="comment">// still from</span></span><br><span class="line"><span class="keyword">class</span> <span class="built_in">vector</span> {                                        <span class="comment">// C++</span></span><br><span class="line"><span class="keyword">public</span>:                                               <span class="comment">// Standards</span></span><br><span class="line">    <span class="keyword">template</span> &lt;<span class="keyword">class</span>... Args&gt;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">emplace_back</span><span class="params">(Args&amp;&amp;... args)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">class</span> <span style="color: #00d7af;">T</span>, <span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Allocator</span> = <span style="color: #00d7af;">allocator</span>&lt;<span style="color: #00d7af;">T</span>&gt;&gt;    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">still from</span>
+<span class="linenr">2 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">vector</span> {                                        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">C++</span>
+<span class="linenr">3 </span><span style="color: #a1db00;">public</span>:                                               <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">Standards</span>
+<span class="linenr">4 </span>    <span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">class</span>... Args&gt;
+<span class="linenr">5 </span>    <span style="color: #00d7af;">void</span> <span style="color: #ffd700;">emplace_back</span>(<span style="color: #00d7af;">Args</span>&amp;&amp;... args);
+<span class="linenr">6 </span>    ...
+<span class="linenr">7 </span>}
+</pre>
 </div>
 
 <p>
-&#x8FD9;&#x91CC;&#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570; <b>Args</b> &#x4E0E; <b>vector</b> &#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x72EC;&#x7ACB;&#xFF0C;&#x56E0;&#x6B64;&#x6BCF;&#x6B21; <b>emplace_back</b> &#x8C03;&#x7528;&#x7684;&#x65F6;&#x5019;&#x90FD;&#x4F1A;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#xFF08;&#x597D;&#x5427;&#xFF0C;&#x5176;&#x5B9E; <b>Args</b> &#x662F;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#x5305;&#xFF0C;&#x4E0D;&#x662F;&#x4E00;&#x5177;&#x4F53;&#x7684;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#xFF0C;&#x4F46;&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x8BA8;&#x8BBA;&#x8FD9;&#x4E00;&#x8BDD;&#x9898;&#xFF0C;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x89C6;&#x5176;&#x4E3A;&#x4E00;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#xFF09;&#x3002;
+这里的类型参数 <b>Args</b> 与 <b>vector</b> 的类型参数独立，因此每次 <b>emplace_back</b> 调用的时候都会发生类型推导。（好吧，其实 <b>Args</b> 是一个参数包，不是一具体的参数类型，但为了更好的讨论这一话题，我们可以视其为一类型参数）。
 </p>
 
 <p>
-&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C; <b>emplace_back</b> &#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x4E3A; <b>Args</b> &#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x8FD9;&#x4E00;&#x4E8B;&#x5B9E;&#x5DE9;&#x56FA;&#x4E86;&#x6211;&#x4E4B;&#x524D;&#x6240;&#x8FF0;&#x7684;&#x89C2;&#x70B9;&#xFF1A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#x5FC5;&#x987B;&#x4E3A;&quot;T&amp;&amp;&quot;&#xFF0C;&#x4F46;&#x5E76;&#x6CA1;&#x6709;&#x5BF9;&#x540D;&#x5B57; <b>T</b> &#x7684;&#x4F7F;&#x7528;&#x6709;&#x8981;&#x6C42;&#x3002;&#x4F8B;&#x5982;&#x5982;&#x4E0B;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x4FBF;&#x63A5;&#x6536;&#x4E00;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x53C2;&#x6570;&#xFF0C;&#x5B83;&#x7684;&#x58F0;&#x660E;&#x6837;&#x5F0F;&#xFF08;&quot;type&amp;&amp;&quot;&#xFF09;&#x6B63;&#x786E;&#xFF0C;&#x4E14;&#x53C2;&#x6570;&#x7C7B;&#x578B;&#x9700;&#x8981;&#x63A8;&#x5BFC;&#xFF08;&#x518D;&#x6B21;&#x5F3A;&#x8C03;&#xFF1A;&#x9700;&#x6392;&#x9664;&#x8C03;&#x7528;&#x8005;&#x663E;&#x793A;&#x6307;&#x5B9A;&#x7C7B;&#x578B;&#x7684;&#x6781;&#x7AEF;&#x60C5;&#x51B5;&#xFF09;&#xFF1A;
+事实上， <b>emplace_back</b> 的类型参数为 <b>Args</b> ，是一个通用引用，这一事实巩固了我之前所述的观点：通用引用的声明样式必须为"T&amp;&amp;"，但并没有对名字 <b>T</b> 的使用有要求。例如如下模板函数便接收一通用引用类型的参数，它的声明样式（"type&amp;&amp;"）正确，且参数类型需要推导（再次强调：需排除调用者显示指定类型的极端情况）：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> MyTemplateType&gt;          <span class="comment">// param is a</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">someFunc</span><span class="params">(MyTemplateType&amp;&amp; param)</span></span>;      <span class="comment">// universal reference</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">MyTemplateType</span>&gt;          <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param is a</span>
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">someFunc</span>(<span style="color: #00d7af;">MyTemplateType</span>&amp;&amp; <span style="color: #ff8700;">param</span>);      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">universal reference</span>
+</pre>
 </div>
 
 <p>
-&#x6211;&#x4E4B;&#x524D;&#x8BB2;&#x8FC7;&#xFF0C; <b>auto</b> &#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;&#x66F4;&#x7CBE;&#x786E;&#x7684;&#x8BF4;&#xFF0C;&#x58F0;&#x660E;&#x4E3A; <b>auto&amp;&amp;</b> &#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x5C31;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x6EE1;&#x8DB3;&#x901A;&#x7528;&#x5F15;&#x7528;&#x6837;&#x5F0F;&#xFF08;&quot;T&amp;&amp;&quot;&#xFF09;&#x4E14;&#x89E6;&#x53D1;&#x4E86;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002; <b>auto</b> &#x901A;&#x7528;&#x5F15;&#x7528;&#x5E76;&#x4E0D;&#x50CF;&#x6A21;&#x677F;&#x53C2;&#x6570;&#x4E2D;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#x90A3;&#x4E48;&#x5E38;&#x89C1;&#xFF0C;&#x5B83;&#x4EEC;&#x5728; <b>C++11</b> &#x4E2D;&#x5076;&#x6709;&#x51FA;&#x73B0;&#xFF0C;&#x4E8E; <b>C++14</b> &#x4E2D;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x9891;&#x7E41;&#xFF0C;&#x56E0;&#x4E3A; <b>C++14</b> &#x5141;&#x8BB8;&#x5728; <b>lambda</b> &#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#x4F7F;&#x7528; <b>auto&amp;&amp;</b> &#x58F0;&#x660E;&#x53C2;&#x6570;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728; <b>C++14</b> &#x4E2D;&#xFF0C;&#x5982;&#x679C;&#x4F60;&#x60F3;&#x7F16;&#x5199;&#x4E00; <b>lambda</b> &#x8868;&#x8FBE;&#x5F0F;&#x4EE5;&#x8BB0;&#x5F55;&#x4EFB;&#x4E00;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x8017;&#x65F6;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8FD9;&#x6837;&#x7F16;&#x5199;&#xFF1A;
+我之前讲过， <b>auto</b> 类型的变量也可以是通用引用。更精确的说，声明为 <b>auto&amp;&amp;</b> 类型的变量就是通用引用，因为它满足通用引用样式（"T&amp;&amp;"）且触发了类型推导。 <b>auto</b> 通用引用并不像模板参数中的通用引用那么常见，它们在 <b>C++11</b> 中偶有出现，于 <b>C++14</b> 中变得更加频繁，因为 <b>C++14</b> 允许在 <b>lambda</b> 表达式中使用 <b>auto&amp;&amp;</b> 声明参数。例如，在 <b>C++14</b> 中，如果你想编写一 <b>lambda</b> 表达式以记录任一函数的调用耗时，你可以这样编写：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> timeFuncInvocation =</span><br><span class="line">    [](<span class="keyword">auto</span>&amp;&amp; func, <span class="keyword">auto</span>&amp;&amp;... params)                  <span class="comment">// C++14</span></span><br><span class="line">    {</span><br><span class="line">	start timer;</span><br><span class="line">	<span class="built_in">std</span>::forward&lt;<span class="keyword">decltype</span>(func)&gt;(func)(            <span class="comment">// invoke func</span></span><br><span class="line">	    <span class="built_in">std</span>::forward&lt;<span class="keyword">decltype</span>(params)&gt;(params)...  <span class="comment">// on params</span></span><br><span class="line">	);</span><br><span class="line">	stop timer and record elapsed time;</span><br><span class="line">    };</span><br></pre></td></tr></table></figure>
+<pre class="src src-c++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">timeFuncInvocation</span> =
+<span class="linenr">2 </span>    [](<span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">func</span>, <span style="color: #a1db00;">auto</span>&amp;&amp;... params)                  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">C++14</span>
+<span class="linenr">3 </span>    {
+<span class="linenr">4 </span>        <span style="color: #00d7af;">start</span> <span style="color: #ff8700;">timer</span>;
+<span class="linenr">5 </span>        <span style="color: #5fafd7;">std</span>::forward&lt;<span style="color: #a1db00;">decltype</span>(func)&gt;(func)(            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">invoke func</span>
+<span class="linenr">6 </span>            <span style="color: #5fafd7;">std</span>::forward&lt;<span style="color: #a1db00;">decltype</span>(params)&gt;(params)...  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">on params</span>
+<span class="linenr">7 </span>        );
+<span class="linenr">8 </span>        <span style="color: #00d7af;">stop</span> <span style="color: #ff8700;">timer</span> <span style="color: #a1db00;">and</span> record elapsed time;
+<span class="linenr">9 </span>    };
+</pre>
 </div>
 
 <p>
-&#x5982;&#x679C;&#x4F60;&#x5BF9;&quot;<b>std::forward&lt;decltype(blah blah blah)&gt;</b>&quot;&#x7684;&#x53CD;&#x5E94;&#x662F;&quot;&#x8A92;&#xFF1F;&#xFF01;&quot;&#xFF0C;&#x90A3;&#x5C31;&#x8BF4;&#x660E;&#x4F60;&#x5C1A;&#x672A;&#x9605;&#x8BFB;<a href="./item33.html">&#x6761;&#x6B3E;33</a>&#xFF0C;&#x4E0D;&#x8FC7;&#x4E0D;&#x7528;&#x62C5;&#x5FC3;&#x3002;&#x8FD9;&#x91CC;&#x5173;&#x6CE8;&#x7684;&#x91CD;&#x70B9;&#x662F; <b>lambda</b> &#x4E2D;&#x7684; <b>auto&amp;&amp;</b> &#x58F0;&#x660E;&#x7684;&#x53C2;&#x6570;&#x3002; <b>func</b> &#x662F;&#x4E00;&#x4E2A;&#x53EF;&#x7ED1;&#x5B9A;&#x81F3;&#x4EFB;&#x4E00;&#x53EF;&#x8C03;&#x7528;&#x5BF9;&#x8C61;&#x7684;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x4E0D;&#x8BBA;&#x5DE6;&#x503C;&#x6216;&#x53F3;&#x503C;&#x3002; <b>args</b> &#x662F;&#x96F6;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF08;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x53C2;&#x6570;&#x5305;&#xFF09;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x4EFB;&#x610F;&#x4E2A;&#x6570;&#x4EFB;&#x4F55;&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#x3002;&#x7ED3;&#x679C;&#x5C31;&#x662F;&#xFF0C;&#x62DC; <b>auto</b> &#x901A;&#x7528;&#x5F15;&#x7528;&#x6240;&#x8D50;&#xFF0C; <b>timeFuncInvocation</b> &#x53EF;&#x4EE5;&#x8BA1;&#x7B97;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x51FD;&#x6570;&#x7684;&#x6267;&#x884C;&#x8017;&#x65F6;&#x3002;&#xFF08;&#x5173;&#x4E8E;&quot;&#x4EFB;&#x610F;&quot;&#x548C;&quot;&#x51E0;&#x4E4E;&#x6240;&#x6709;&quot;&#x7684;&#x533A;&#x522B;&#xFF0C;&#x8BF7;&#x53C2;&#x770B;<a href="./item30.html">&#x6761;&#x6B3E;30</a>&#x3002;&#xFF09;
+如果你对"<b>std::forward&lt;decltype(blah blah blah)&gt;</b>"的反应是"誒？！"，那就说明你尚未阅读<a href="./item33.html">条款33</a>，不过不用担心。这里关注的重点是 <b>lambda</b> 中的 <b>auto&amp;&amp;</b> 声明的参数。 <b>func</b> 是一个可绑定至任一可调用对象的通用引用，不论左值或右值。 <b>args</b> 是零个或多个通用引用（一个通用引用参数包），它可以绑定任意个数任何类型的对象。结果就是，拜 <b>auto</b> 通用引用所赐， <b>timeFuncInvocation</b> 可以计算几乎所有函数的执行耗时。（关于"任意"和"几乎所有"的区别，请参看<a href="./item30.html">条款30</a>。）
 </p>
 
 <p>
-&#x8BB0;&#x4F4F;&#xFF0C;&#x6B64;&#x6761;&#x6B3E; &#x2500;&#x2500;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x57FA;&#x7840;&#x2500;&#x2500; &#x662F;&#x4E2A;&#x8C0E;&#x8A00;&#x2026;&#x5443;&#xFF0C;&#x5E94;&#x8BE5;&#x53EB;&quot;&#x62BD;&#x8C61;&quot;&#x3002;&#x9690;&#x542B;&#x5176;&#x4E2D;&#x7684;&#x771F;&#x76F8;&#x662F;&#x5F15;&#x7528;&#x6298;&#x53E0;&#xFF0C;&#x65E2;<a href="./item28.html">&#x6761;&#x6B3E;28</a>&#x7684;&#x4E3B;&#x9898;&#x3002;&#x4F46;&#x8FD9;&#x4E00;&#x771F;&#x76F8;&#x5E76;&#x6CA1;&#x6709;&#x51CF;&#x5C11;&#x6B64;&#x62BD;&#x8C61;&#x7684;&#x7528;&#x5904;&#x3002;&#x533A;&#x5206;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x4E0E;&#x901A;&#x7528;&#x5F15;&#x7528;&#x80FD;&#x5E2E;&#x52A9;&#x4F60;&#x66F4;&#x7CBE;&#x786E;&#x7684;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#xFF08;&quot;&#x8FD9;&#x91CC;&#x7684; <b>T&amp;&amp;</b> &#x53EA;&#x80FD;&#x7ED1;&#x5B9A;&#x5230;&#x53F3;&#x503C;&#xFF1F;&#x8FD8;&#x662F;&#x90FD;&#x80FD;&#x7ED1;&#x5B9A;&#xFF1F;&quot;&#xFF09;&#xFF0C;&#x4E5F;&#x80FD;&#x8BA9;&#x4F60;&#x4E0E;&#x540C;&#x4E8B;&#x7684;&#x4EA4;&#x6D41;&#x66F4;&#x52A0;&#x987A;&#x7545;&#xFF08;&quot;&#x5728;&#x8FD9;&#x91CC;&#x6211;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;&#xFF0C;&#x4E0D;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x2026;&#x2026;&quot;&#xFF09;&#x3002;&#x4E5F;&#x5C06;&#x4F7F;&#x4F60;&#x66F4;&#x6613;&#x7406;&#x89E3;<a href="./item25.html">&#x6761;&#x6B3E;25</a>&#x4E0E;<a href="./item26.html">&#x6761;&#x6B3E;26</a>&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x4F9D;&#x8D56;&#x4E8E;&#x8FD9;&#x4E00;&#x533A;&#x5206;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x62E5;&#x62B1;&#x5B83;&#x5427;&#x3002;&#x5E76;&#x9676;&#x9189;&#x5176;&#x4E2D;&#x3002;&#x6B63;&#x5982;&#x725B;&#x987F;&#x8FD0;&#x52A8;&#x5B9A;&#x5F8B;&#xFF08;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4E0D;&#x6B63;&#x786E;&#x7684;&#xFF09;&#xFF0C;&#x5B83;&#x901A;&#x5E38;&#x6BD4;&#x7231;&#x56E0;&#x65AF;&#x5766;&#x7684;&#x5E7F;&#x4E49;&#x76F8;&#x5BF9;&#x8BBA;&#xFF08;&quot;&#x771F;&#x76F8;&quot;&#xFF09;&#x66F4;&#x4E3A;&#x6709;&#x7528;&#x3001;&#x7B80;&#x5355;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x901A;&#x7528;&#x5F15;&#x7528;&#x7684;&#x6982;&#x5FF5;&#x901A;&#x5E38;&#x6BD4;&#x5B83;&#x7684;&#x7EC6;&#x8282;&#x2500;&#x2500;&#x5F15;&#x7528;&#x6298;&#x53E0;&#x66F4;&#x4E3A;&#x53EF;&#x53D6;&#x3002;
+记住，此条款 ──通用引用的基础── 是个谎言&#x2026;呃，应该叫"抽象"。隐含其中的真相是引用折叠，既<a href="./item28.html">条款28</a>的主题。但这一真相并没有减少此抽象的用处。区分右值引用与通用引用能帮助你更精确的阅读代码（"这里的 <b>T&amp;&amp;</b> 只能绑定到右值？还是都能绑定？"），也能让你与同事的交流更加顺畅（"在这里我使用的是通用引用，不是右值引用&#x2026;&#x2026;"）。也将使你更易理解<a href="./item25.html">条款25</a>与<a href="./item26.html">条款26</a>，它们都依赖于这一区分。所以，拥抱它吧。并陶醉其中。正如牛顿运动定律（实际上是不正确的），它通常比爱因斯坦的广义相对论（"真相"）更为有用、简单，因此，通用引用的概念通常比它的细节──引用折叠更为可取。
 </p>
 
-<div id="outline-container-orgd7575dc" class="outline-2">
-<h2 id="&#x8BB0;&#x4F4F;"><a id="orgd7575dc"></a>&#x8BB0;&#x4F4F;</h2>
-<div class="outline-text-2" id="text-&#x8BB0;&#x4F4F;">
+<div id="outline-container-org1b607ae" class="outline-2">
+<h2 id="记住"><a id="org1b607ae"></a>记住</h2>
+<div class="outline-text-2" id="text-记住">
 <ul class="org-ul">
-<li>&#x5982;&#x679C;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x53C2;&#x6570;&#x662F; <b>T&amp;&amp;</b> &#xFF0C;&#x4E14; <b>T</b> &#x9700;&#x8981;&#x88AB;&#x63A8;&#x5BFC;&#xFF0C;&#x6216;&#x8005;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x88AB;&#x58F0;&#x660E;&#x4E3A; <b>auto&amp;&amp;</b> &#xFF0C;&#x90A3;&#x4E48;&#x8BE5;&#x53C2;&#x6570;&#x6216;&#x6B64;&#x5BF9;&#x8C61;&#x4E3A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;</li>
-<li>&#x5982;&#x679C;&#x7C7B;&#x578B;&#x58F0;&#x660E;&#x5E76;&#x672A;&#x6EE1;&#x8DB3;&#x4E25;&#x683C;&#x7684; <b>type&amp;&amp;</b> &#x6837;&#x5F0F;&#xFF0C;&#x6216;&#x8005;&#x6CA1;&#x6709;&#x53D1;&#x751F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C; <b>type&amp;&amp;</b> &#x8868;&#x793A;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;</li>
-<li>&#x901A;&#x7528;&#x5F15;&#x7528;&#x5728;&#x4F7F;&#x7528;&#x53F3;&#x503C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5728;&#x4F7F;&#x7528;&#x5DE6;&#x503C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#x76F8;&#x5F53;&#x4E8E;&#x4E00;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;</li>
+<li>如果一个模板函数的参数是 <b>T&amp;&amp;</b> ，且 <b>T</b> 需要被推导，或者一个对象被声明为 <b>auto&amp;&amp;</b> ，那么该参数或此对象为通用引用。</li>
+<li>如果类型声明并未满足严格的 <b>type&amp;&amp;</b> 样式，或者没有发生类型推导， <b>type&amp;&amp;</b> 表示一个右值引用。</li>
+<li>通用引用在使用右值初始化时相当于一右值引用。在使用左值初始化时相当于一左值引用。</li>
 </ul>
 </div>
 </div>
@@ -553,18 +617,18 @@
 <div id="text-footnotes">
 
 <div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
-&#x6CD5;&#x8BED;&#xFF1A;raison d&apos;&#xEA;tre
+法语：raison d'être
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
-<a href="./item25.html">&#x6761;&#x6B3E;25</a>&#x4F1A;&#x544A;&#x8BC9;&#x4F60;&#xFF1A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x51E0;&#x4E4E;&#x90FD;&#x8981;&#x914D;&#x5408;*std::forward*&#x4F7F;&#x7528;&#xFF0C;&#x56E0;&#x6B64;&#x6B64;&#x4E66;&#x5373;&#x5C06;&#x51FA;&#x7248;&#x65F6;&#xFF0C;&#x8BB8;&#x591A;C++&#x6807;&#x51C6;&#x59D4;&#x5458;&#x4F1A;&#x7684;&#x6210;&#x5458;&#x5F00;&#x59CB;&#x79F0; <b>universal references</b> &#x4E3A; <b>forwarding references</b> &#x3002;
+<a href="./item25.html">条款25</a>会告诉你：通用引用几乎都要配合 <b>std::forward</b> 使用，因此此书即将出版时，许多C++标准委员会的成员开始称 <b>universal references</b> 为 <b>forwarding references</b> 。
 </p></div></div>
 
 
 </div>
 </div></div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated 2017-08-07 Mon 04:12. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-08-07 Mon 14:22</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
 </div>
 
       
@@ -704,7 +768,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

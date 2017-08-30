@@ -97,18 +97,18 @@
 
 
 
-<meta name="description" content="&amp;#x7FFB;&amp;#x8BD1;&amp;#x81F3;cppreference&amp;#x3001;cppreference&amp;#xFF0C;&amp;#x5E76;&amp;#x5BF9;&amp;#x5176;&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x6574;&amp;#x5408;&amp;#x3002;(&amp;#x867D;&amp;#x7136;&amp;#x6211;&amp;#x5E76;&amp;#x4E0D;&amp;#x660E;&amp;#x767D;&amp;#x8F">
+<meta name="description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
 <meta name="keywords" content="cppreference">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Value categories">
 <meta property="og:url" content="http://paruka.me/translation/cppreference/value-categories.html">
 <meta property="og:site_name" content="Eloquent Programmer">
-<meta property="og:description" content="&amp;#x7FFB;&amp;#x8BD1;&amp;#x81F3;cppreference&amp;#x3001;cppreference&amp;#xFF0C;&amp;#x5E76;&amp;#x5BF9;&amp;#x5176;&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x6574;&amp;#x5408;&amp;#x3002;(&amp;#x867D;&amp;#x7136;&amp;#x6211;&amp;#x5E76;&amp;#x4E0D;&amp;#x660E;&amp;#x767D;&amp;#x8F">
+<meta property="og:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2017-08-06T18:40:49.011Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Value categories">
-<meta name="twitter:description" content="&amp;#x7FFB;&amp;#x8BD1;&amp;#x81F3;cppreference&amp;#x3001;cppreference&amp;#xFF0C;&amp;#x5E76;&amp;#x5BF9;&amp;#x5176;&amp;#x8FDB;&amp;#x884C;&amp;#x4E86;&amp;#x6574;&amp;#x5408;&amp;#x3002;(&amp;#x867D;&amp;#x7136;&amp;#x6211;&amp;#x5E76;&amp;#x4E0D;&amp;#x660E;&amp;#x767D;&amp;#x8F">
+<meta name="twitter:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
 
 
 
@@ -401,245 +401,245 @@
       
         <div id="content">
 <p>
-&#x7FFB;&#x8BD1;&#x81F3;<a href="http://en.cppreference.com/w/cpp/language/value_category" target="_blank" rel="external">cppreference</a>&#x3001;<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/language/value_category&amp;oldid=85137" target="_blank" rel="external">cppreference</a>&#xFF0C;&#x5E76;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x4E86;&#x6574;&#x5408;&#x3002;(&#x867D;&#x7136;&#x6211;&#x5E76;&#x4E0D;&#x660E;&#x767D;&#x8FD9;&#x4E24;&#x4E2A;&#x7F51;&#x7AD9;&#x7684;&#x533A;&#x522B;&#x2026;)
+翻译至<a href="http://en.cppreference.com/w/cpp/language/value_category" target="_blank" rel="external">cppreference</a>、<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/language/value_category&amp;oldid=85137" target="_blank" rel="external">cppreference</a>，并对其进行了整合。(虽然我并不明白这两个网站的区别&#x2026;)
 </p>
 
 <p>
-&#x6BCF;&#x4E00;&#x4E2A;C++<a href="http://en.cppreference.com/w/cpp/language/expressions" target="_blank" rel="external">&#x8868;&#x8FBE;&#x5F0F;</a>&#xFF08;&#x6709;&#x64CD;&#x4F5C;&#x6570;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x3001;&#x5B57;&#x9762;&#x503C;&#x3001;&#x53D8;&#x91CF;&#x540D;&#x7B49;&#xFF09;&#x90FD;&#x88AB;&#x8D4B;&#x4E88;&#x4E24;&#x79CD;&#x72EC;&#x7ACB;&#x7684;&#x5C5E;&#x6027;&#xFF1A;&#x578B;&#x522B;&#x548C;&#x503C;&#x7C7B;&#x578B;&#xFF08;value categories&#xFF09;&#x3002;&#x6BCF;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x90FD;&#x6709;&#x4E00;&#x4E9B;&#x975E;&#x5F15;&#x7528;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x4E14;&#x5F52;&#x5C5E;&#x4E0E;&#x4EE5;&#x4E0B;&#x4E09;&#x79CD;&#x503C;&#x7C7B;&#x578B;&#x4E2D;&#x7684;&#x4E00;&#x79CD;&#xFF1A;prvalue&#x3001;xvalue&#x3001;lvalue&#x3002;&#x5B83;&#x4EEC;&#x7684;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;
+每一个C++<a href="http://en.cppreference.com/w/cpp/language/expressions" target="_blank" rel="external">表达式</a>（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：
 </p>
 <a id="more"></a>
 
 <ul class="org-ul">
-<li>glvalue<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>&#x662F;&#x4E00;&#x4E2A;&#x5176;&#x503C;&#xFF08;&#x8FD0;&#x7B97;&#x7ED3;&#x679C;&#xFF09;&#x80FD;&#x6807;&#x8BC6;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x3001;&#x4F4D;&#x57DF;&#x6216;&#x51FD;&#x6570;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li>prvalue<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>&#x8868;&#x8FBE;&#x5F0F;&#x65E2;
+<li>glvalue<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>是一个其值（运算结果）能标识一个对象、位域或函数的表达式。</li>
+<li>prvalue<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>表达式既
 <ul class="org-ul">
-<li><b>&#x662F;&#x4E00;&#x4E2A;&#x8FD0;&#x7B97;&#x7B26;&#xFF08;&#x4F7F;&#x7528;&#x67D0;&#x4E9B;&#x64CD;&#x4F5C;&#x6570;&#x8FD0;&#x7B97;&#x540E;&#xFF09;&#x7684;&#x503C;&#xFF08;&#x8FD9;&#x6837;&#x7684;prvalue&#x6CA1;&#x6709;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#xFF09;&#xFF0C;&#x4E5F;&#x80FD;</b></li>
-<li><b>&#xFF08;&#x7528;&#x5176;&#x503C;&#xFF09;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x6216;&#x4F4D;&#x57DF;&#xFF08;&#x8FD9;&#x6837;&#x7684;prvalue&#x6211;&#x4EEC;&#x79F0;&#x5176;&#x62E5;&#x6709;&#x8FD4;&#x56DE;&#x5BF9;&#x8C61;&#xFF09;&#x3002;&#x6240;&#x6709;&#x7C7B;&#x3001;&#x6570;&#x7EC4;&#x7C7B;&#x578B;&#x7684;prvalue&#x90FD;&#x6709;&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#xFF0C;&#x54EA;&#x6015;&#x5B83;&#x4F1A;&#x88AB;&#x629B;&#x5F03;&#x3002;</b></li>
+<li><b>是一个运算符（使用某些操作数运算后）的值（这样的prvalue没有返回对象），也能</b></li>
+<li><b>（用其值）初始化一个对象或位域（这样的prvalue我们称其拥有返回对象）。所有类、数组类型的prvalue都有一个返回值，哪怕它会被抛弃。</b></li>
 </ul></li>
-<li>xvalue<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>&#x662F;&#x4E00;&#x4E2A;&#xFF08;&#x5176;&#x5BF9;&#x8C61;&#x6216;&#x4F4D;&#x57DF;&#xFF09;&#x53EF;&#x88AB;&#x590D;&#x7528;&#x7684;glvalue&#x3002;</li>
-<li>lvalue&#x662F;&#x90A3;&#x4E9B;&#x4E0D;&#x5C5E;&#x4E8E;xvalue&#x7684;glvalue&#x3002;</li>
-<li>rvalue&#x662F;&#x4E00;&#x4E2A;prvalue&#x6216;xvalue&#x3002;</li>
+<li>xvalue<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>是一个（其对象或位域）可被复用的glvalue。</li>
+<li>lvalue是那些不属于xvalue的glvalue。</li>
+<li>rvalue是一个prvalue或xvalue。</li>
 </ul>
 
 <p>
-&#x6CE8;&#x610F;: &#x8FD9;&#x4E00;&#x5206;&#x7C7B;&#x65B9;&#x5F0F;&#x4E0E;&#x4E4B;&#x524D;&#x7684;C++&#x6807;&#x51C6;&#x76F8;&#x6BD4;&#x6709;&#x5DE8;&#x5927;&#x7684;&#x53D8;&#x5316;&#xFF0C;&#x8BE6;&#x60C5;&#x8BF7;&#x770B;<a href="http://en.cppreference.com/w/cpp/language/value_category#History" target="_blank" rel="external">&#x5386;&#x53F2;</a>&#x3002;
+注意: 这一分类方式与之前的C++标准相比有巨大的变化，详情请看<a href="http://en.cppreference.com/w/cpp/language/value_category#History" target="_blank" rel="external">历史</a>。
 </p>
 
-<div id="outline-container-orgddbfd2e" class="outline-2">
-<h2 id="primary-categories"><a id="orgddbfd2e"></a>Primary categories</h2>
+<div id="outline-container-org3d31af4" class="outline-2">
+<h2 id="primary-categories"><a id="org3d31af4"></a>Primary categories</h2>
 <div class="outline-text-2" id="text-primary-categories">
 <p>
-&#x4E3B;&#x7C7B;&#x578B;&#x5BF9;&#x5E94;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x4E24;&#x4E2A;&#x5C5E;&#x6027;&#xFF1A;
+主类型对应表达式的两个属性：
 </p>
 <ul class="org-ul">
-<li><i>&#x6709;&#x8EAB;&#x4EFD;</i> : &#x53EF;&#x4EE5;&#x786E;&#x5B9A;&#x5404;&#x8868;&#x8FBE;&#x5F0F;&#x6807;&#x8BC6;&#x7684;&#x5BF9;&#x8C61;&#x662F;&#x5426;&#x4E3A;&#x540C;&#x4E00;&#x5BF9;&#x8C61;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;&#x6BD4;&#x8F83;&#x5B83;&#x4EEC;&#x7684;&#x5730;&#x5740;&#x6216;&#x8005;&#x8C03;&#x7528;&#x5B83;&#x4EEC;&#x7684;&#x6807;&#x8BC6;&#x51FD;&#x6570;&#x3002;</li>
-<li><i>&#x53EF;&#x88AB;&#x79FB;&#x52A8;</i> : &#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x3001;&#x79FB;&#x52A8;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x6216;&#x5176;&#x5B83;&#x5B9E;&#x73B0;&#x4E86;&#x79FB;&#x52A8;&#x8BED;&#x610F;&#x7684;&#x51FD;&#x6570;&#x662F;&#x5426;&#x53EF;&#x7ED1;&#x5B9A;&#x81F3;&#x8BE5;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
+<li><i>有身份</i> : 可以确定各表达式标识的对象是否为同一对象，例如：比较它们的地址或者调用它们的标识函数。</li>
+<li><i>可被移动</i> : 移动构造函数、移动赋值函数或其它实现了移动语意的函数是否可绑定至该表达式。</li>
 </ul>
 
 <p>
-&#x56E0;&#x6B64;&#xFF1A;
+因此：
 </p>
 <ul class="org-ul">
-<li>&#x6709;&#x8EAB;&#x4EFD;&#x4E14;&#x4E0D;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x4E3A; <i>lvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li>&#x6709;&#x8EAB;&#x4EFD;&#x4E14;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x4E3A; <i>xvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li>&#x65E0;&#x8EAB;&#x4EFD;&#x4E14;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x4E3A; <i>prvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li>&#x65E0;&#x8EAB;&#x4EFD;&#x4E14;&#x4E0D;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x5E76;&#x4E0D;&#x5B58;&#x5728;&#x3002;</li>
+<li>有身份且不能被移动的表达式为 <i>lvalue</i> 表达式；</li>
+<li>有身份且能被移动的表达式为 <i>xvalue</i> 表达式；</li>
+<li>无身份且能被移动的表达式为 <i>prvalue</i> 表达式；</li>
+<li>无身份且不能被移动的表达式并不存在。</li>
 </ul>
 </div>
 
-<div id="outline-container-org8373261" class="outline-3">
-<h3 id="lvalue"><a id="org8373261"></a><b>lvalue</b></h3>
+<div id="outline-container-orgc02a7ec" class="outline-3">
+<h3 id="lvalue"><a id="orgc02a7ec"></a><b>lvalue</b></h3>
 <div class="outline-text-3" id="text-lvalue">
 <p>
-<i>lvalue</i> (&quot;left value&quot;)&#x8868;&#x8FBE;&#x5F0F;&#x6709;&#x8EAB;&#x4EFD;&#x4E14;&#x4E0D;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x3002;&quot;&#x5DE6;&#x503C;&quot;&#x8FD9;&#x4E2A;&#x540D;&#x5B57;&#x5177;&#x6709;&#x5386;&#x53F2;&#x6027;&#x7684;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x5B8C;&#x7F8E;&#x7684;&#x6807;&#x8BC6;&#x4E86;&#x5B83;&#x5728;CPL&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x4F5C;&#x7528;&#xFF1A;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#x3002;
+<i>lvalue</i> ("left value")表达式有身份且不能被移动。"左值"这个名字具有历史性的意义，它完美的标识了它在CPL编程语言中的作用：赋值运算符的左操作数。
 </p>
 
 <p>
-&#x4EE5;&#x4E0B;&#x8868;&#x8FBE;&#x5F0F;&#x5747;&#x4E3A;lvalue&#xFF08;&#x5DE6;&#x503C;&#xFF09;&#x8868;&#x8FBE;&#x5F0F;:
+以下表达式均为lvalue（左值）表达式:
 </p>
 <ul class="org-ul">
-<li>&#x4F5C;&#x7528;&#x57DF;&#x5185;&#x7684;&#x3001;&#x4EFB;&#x610F;&#x7C7B;&#x578B;&#x7684;&#x53D8;&#x91CF;&#x540D;&#x6216;&#x51FD;&#x6570;&#x540D;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>std::cin</code> &#x3001; <code>std::endl</code> &#x3002;&#x5373;&#x4FBF;&#x53D8;&#x91CF;&#x7684;&#x7C7B;&#x578B;&#x662F;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x7531;&#x5B83;&#x7684;&#x540D;&#x5B57;&#x7EC4;&#x6210;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x5DE6;&#x503C;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li>&#x4E00;&#x4E2A;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x6216;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>std::getline(std::cin, str)</code> &#x3001; <code>std::cout &lt;&lt; 1</code> &#x3001; <code>str1 = str2</code> &#x3001; <code>++it</code> &#x3002;</li>
-<li><code>a=b</code> &#x3001; <code>a+=b</code> &#x3001; <code>a%=b</code> &#xFF0C;&#x53CA;&#x5176;&#x5B83;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_assignment" target="_blank" rel="external">&#x8D4B;&#x503C;&#x3001;&#x590D;&#x5408;&#x8D4B;&#x503C;</a>&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li><code>++a</code> &#x548C; <code>--a</code> &#xFF1A;&#x3000;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_incdec#Built-in_prefix_operators" target="_blank" rel="external">&#x524D;&#x7F6E;&#x81EA;&#x589E;&#x3001;&#x524D;&#x7F6E;&#x81EA;&#x51CF;</a>&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li><code>*p</code> &#xFF1A;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_indirection_operator" target="_blank" rel="external">&#x6307;&#x9488;&#x53D6;&#x503C;</a>&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li><code>a[n]</code> &#x548C; <code>p[n]</code> &#xFF1A;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_subscript_operator" target="_blank" rel="external">&#x53D6;&#x4E0B;&#x6807;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C; <code>a&#x4E0D;&#x80FD;&#x4E3A;&#x53F3;&#x503C;&#x6570;&#x7EC4;&#x3002;(since c++11)</code> &#x3002;</li>
-<li><code>a.m</code> &#xFF1A;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x6210;&#x5458;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x9664;&#x975E;m&#x662F;&#x679A;&#x4E3E;&#x6216;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x51FD;&#x6570;&#xFF0C;&#x53C8;&#x6216;&#x8005;a&#x662F;&#x53F3;&#x503C;&#x4E14;m&#x4E3A;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x3002;</li>
-<li><code>p-&gt;m</code> &#xFF1A;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">&#x6307;&#x9488;&#x6240;&#x6307;&#x5BF9;&#x8C61;&#x7684;&#x6210;&#x5458;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;m&#x4E0D;&#x80FD;&#x4E3A;&#x679A;&#x4E3E;&#x6216;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x51FD;&#x6570;&#x3002;</li>
-<li><code>a.*mp</code>: <a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x6210;&#x5458;&#x6307;&#x9488;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;a&#x5FC5;&#x987B;&#x4E3A;&#x5DE6;&#x503C;&#x4E14;mp&#x5FC5;&#x987B;&#x6307;&#x5411;&#x6570;&#x636E;&#x6210;&#x5458;&#x3002;</li>
-<li><code>p-&gt;*mp</code> &#xFF1A;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">&#x6307;&#x5411;&#x6210;&#x5458;&#x6307;&#x9488;&#x7684;&#x6307;&#x9488;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;mp&#x5FC5;&#x987B;&#x6307;&#x5411;&#x6570;&#x636E;&#x6210;&#x5458;&#x3002;</li>
-<li><code>a, b</code>: &#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_other#Built-in_comma_operator" target="_blank" rel="external">&#x9017;&#x53F7;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;b&#x5FC5;&#x987B;&#x4E3A;&#x5DE6;&#x503C;&#x3002;</li>
-<li><code>a ? b : c</code> &#xFF1A;&#x67D0;&#x4E9B;<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">&#x4E09;&#x5143;&#x6761;&#x4EF6;</a>&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li><a href="http://en.cppreference.com/w/cpp/language/string_literal" target="_blank" rel="external">&#x5B57;&#x7B26;&#x4E32;&#x5B57;&#x9762;&#x503C;</a>&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>&quot;Hello World!&quot;</code> &#x3002;</li>
-<li>&#x8F6C;&#x6362;&#x4E3A;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8F6C;&#x6362;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;: <code>static_cast&lt;int&amp;&gt;(x)</code> &#x3002;</li>
-<li>&#x5BF9;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x65B9;&#x6CD5;&#x7684;&#x8C03;&#x7528;&#x6216;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;&#x8868;&#x8FBE;&#x5F0F;(since c++11)&#x3002;</li>
-<li>&#x8F6C;&#x6362;&#x4E3A;&#x51FD;&#x6570;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8F6C;&#x6362;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>static_cast&lt;void (&amp;&amp;)(int)&gt;(x)</code> (since c++11)&#x3002;</li>
+<li>作用域内的、任意类型的变量名或函数名，例如： <code>std::cin</code> 、 <code>std::endl</code> 。即便变量的类型是右值引用，由它的名字组成的表达式也是一个左值表达式。</li>
+<li>一个返回值为左值引用的函数调用或返回值为左值引用的运算符重载表达式，例如： <code>std::getline(std::cin, str)</code> 、 <code>std::cout &lt;&lt; 1</code> 、 <code>str1 = str2</code> 、 <code>++it</code> 。</li>
+<li><code>a=b</code> 、 <code>a+=b</code> 、 <code>a%=b</code> ，及其它内置的<a href="http://en.cppreference.com/w/cpp/language/operator_assignment" target="_blank" rel="external">赋值、复合赋值</a>表达式。</li>
+<li><code>++a</code> 和 <code>--a</code> ：　内置的<a href="http://en.cppreference.com/w/cpp/language/operator_incdec#Built-in_prefix_operators" target="_blank" rel="external">前置自增、前置自减</a>表达式。</li>
+<li><code>*p</code> ：内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_indirection_operator" target="_blank" rel="external">指针取值</a>表达式。</li>
+<li><code>a[n]</code> 和 <code>p[n]</code> ：内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_subscript_operator" target="_blank" rel="external">取下标</a>表达式， <code>a不能为右值数组。(since c++11)</code> 。</li>
+<li><code>a.m</code> ：<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">对象成员</a>表达式，除非m是枚举或非静态成员函数，又或者a是右值且m为非引用类型的非静态成员。</li>
+<li><code>p-&gt;m</code> ：内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">指针所指对象的成员</a>表达式，m不能为枚举或非静态成员函数。</li>
+<li><code>a.*mp</code>: <a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">对象成员指针</a>表达式，a必须为左值且mp必须指向数据成员。</li>
+<li><code>p-&gt;*mp</code> ：内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">指向成员指针的指针</a>表达式，mp必须指向数据成员。</li>
+<li><code>a, b</code>: 内置的<a href="http://en.cppreference.com/w/cpp/language/operator_other#Built-in_comma_operator" target="_blank" rel="external">逗号</a>表达式，b必须为左值。</li>
+<li><code>a ? b : c</code> ：某些<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">三元条件</a>表达式。</li>
+<li><a href="http://en.cppreference.com/w/cpp/language/string_literal" target="_blank" rel="external">字符串字面值</a>，例如： <code>"Hello World!"</code> 。</li>
+<li>转换为左值引用的转换表达式，例如: <code>static_cast&lt;int&amp;&gt;(x)</code> 。</li>
+<li>对返回值为右值引用的方法的调用或返回值为右值引用的运算符重载表达式(since c++11)。</li>
+<li>转换为函数右值引用的转换表达式，例如： <code>static_cast&lt;void (&amp;&amp;)(int)&gt;(x)</code> (since c++11)。</li>
 </ul>
 </div>
 
-<div id="outline-container-org9cfe59f" class="outline-4">
-<h4 id="org9cfe59f">&#x5C5E;&#x6027;:</h4>
-<div class="outline-text-4" id="text-org9cfe59f">
+<div id="outline-container-orgcecc9f3" class="outline-4">
+<h4 id="orgcecc9f3">属性:</h4>
+<div class="outline-text-4" id="text-orgcecc9f3">
 <ul class="org-ul">
-<li>&#x62E5;&#x6709;glvalue&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;(&#x7A0D;&#x540E;&#x4ECB;&#x7ECD;)&#x3002;</li>
-<li>&#x53EF;&#x4EE5;&#x83B7;&#x53D6;&#x5DE6;&#x503C;&#x7684;&#x5730;&#x5740;&#xFF1A; <code>&amp;++i</code> <sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>&#x548C; <code>&amp;std::endl</code> &#x90FD;&#x662F;&#x5408;&#x6CD5;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li>&#x53EF;&#x4FEE;&#x6539;&#x7684;&#x5DE6;&#x503C;&#x53EF;&#x4EE5;&#x505A;&#x4E3A;&#x5185;&#x7F6E;&#x8D4B;&#x503C;&#x3001;&#x590D;&#x5408;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#x3002;</li>
-<li>&#x5DE6;&#x503C;&#x53EF;&#x4EE5;&#x7528;&#x6765;<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">&#x521D;&#x59CB;&#x5316;&#x5DE6;&#x503C;&#x5F15;&#x7528;</a>&#xFF1B;&#x6B64;&#x65F6;&#x8BE5;&#x8868;&#x8FBE;&#x5F0F;&#x6807;&#x8BC6;&#x7684;&#x5BF9;&#x8C61;&#x5C06;&#x88AB;&#x8D4B;&#x4E88;&#x4E00;&#x4E2A;&#x5168;&#x65B0;&#x7684;&#x522B;&#x540D;&#x3002;</li>
+<li>拥有glvalue的所有属性(稍后介绍)。</li>
+<li>可以获取左值的地址： <code>&amp;++i</code> <sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>和 <code>&amp;std::endl</code> 都是合法的表达式。</li>
+<li>可修改的左值可以做为内置赋值、复合赋值运算符的左操作数。</li>
+<li>左值可以用来<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">初始化左值引用</a>；此时该表达式标识的对象将被赋予一个全新的别名。</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org5e185df" class="outline-3">
-<h3 id="prvalue"><a id="org5e185df"></a><b>prvalue</b></h3>
+<div id="outline-container-orgd8ba291" class="outline-3">
+<h3 id="prvalue"><a id="orgd8ba291"></a><b>prvalue</b></h3>
 <div class="outline-text-3" id="text-prvalue">
 <p>
-<i>prvalue(&quot;pure rvalue&quot;)</i> &#x8868;&#x8FBE;&#x5F0F;&#x662F;&#x90A3;&#x4E9B; <i>&#x6CA1;&#x6709;&#x8EAB;&#x4EFD;</i> &#x4E14; <i>&#x53EF;&#x4EE5;&#x88AB;&#x79FB;&#x52A8;</i> &#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x3002;
+<i>prvalue("pure rvalue")</i> 表达式是那些 <i>没有身份</i> 且 <i>可以被移动</i> 的表达式。
 </p>
 
 <p>
-&#x4EE5;&#x4E0B;&#x8868;&#x8FBE;&#x5F0F;&#x5747;&#x4E3A;prvalue&#x8868;&#x8FBE;&#x5F0F;&#xFF1A;
+以下表达式均为prvalue表达式：
 </p>
 <ul class="org-ul">
-<li><a href="http://en.cppreference.com/w/cpp/language/expressions#Literals" target="_blank" rel="external">&#x5B57;&#x9762;&#x503C;</a>&#xFF08;&#x9664;<a href="http://en.cppreference.com/w/cpp/language/string_literal" target="_blank" rel="external">&#x5B57;&#x7B26;&#x4E32;&#x5B57;&#x9762;&#x503C;</a>&#xFF09;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>42</code> &#x3001; <code>true</code> &#x6216; <code>nullptr</code> &#xFF1B;</li>
-<li>&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x6216;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x975E;&#x5F15;&#x7528;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>str.substr(1, 2)</code> &#x3001; <code>str1+str2</code> &#x3001; <code>it++</code> &#x3002;</li>
-<li><code>a++</code> &#x53CA; <code>a--</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_incdec#Built-in_postfix_operators" target="_blank" rel="external">&#x540E;&#x7F6E;&#x81EA;&#x589E;&#x3001;&#x81EA;&#x51CF;&#x8FD0;&#x7B97;&#x7B26;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li><code>a+b</code> &#x3001; <code>a%b</code> &#x3001; <code>a&amp;b</code> &#x3001; <code>a&lt;&lt;b</code> &#x53CA;&#x5176;&#x5B83;&#x6240;&#x6709;&#x7684;&#x5185;&#x7F6E;<a href="http://en.cppreference.com/w/cpp/language/operator_arithmetic" target="_blank" rel="external">&#x7B97;&#x6570;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li><code>a&amp;&amp;b</code> &#x3001; <code>a||b</code> &#x3001; <code>~a</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_logical" target="_blank" rel="external">&#x903B;&#x8F91;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li><code>a&lt;b</code> &#x3001;a==b&#x3001;a&gt;=b &#x53CA;&#x5176;&#x5B83;&#x6240;&#x6709;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_comparison" target="_blank" rel="external">&#x6BD4;&#x8F83;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li><code>&amp;a</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_address-of_operator" target="_blank" rel="external">&#x53D6;&#x5730;&#x5740;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li><code>a.m</code> &#xFF0C;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x6210;&#x5458;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;m&#x5FC5;&#x987B;&#x4E3A;&#x679A;&#x4E3E;&#x6216;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x51FD;&#x6570;<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup>&#xFF0C;&#x6216; <code>a&#x4E3A;rvalue&#x4E14;m&#x4E3A;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x975E;&#x9759;&#x6001;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF08;until c++11&#xFF09;</code> &#xFF1B;</li>
-<li><code>p-&gt;m</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">&#x6307;&#x9488;&#x6240;&#x6307;&#x5BF9;&#x8C61;&#x7684;&#x6210;&#x5458;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;m&#x5FC5;&#x987B;&#x4E3A;&#x679A;&#x4E3E;&#x6216;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x51FD;&#x6570;<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>&#xFF1B;</li>
-<li><code>a.*mp</code> &#xFF0C;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x7684;&#x6210;&#x5458;&#x6307;&#x9488;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;mp&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x5411;&#x6210;&#x5458;&#x51FD;&#x6570;&#x7684;&#x6307;&#x9488;<sup><a id="fnr.7" class="footref" href="#fn.7">7</a></sup>&#xFF0C;&#x6216; <code>a&#x662F;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#x4E14;mp&#x4E3A;&#x4E00;&#x6307;&#x5411;&#x6570;&#x636E;&#x6210;&#x5458;&#x7684;&#x6307;&#x9488;&#xFF08;until C++11&#xFF09;</code> &#xFF1B;</li>
-<li><code>p-&gt;*mp</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">&#x6307;&#x5411;&#x6210;&#x5458;&#x6307;&#x9488;&#x7684;&#x6307;&#x9488;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;mp&#x4E3A;&#x6307;&#x5411;&#x6210;&#x5458;&#x51FD;&#x6570;&#x7684;&#x6307;&#x9488;<sup><a id="fnr.8" class="footref" href="#fn.8">8</a></sup>&#xFF1B;</li>
-<li><code>a, b</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_other#Built-in_comma_operator" target="_blank" rel="external">&#x9017;&#x53F7;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;b&#x4E3A;&#x53F3;&#x503C;&#xFF1B;</li>
-<li><code>a ? b : c</code> &#xFF0C;&#x67D0;&#x4E9B;<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">&#x4E09;&#x5143;&#x6761;&#x4EF6;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li>&#x81F3;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x8F6C;&#x6362;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>static_cast&lt;double&gt;(x)</code> &#x3001; <code>std::string{}</code> &#x6216; <code>(int)42</code> &#xFF1B;</li>
-<li><a href="http://en.cppreference.com/w/cpp/language/this" target="_blank" rel="external">this</a>&#x6307;&#x9488;&#xFF1B;</li>
-<li><a href="http://en.cppreference.com/w/cpp/language/lambda" target="_blank" rel="external">lambda&#x8868;&#x8FBE;&#x5F0F;</a>&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>[](int x){ return x * x; }&#x3002;(since c++11)</code> &#x3002;</li>
+<li><a href="http://en.cppreference.com/w/cpp/language/expressions#Literals" target="_blank" rel="external">字面值</a>（除<a href="http://en.cppreference.com/w/cpp/language/string_literal" target="_blank" rel="external">字符串字面值</a>），例如： <code>42</code> 、 <code>true</code> 或 <code>nullptr</code> ；</li>
+<li>返回值为非引用类型的函数的调用或返回值为非引用的运算符重载表达式，例如： <code>str.substr(1, 2)</code> 、 <code>str1+str2</code> 、 <code>it++</code> 。</li>
+<li><code>a++</code> 及 <code>a--</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_incdec#Built-in_postfix_operators" target="_blank" rel="external">后置自增、自减运算符</a>表达式；</li>
+<li><code>a+b</code> 、 <code>a%b</code> 、 <code>a&amp;b</code> 、 <code>a&lt;&lt;b</code> 及其它所有的内置<a href="http://en.cppreference.com/w/cpp/language/operator_arithmetic" target="_blank" rel="external">算数</a>表达式；</li>
+<li><code>a&amp;&amp;b</code> 、 <code>a||b</code> 、 <code>~a</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_logical" target="_blank" rel="external">逻辑</a>表达式；</li>
+<li><code>a&lt;b</code> 、a==b、a&gt;=b 及其它所有内置的<a href="http://en.cppreference.com/w/cpp/language/operator_comparison" target="_blank" rel="external">比较</a>表达式；</li>
+<li><code>&amp;a</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_address-of_operator" target="_blank" rel="external">取地址</a>表达式；</li>
+<li><code>a.m</code> ，<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">对象成员</a>表达式，其中m必须为枚举或非静态成员函数<sup><a id="fnr.5" class="footref" href="#fn.5">5</a></sup>，或 <code>a为rvalue且m为非引用类型的非静态数据成员（until c++11）</code> ；</li>
+<li><code>p-&gt;m</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">指针所指对象的成员</a>表达式，其中m必须为枚举或非静态成员函数<sup><a id="fnr.6" class="footref" href="#fn.6">6</a></sup>；</li>
+<li><code>a.*mp</code> ，<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">对象的成员指针</a>表达式，其中mp是一个指向成员函数的指针<sup><a id="fnr.7" class="footref" href="#fn.7">7</a></sup>，或 <code>a是一个右值且mp为一指向数据成员的指针（until C++11）</code> ；</li>
+<li><code>p-&gt;*mp</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">指向成员指针的指针</a>表达式，其中mp为指向成员函数的指针<sup><a id="fnr.8" class="footref" href="#fn.8">8</a></sup>；</li>
+<li><code>a, b</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_other#Built-in_comma_operator" target="_blank" rel="external">逗号</a>表达式，其中b为右值；</li>
+<li><code>a ? b : c</code> ，某些<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">三元条件</a>表达式；</li>
+<li>至非引用类型的转换表达式，例如： <code>static_cast&lt;double&gt;(x)</code> 、 <code>std::string{}</code> 或 <code>(int)42</code> ；</li>
+<li><a href="http://en.cppreference.com/w/cpp/language/this" target="_blank" rel="external">this</a>指针；</li>
+<li><a href="http://en.cppreference.com/w/cpp/language/lambda" target="_blank" rel="external">lambda表达式</a>，例如： <code>[](int x){ return x * x; }。(since c++11)</code> 。</li>
 </ul>
 </div>
-<div id="outline-container-org3eab394" class="outline-4">
-<h4 id="org3eab394">&#x5C5E;&#x6027;</h4>
-<div class="outline-text-4" id="text-org3eab394">
+<div id="outline-container-orgf2c9fd1" class="outline-4">
+<h4 id="orgf2c9fd1">属性</h4>
+<div class="outline-text-4" id="text-orgf2c9fd1">
 <ul class="org-ul">
-<li>&#x62E5;&#x6709;rvalue&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#xFF08;&#x7A0D;&#x540E;&#x4ECB;&#x7ECD;&#xFF09;&#x3002;</li>
-<li>prvalue&#x4E0D;&#x5177;&#x5907;<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">&#x591A;&#x6001;&#x6027;</a>&#xFF1A;&#x5B83;&#x6240;&#x6807;&#x793A;&#x7684;&#x5BF9;&#x8C61;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">&#x52A8;&#x6001;&#x578B;&#x522B;</a>&#x603B;&#x662F;&#x8868;&#x8FBE;&#x5F0F;&#x672C;&#x8EAB;&#x7684;&#x578B;&#x522B;&#x3002;</li>
-<li>&#x975E;&#x81EA;&#x5B9A;&#x4E49;&#x7C7B;&#x975E;&#x6570;&#x7EC4;&#xFF08;non-class non-array&#xFF09;&#x7684;prvalue&#x4E0D;&#x80FD;&#x88AB;<a href="http://en.cppreference.com/w/cpp/language/cv" target="_blank" rel="external">cv-qualified</a>&#xFF08;&#x4E0D;&#x80FD;&#x5177;&#x5907;const&#x6216;volatile&#x5C5E;&#x6027;&#xFF09;&#x3002;</li>
-<li>prvalue&#x4E0D;&#x80FD;&#x4E3A;<a href="http://en.cppreference.com/w/cpp/language/type#Incomplete_type" target="_blank" rel="external">&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x7C7B;&#x578B;</a>&#xFF08;&#x9664;&#x975E;&#x5B83;&#x662F;void&#x7C7B;&#x578B;&#x6216;&#x51FA;&#x73B0;&#x5728;<a href="http://en.cppreference.com/w/cpp/language/decltype" target="_blank" rel="external">decltype</a>&#x8868;&#x8FBE;&#x5F0F;&#x4E2D;&#xFF09;&#x3002;</li>
+<li>拥有rvalue的所有属性（稍后介绍）。</li>
+<li>prvalue不具备<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">多态性</a>：它所标示的对象的<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">动态型别</a>总是表达式本身的型别。</li>
+<li>非自定义类非数组（non-class non-array）的prvalue不能被<a href="http://en.cppreference.com/w/cpp/language/cv" target="_blank" rel="external">cv-qualified</a>（不能具备const或volatile属性）。</li>
+<li>prvalue不能为<a href="http://en.cppreference.com/w/cpp/language/type#Incomplete_type" target="_blank" rel="external">不完整的类型</a>（除非它是void类型或出现在<a href="http://en.cppreference.com/w/cpp/language/decltype" target="_blank" rel="external">decltype</a>表达式中）。</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org83e4bb0" class="outline-3">
-<h3 id="xvalue"><a id="org83e4bb0"></a><b>xvalue</b></h3>
+<div id="outline-container-orgcc72855" class="outline-3">
+<h3 id="xvalue"><a id="orgcc72855"></a><b>xvalue</b></h3>
 <div class="outline-text-3" id="text-xvalue">
 <p>
-<i>xvalue</i> (&quot;expiring value&quot;)&#x8868;&#x8FBE;&#x5F0F;&#x662F;&#x90A3;&#x4E9B; <i>&#x6709;&#x8EAB;&#x4EFD;</i> &#x4E14; <i>&#x53EF;&#x4EE5;&#x88AB;&#x79FB;&#x52A8;</i> &#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x3002;
+<i>xvalue</i> ("expiring value")表达式是那些 <i>有身份</i> 且 <i>可以被移动</i> 的表达式。
 </p>
 
 <p>
-&#x4EE5;&#x4E0B;&#x8868;&#x8FBE;&#x5F0F;&#x5747;&#x4E3A;xvalue&#x8868;&#x8FBE;&#x5F0F;&#xFF1A;
+以下表达式均为xvalue表达式：
 </p>
 <ul class="org-ul">
-<li>&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x51FD;&#x6570;&#xFF08;&#x7684;&#x8C03;&#x7528;&#xFF09;&#x6216;&#x8FD4;&#x56DE;&#x503C;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x91CD;&#x8F7D;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>std::move(x)</code> &#xFF1B;</li>
-<li><code>a[n]</code> &#xFF0C;&#x5185;&#x7F6E;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_subscript_operator" target="_blank" rel="external">&#x53D6;&#x4E0B;&#x6807;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;a&#x4E3A;&#x4E00;&#x4E2A; <code>&#x53F3;&#x503C;&#x6570;&#x7EC4;(until C++17)</code> &#x6216; <code>xvalue&#x6570;&#x7EC4;(since C++17)</code> &#xFF1B;</li>
-<li><code>a.m</code> &#xFF0C;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x6210;&#x5458;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;a&#x662F;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#x4E14;m&#x4E3A;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x7684;&#x975E;&#x9759;&#x6001;&#x6570;&#x636E;&#x6210;&#x5458;&#xFF1B;</li>
-<li><code>a.*mp</code> &#xFF0C;<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">&#x5BF9;&#x8C61;&#x7684;&#x6210;&#x5458;&#x6307;&#x9488;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x5176;&#x4E2D;a&#x4E3A;&#x53F3;&#x503C;&#xFF08;rvalue&#xFF09;&#x4E14;mp&#x4E3A;&#x6307;&#x5411;&#x6570;&#x636E;&#x6210;&#x5458;&#x7684;&#x6307;&#x9488;&#xFF1B;</li>
-<li><code>a ? b : c</code> &#xFF0C;&#x67D0;&#x4E9B;<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">&#x4E09;&#x5143;&#x6761;&#x4EF6;</a>&#x8868;&#x8FBE;&#x5F0F;&#xFF1B;</li>
-<li>&#x81F3;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7684;&#x8F6C;&#x6362;&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <code>static_cast&lt;char&amp;&amp;&gt;(x)</code> &#x3002;</li>
+<li>返回值为右值引用的函数（的调用）或返回值为右值引用的运算符重载表达式，例如： <code>std::move(x)</code> ；</li>
+<li><code>a[n]</code> ，内置的<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_subscript_operator" target="_blank" rel="external">取下标</a>表达式，其中a为一个 <code>右值数组(until C++17)</code> 或 <code>xvalue数组(since C++17)</code> ；</li>
+<li><code>a.m</code> ，<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_member_access_operators" target="_blank" rel="external">对象成员</a>表达式，其中a是一个右值且m为非引用类型的非静态数据成员；</li>
+<li><code>a.*mp</code> ，<a href="http://en.cppreference.com/w/cpp/language/operator_member_access#Built-in_pointer-to-member_access_operators" target="_blank" rel="external">对象的成员指针</a>表达式，其中a为右值（rvalue）且mp为指向数据成员的指针；</li>
+<li><code>a ? b : c</code> ，某些<a href="http://en.cppreference.com/w/cpp/language/operator_other#Conditional_operator" target="_blank" rel="external">三元条件</a>表达式；</li>
+<li>至右值引用的转换表达式，例如： <code>static_cast&lt;char&amp;&amp;&gt;(x)</code> 。</li>
 </ul>
 </div>
-<div id="outline-container-org299b2d1" class="outline-4">
-<h4 id="&#x5C5E;&#x6027;"><a id="org299b2d1"></a>&#x5C5E;&#x6027;</h4>
-<div class="outline-text-4" id="text-&#x5C5E;&#x6027;">
+<div id="outline-container-org57ef3fa" class="outline-4">
+<h4 id="属性"><a id="org57ef3fa"></a>属性</h4>
+<div class="outline-text-4" id="text-属性">
 <ul class="org-ul">
-<li>&#x62E5;&#x6709;rvalue&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#xFF08;&#x7A0D;&#x540E;&#x4ECB;&#x7ECD;&#xFF09;&#x3002;</li>
-<li>&#x62E5;&#x6709;glvalue&#x7684;&#x6240;&#x6709;&#x5C5E;&#x6027;&#xFF08;&#x7A0D;&#x540E;&#x4ECB;&#x7ECD;&#xFF09;&#x3002;</li>
+<li>拥有rvalue的所有属性（稍后介绍）。</li>
+<li>拥有glvalue的所有属性（稍后介绍）。</li>
 </ul>
 
 <p>
-&#x6CE8;&#x610F;&#xFF1A;xvalue&#x4E0E;rvalue&#x7C7B;&#x4F3C;&#xFF0C;&#x5B83;&#x7ED1;&#x5B9A;&#x81F3;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4F46;xvalue&#x4E5F;&#x62E5;&#x6709;glvalue&#x7684;&#x5C5E;&#x6027;&#xFF0C;&#x5B83;&#x80FD;&#x88AB;<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">&#x591A;&#x6001;&#x5316;(polymorphic)</a>&#xFF0C;&#x4E14;&#x975E;&#x5BF9;&#x8C61;&#x7C7B;&#x578B;&#x7684;xvalue&#x4E5F;&#x80FD;&#x88AB;<a href="http://en.cppreference.com/w/cpp/language/cv" target="_blank" rel="external">cv-qualified</a>&#x3002;
+注意：xvalue与rvalue类似，它绑定至右值引用，但xvalue也拥有glvalue的属性，它能被<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">多态化(polymorphic)</a>，且非对象类型的xvalue也能被<a href="http://en.cppreference.com/w/cpp/language/cv" target="_blank" rel="external">cv-qualified</a>。
 </p>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgd20cb94" class="outline-2">
-<h2 id="mixed-categories"><a id="orgd20cb94"></a>Mixed categories</h2>
+<div id="outline-container-org09ec044" class="outline-2">
+<h2 id="mixed-categories"><a id="org09ec044"></a>Mixed categories</h2>
 <div class="outline-text-2" id="text-mixed-categories">
 </div>
 
-<div id="outline-container-orged13b3c" class="outline-3">
-<h3 id="glvalue"><a id="orged13b3c"></a><b>glvalue</b></h3>
+<div id="outline-container-org6cb09cd" class="outline-3">
+<h3 id="glvalue"><a id="org6cb09cd"></a><b>glvalue</b></h3>
 <div class="outline-text-3" id="text-glvalue">
 <p>
-<i>glvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x662F; <i>lvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x4E0E; <i>xvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x603B;&#x79F0;&#xFF08;&#x5B83;&#x662F;&#x4E00;&#x4E2A; <i>lvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x6216; <i>xvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#xFF09;&#x3002;&#x5B83; <i>&#x6709;&#x8EAB;&#x4EFD;</i> &#xFF0C;&#x4F46;&#x5728; <i>&#x53EF;&#x79FB;&#x52A8;&#x6027;</i> &#x4E0A;&#x6CA1;&#x6709;&#x786C;&#x6027;&#x89C4;&#x5B9A;&#x3002;
+<i>glvalue</i> 表达式是 <i>lvalue</i> 表达式与 <i>xvalue</i> 表达式的总称（它是一个 <i>lvalue</i> 表达式或 <i>xvalue</i> 表达式）。它 <i>有身份</i> ，但在 <i>可移动性</i> 上没有硬性规定。
 </p>
 </div>
-<div id="outline-container-org9b28eb3" class="outline-4">
-<h4 id="org9b28eb3">&#x5C5E;&#x6027;</h4>
-<div class="outline-text-4" id="text-org9b28eb3">
+<div id="outline-container-org4ccfadb" class="outline-4">
+<h4 id="org4ccfadb">属性</h4>
+<div class="outline-text-4" id="text-org4ccfadb">
 <ul class="org-ul">
-<li>glvalue&#x53EF;&#x4EE5;&#x88AB;&#x9690;&#x5F0F;&#x8F6C;&#x6362;&#x4E3A;prvalue&#xFF0C;&#x8FD9;&#x5F52;&#x529F;&#x4E8E;&#x5DE6;&#x503C;&#x81F3;&#x53F3;&#x503C;&#xFF08;lvalue-to-rvalue&#xFF09;&#x3001;&#x6570;&#x7EC4;&#x81F3;&#x6307;&#x9488;&#x3001;&#x51FD;&#x6570;&#x81F3;&#x6307;&#x9488;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/implicit_conversion" target="_blank" rel="external">&#x9690;&#x5F62;&#x8F6C;&#x5316;&#x89C4;&#x5219;</a>&#x3002;</li>
-<li>glvalue&#x53EF;&#x4EE5;&#x88AB;<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">&#x591A;&#x6001;&#x5316;(polymorphic)</a>&#xFF1A; &#x8868;&#x8FBE;&#x5F0F;&#x6807;&#x8BC6;&#x5BF9;&#x8C61;&#x7684;<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">&#x52A8;&#x6001;&#x7C7B;&#x578B;&#x6807;&#x8BC6;&#x7B26;</a>&#x5E76;&#x4E0D;&#x603B;&#x662F;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x9759;&#x6001;&#x7C7B;&#x578B;&#x3002;</li>
-<li>&#x5728;&#x8868;&#x8FBE;&#x5F0F;&#x5408;&#x6CD5;&#x7684;&#x524D;&#x63D0;&#x4E0B;&#xFF0C;glvalue&#x53EF;&#x4EE5;&#x4E3A;<a href="http://en.cppreference.com/w/cpp/language/type#Incomplete_type" target="_blank" rel="external">&#x4E0D;&#x5B8C;&#x6574;&#x7684;&#x7C7B;&#x578B;</a>&#x3002;</li>
+<li>glvalue可以被隐式转换为prvalue，这归功于左值至右值（lvalue-to-rvalue）、数组至指针、函数至指针的<a href="http://en.cppreference.com/w/cpp/language/implicit_conversion" target="_blank" rel="external">隐形转化规则</a>。</li>
+<li>glvalue可以被<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">多态化(polymorphic)</a>： 表达式标识对象的<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">动态类型标识符</a>并不总是该对象的静态类型。</li>
+<li>在表达式合法的前提下，glvalue可以为<a href="http://en.cppreference.com/w/cpp/language/type#Incomplete_type" target="_blank" rel="external">不完整的类型</a>。</li>
 </ul>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org3e224a8" class="outline-3">
-<h3 id="rvalue"><a id="org3e224a8"></a><b>rvalue</b></h3>
+<div id="outline-container-orgc10a1c5" class="outline-3">
+<h3 id="rvalue"><a id="orgc10a1c5"></a><b>rvalue</b></h3>
 <div class="outline-text-3" id="text-rvalue">
 <p>
-<i>rvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x662F; <i>prvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x548C; <i>xvalue</i> &#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x603B;&#x79F0;&#x3002;&#x5B83; <i>&#x80FD;&#x88AB;&#x79FB;&#x52A8;</i> &#xFF0C;&#x4F46;&#x5BF9; <i>&#x8EAB;&#x4EFD;</i> &#x6CA1;&#x6709;&#x786C;&#x6027;&#x89C4;&#x5B9A;&#x3002;&quot;&#x53F3;&#x503C;&quot;&#x8FD9;&#x4E2A;&#x540D;&#x5B57;&#x5177;&#x6709;&#x5386;&#x53F2;&#x6027;&#x7684;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x5B8C;&#x7F8E;&#x7684;&#x6807;&#x8BC6;&#x4E86;&#x5B83;&#x5728;CPL&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x4F5C;&#x7528;&#xFF1A;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x53F3;&#x64CD;&#x4F5C;&#x6570;&#x3002;
+<i>rvalue</i> 表达式是 <i>prvalue</i> 表达式和 <i>xvalue</i> 表达式的总称。它 <i>能被移动</i> ，但对 <i>身份</i> 没有硬性规定。"右值"这个名字具有历史性的意义，它完美的标识了它在CPL编程语言中的作用：赋值运算符的右操作数。
 </p>
 </div>
-<div id="outline-container-org20a933f" class="outline-4">
-<h4 id="org20a933f">&#x5C5E;&#x6027;</h4>
-<div class="outline-text-4" id="text-org20a933f">
+<div id="outline-container-org92dc031" class="outline-4">
+<h4 id="org92dc031">属性</h4>
+<div class="outline-text-4" id="text-org92dc031">
 <ul class="org-ul">
-<li>&#x4E0D;&#x80FD;&#x83B7;&#x53D6;&#x53F3;&#x503C;&#x7684;&#x5730;&#x5740;&#xFF1A; <code>&amp;int()</code> &#x3001; <code>&amp;i++</code> &#x3001; <code>&amp;42</code> &#x548C; <code>&amp;std::move(x)</code> &#x90FD;&#x662F;&#x4E0D;&#x5408;&#x6CD5;&#x7684;&#x8868;&#x8FBE;&#x5F0F;&#x3002;</li>
-<li>&#x4E0D;&#x80FD;&#x88AB;&#x7528;&#x4F5C;&#x5185;&#x7F6E;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;&#x7B26;&#x548C;&#x5185;&#x7F6E;&#x590D;&#x5408;&#x8D4B;&#x503C;&#x8FD0;&#x7B97;&#x7B26;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#x3002;</li>
-<li>&#x53EF;&#x4EE5;&#x88AB;&#x7528;&#x6765;<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">&#x521D;&#x59CB;&#x5316;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;</a>&#xFF0C;&#x6B64;&#x65F6;&#x8BE5;&#x53F3;&#x503C;&#x6240;&#x6807;&#x8BC6;&#x7684;&#x5BF9;&#x8C61;&#x7684;&#x751F;&#x547D;&#x671F;&#x5C06;&#x88AB;&#x5EF6;&#x7EED;&#x81F3;&#x8BE5;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x7ED3;&#x675F;&#x3002;</li>
-<li>&#x53EF;&#x4EE5;&#x88AB;&#x7528;&#x6765;<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">&#x521D;&#x59CB;&#x5316;&#x53F3;&#x503C;&#x5F15;&#x7528;</a>&#xFF0C;&#x6B64;&#x65F6;&#x8BE5;&#x53F3;&#x503C;&#x6240;&#x6807;&#x8BC6;&#x5BF9;&#x8C61;&#x7684;&#x751F;&#x547D;&#x671F;&#x5C06;&#x88AB;&#x5EF6;&#x7EED;&#x81F3;&#x8BE5;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7ED3;&#x675F;&#x3002;(since c++11)</li>
-<li>&#x7528;&#x4F5C;&#x51FD;&#x6570;&#x5B9E;&#x53C2;&#x65F6;(arguments)&#xFF0C;&#x82E5;&#x51FD;&#x6570;&#x62E5;&#x6709;<a href="http://en.cppreference.com/w/cpp/language/overload_resolution" target="_blank" rel="external">&#x4E24;&#x4E2A;&#x91CD;&#x8F7D;</a>&#x7248;&#x672C;&#xFF08;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x5F62;&#x53C2;&#xFF0C;&#x4E00;&#x4E2A;&#x4F7F;&#x7528;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x5F62;&#x53C2;&#xFF09;&#xFF0C;&#x8BE5;&#x53F3;&#x503C;&#x5C06;&#x7ED1;&#x5B9A;&#x81F3;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x7248;&#x672C;&#x7684;&#x91CD;&#x8F7D;&#x51FD;&#x6570;&#xFF08;&#x56E0;&#x6B64;&#xFF0C;&#x5982;&#x679C;&#x540C;&#x65F6;&#x62E5;&#x6709;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#x53CA;<a href="http://en.cppreference.com/w/cpp/language/move_constructor" target="_blank" rel="external">&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;</a>&#xFF0C;&#x53F3;&#x503C;&#x5B9E;&#x53C2;&#x5C06;&#x4F1A;&#x8C03;&#x7528;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x62F7;&#x8D1D;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x53CA;&#x79FB;&#x52A8;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x4EA6;&#x662F;&#x5982;&#x6B64;&#xFF09;(since c++11)&#x3002;</li>
+<li>不能获取右值的地址： <code>&amp;int()</code> 、 <code>&amp;i++</code> 、 <code>&amp;42</code> 和 <code>&amp;std::move(x)</code> 都是不合法的表达式。</li>
+<li>不能被用作内置赋值运算符和内置复合赋值运算符的左操作数。</li>
+<li>可以被用来<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">初始化常左值引用</a>，此时该右值所标识的对象的生命期将被延续至该常左值引用结束。</li>
+<li>可以被用来<a href="http://en.cppreference.com/w/cpp/language/reference_initialization" target="_blank" rel="external">初始化右值引用</a>，此时该右值所标识对象的生命期将被延续至该右值引用结束。(since c++11)</li>
+<li>用作函数实参时(arguments)，若函数拥有<a href="http://en.cppreference.com/w/cpp/language/overload_resolution" target="_blank" rel="external">两个重载</a>版本（一个使用右值引用形参，一个使用常左值引用形参），该右值将绑定至右值引用版本的重载函数（因此，如果同时拥有拷贝构造函数及<a href="http://en.cppreference.com/w/cpp/language/move_constructor" target="_blank" rel="external">移动构造函数</a>，右值实参将会调用移动构造函数，拷贝赋值函数及移动赋值函数亦是如此）(since c++11)。</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8cf0062" class="outline-2">
-<h2 id="special-categories"><a id="org8cf0062"></a>Special categories</h2>
+<div id="outline-container-orgda8a6e8" class="outline-2">
+<h2 id="special-categories"><a id="orgda8a6e8"></a>Special categories</h2>
 <div class="outline-text-2" id="text-special-categories">
 </div>
 
-<div id="outline-container-orgdbca840" class="outline-3">
-<h3 id="pending-member-function-call"><a id="orgdbca840"></a><b>Pending member function call</b></h3>
+<div id="outline-container-org68af95c" class="outline-3">
+<h3 id="pending-member-function-call"><a id="org68af95c"></a><b>Pending member function call</b></h3>
 <div class="outline-text-3" id="text-pending-member-function-call">
 <p>
-&#x4EE5;&#x4E0B;&#x4E24;&#x7EC4;&#x8868;&#x8FBE;&#x5F0F;&#xFF1A; <code>a.mf</code> &#x3001; <code>p-&gt;mf</code> (mf&#x4E3A;<a href="http://en.cppreference.com/w/cpp/language/member_functions" target="_blank" rel="external">&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x51FD;&#x6570;</a>) &#x53CA; <code>a.*mfp</code> &#x3001; <code>p-&gt;*mfp</code> (mfp&#x4E3A;<a href="http://en.cppreference.com/w/cpp/language/pointer#Pointers_to_member_functions" target="_blank" rel="external">&#x6307;&#x5411;&#x6210;&#x5458;&#x51FD;&#x6570;&#x7684;&#x6307;&#x9488;</a>)&#x5747;&#x88AB;&#x6807;&#x8BC6;&#x4E3A;prvalue&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F46;&#x5B83;&#x4EEC;&#x4E0D;&#x80FD;&#x88AB;&#x7528;&#x6765;&#x521D;&#x59CB;&#x5316;&#x5F15;&#x7528;&#xFF0C;&#x4E5F;&#x4E0D;&#x80FD;&#x88AB;&#x7528;&#x4F5C;&#x51FD;&#x6570;&#x5B9E;&#x53C2;&#x6216;&#x5176;&#x5B83;&#x4EFB;&#x4F55;&#x610F;&#x56FE;&#xFF0C;&#x5B83;&#x4EEC;&#x53EA;&#x80FD;&#x88AB;&#x7528;&#x4F5C;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x64CD;&#x4F5C;&#x7B26;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#xFF1A; <code>(p-&gt;*mfp)(args)</code> &#x3002;
+以下两组表达式： <code>a.mf</code> 、 <code>p-&gt;mf</code> (mf为<a href="http://en.cppreference.com/w/cpp/language/member_functions" target="_blank" rel="external">非静态成员函数</a>) 及 <code>a.*mfp</code> 、 <code>p-&gt;*mfp</code> (mfp为<a href="http://en.cppreference.com/w/cpp/language/pointer#Pointers_to_member_functions" target="_blank" rel="external">指向成员函数的指针</a>)均被标识为prvalue表达式，但它们不能被用来初始化引用，也不能被用作函数实参或其它任何意图，它们只能被用作函数调用操作符的左操作数： <code>(p-&gt;*mfp)(args)</code> 。
 </p>
 </div>
 </div>
-<div id="outline-container-org9d48dc0" class="outline-3">
-<h3 id="void-expressions"><a id="org9d48dc0"></a><b>Void expressions</b></h3>
+<div id="outline-container-org7dda62c" class="outline-3">
+<h3 id="void-expressions"><a id="org7dda62c"></a><b>Void expressions</b></h3>
 <div class="outline-text-3" id="text-void-expressions">
 <p>
-&#x8FD4;&#x56DE;&#x503C;&#x4E3A; <code>void</code> &#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x8868;&#x8FBE;&#x5F0F;&#x3001;&#x81F3; <code>void</code> &#x7684;&#x8F6C;&#x6362;&#x8868;&#x8FBE;&#x5F0F;&#x53CA;<a href="http://en.cppreference.com/w/cpp/language/throw" target="_blank" rel="external">&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x8868;&#x8FBE;&#x5F0F;</a>&#x5747;&#x88AB;&#x6807;&#x8BC6;&#x4E3A;prvalue&#x8868;&#x8FBE;&#x5F0F;&#xFF0C;&#x4F46;&#x5B83;&#x4EEC;&#x4E0D;&#x80FD;&#x521D;&#x59CB;&#x5316;&#x5F15;&#x7528;&#x53CA;&#x51FD;&#x6570;&#x5B9E;&#x53C2;&#x3002;&#x5B83;&#x4EEC;&#x53EF;&#x4EE5;&#x8868;&#x793A;&#x67D0;&#x4E9B;&#x7A7A;&#x503C;(discarded-value)&#x5185;&#x5BB9;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;&#x4EC5;&#x6709;&#x8BE5;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x3001;&#x9017;&#x53F7;&#x8868;&#x8FBE;&#x5F0F;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#x7B49;&#xFF09;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4F5C; <code>&#x8FD4;&#x56DE;&#x503C;&#x4E3A;void&#x7684;&#x51FD;&#x6570;</code> &#x7684;&#x8FD4;&#x56DE;&#x503C;&#x3002;&#x6B64;&#x5916;&#xFF0C;&#x629B;&#x51FA;&#x5F02;&#x5E38;&#x8868;&#x8FBE;&#x5F0F;&#x4E5F;&#x53EF;&#x4F5C;&#x4E3A;<a href="http://en.cppreference.com/w/cpp/language/operator_other" target="_blank" rel="external">&#x95EE;&#x53F7;&#x6761;&#x4EF6;&#x64CD;&#x4F5C;&#x7B26;&#xFF08; <b>?</b> &#xFF09;</a>&#x7684;&#x7B2C;&#x4E8C;&#x4E2A;&#x6216;&#x7B2C;&#x4E09;&#x4E2A;&#x64CD;&#x4F5C;&#x6570;&#x3002;
+返回值为 <code>void</code> 的函数调用表达式、至 <code>void</code> 的转换表达式及<a href="http://en.cppreference.com/w/cpp/language/throw" target="_blank" rel="external">抛出异常表达式</a>均被标识为prvalue表达式，但它们不能初始化引用及函数实参。它们可以表示某些空值(discarded-value)内容（例如：仅有该表达式的一行代码、逗号表达式的左操作数等），也可以用作 <code>返回值为void的函数</code> 的返回值。此外，抛出异常表达式也可作为<a href="http://en.cppreference.com/w/cpp/language/operator_other" target="_blank" rel="external">问号条件操作符（ <b>?</b> ）</a>的第二个或第三个操作数。
 </p>
 </div>
 </div>
 
-<div id="outline-container-org2e166ba" class="outline-3">
-<h3 id="bit-fields"><a id="org2e166ba"></a><b>Bit fields</b></h3>
+<div id="outline-container-org878c141" class="outline-3">
+<h3 id="bit-fields"><a id="org878c141"></a><b>Bit fields</b></h3>
 <div class="outline-text-3" id="text-bit-fields">
 <p>
-<a href="http://en.cppreference.com/w/cpp/language/bit_field" target="_blank" rel="external">&#x4F4D;&#x57DF;</a>&#x64CD;&#x4F5C;&#x8868;&#x8FBE;&#x5F0F;&#xFF08;&#x4F8B;&#x5982;&#xFF1A; <code>a.m</code> &#xFF0C;&#x5F53;a&#x4E3A; <code>struct A { int m: 3;}</code> &#x7684;&#x5DE6;&#x503C;&#x65F6;&#xFF09;&#x4E3A;lvalue&#x8868;&#x8FBE;&#x5F0F;&#xFF1A;&#x5B83;&#x53EF;&#x4EE5;&#x7528;&#x4F5C;&#x8D4B;&#x503C;&#x64CD;&#x4F5C;&#x7B26;&#x7684;&#x5DE6;&#x64CD;&#x4F5C;&#x6570;&#xFF0C;&#x4F46;&#x5B83;&#x4E0D;&#x80FD;&#x88AB;&#x53D6;&#x5730;&#x5740;&#xFF0C;&#x4E5F;&#x4E0D;&#x80FD;&#x88AB;&#x7ED1;&#x5B9A;&#x81F3;&#x975E;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x867D;&#x7136;&#x53EF;&#x4EE5;&#x88AB;&#x4F4D;&#x57DF;&#x5DE6;&#x503C;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x4F46;&#x5B83;&#x53EA;&#x662F;&#x7ED1;&#x5B9A;&#x4E86;&#x8BE5;&#x4F4D;&#x57DF;&#x7684;&#x4E34;&#x65F6;&#x62F7;&#x8D1D;&#x5BF9;&#x8C61;&#xFF0C;&#x4F60;&#x65E0;&#x6CD5;&#x5C06;&#x4F4D;&#x57DF;&#x76F4;&#x63A5;&#x7ED1;&#x5B9A;&#x81F3;&#x5F15;&#x7528;&#x3002;
+<a href="http://en.cppreference.com/w/cpp/language/bit_field" target="_blank" rel="external">位域</a>操作表达式（例如： <code>a.m</code> ，当a为 <code>struct A { int m: 3;}</code> 的左值时）为lvalue表达式：它可以用作赋值操作符的左操作数，但它不能被取地址，也不能被绑定至非常左值引用。常左值引用虽然可以被位域左值初始化，但它只是绑定了该位域的临时拷贝对象，你无法将位域直接绑定至引用。
 </p>
 </div>
 </div>
@@ -661,7 +661,7 @@ expiring value
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.4" class="footnum" href="#fnr.4">4</a></sup> <div class="footpara"><p class="footpara">
-i&#x662F;&#x5185;&#x7F6E;&#x7C7B;&#x578B;&#x6216;&#x91CD;&#x8F7D;&#x7684;&#x524D;&#x7F6E;&#x81EA;&#x589E;&#x8FD0;&#x7B97;&#x7B26;&#x8FD4;&#x56DE;&#x5DE6;&#x503C;&#x5F15;&#x7528;
+i是内置类型或重载的前置自增运算符返回左值引用
 </p></div></div>
 
 <div class="footdef"><sup><a id="fn.5" class="footnum" href="#fnr.5">5</a></sup> <div class="footpara"><p class="footpara">
@@ -684,7 +684,7 @@ special rvalue category, see pending member function call
 </div>
 </div></div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated 2017-08-07 Mon 04:12. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-08-07 Mon 14:22</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
 </div>
 
       
@@ -820,7 +820,7 @@ special rvalue category, see pending member function call
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
@@ -895,7 +895,7 @@ special rvalue category, see pending member function call
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#primary-categories"><span class="nav-number">1.</span> <span class="nav-text">Primary categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lvalue"><span class="nav-number">1.1.</span> <span class="nav-text">lvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org9cfe59f"><span class="nav-number">1.1.1.</span> <span class="nav-text">属性:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prvalue"><span class="nav-number">1.2.</span> <span class="nav-text">prvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org3eab394"><span class="nav-number">1.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xvalue"><span class="nav-number">1.3.</span> <span class="nav-text">xvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">1.3.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixed-categories"><span class="nav-number">2.</span> <span class="nav-text">Mixed categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#glvalue"><span class="nav-number">2.1.</span> <span class="nav-text">glvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org9b28eb3"><span class="nav-number">2.1.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rvalue"><span class="nav-number">2.2.</span> <span class="nav-text">rvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org20a933f"><span class="nav-number">2.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#special-categories"><span class="nav-number">3.</span> <span class="nav-text">Special categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pending-member-function-call"><span class="nav-number">3.1.</span> <span class="nav-text">Pending member function call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-expressions"><span class="nav-number">3.2.</span> <span class="nav-text">Void expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bit-fields"><span class="nav-number">3.3.</span> <span class="nav-text">Bit fields</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Footnotes: </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#primary-categories"><span class="nav-number">1.</span> <span class="nav-text">Primary categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lvalue"><span class="nav-number">1.1.</span> <span class="nav-text">lvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgcecc9f3"><span class="nav-number">1.1.1.</span> <span class="nav-text">属性:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prvalue"><span class="nav-number">1.2.</span> <span class="nav-text">prvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgf2c9fd1"><span class="nav-number">1.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xvalue"><span class="nav-number">1.3.</span> <span class="nav-text">xvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">1.3.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixed-categories"><span class="nav-number">2.</span> <span class="nav-text">Mixed categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#glvalue"><span class="nav-number">2.1.</span> <span class="nav-text">glvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org4ccfadb"><span class="nav-number">2.1.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rvalue"><span class="nav-number">2.2.</span> <span class="nav-text">rvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org92dc031"><span class="nav-number">2.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#special-categories"><span class="nav-number">3.</span> <span class="nav-text">Special categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pending-member-function-call"><span class="nav-number">3.1.</span> <span class="nav-text">Pending member function call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-expressions"><span class="nav-number">3.2.</span> <span class="nav-text">Void expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bit-fields"><span class="nav-number">3.3.</span> <span class="nav-text">Bit fields</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Footnotes: </span></a></li></ol></div>
             
 
           </div>

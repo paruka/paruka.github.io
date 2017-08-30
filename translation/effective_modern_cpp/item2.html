@@ -97,18 +97,18 @@
 
 
 
-<meta name="description" content="&amp;#x5982;&amp;#x679C;&amp;#x4F60;&amp;#x5DF2;&amp;#x7ECF;&amp;#x9605;&amp;#x8BFB;&amp;#x4E86;&amp;#x6761;&amp;#x6B3E;1&amp;#x4E2D;&amp;#x5173;&amp;#x4E8E;&amp;#x6A21;&amp;#x677F;&amp;#x7C7B;&amp;#x578B;&amp;#x63A8;&amp;#x5BFC;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#xFF">
+<meta name="description" content="如果你已经阅读了条款1中关于模板类型推导相关的内容，你应该已经掌握了几乎所有的关于auto类型推导相关的知识，因为与模板类型推导规则相比，auto类型推导规则只有一个例外。这是为什么呢？因为模板类型推导涉及了模板、函数和参数，但auto并不关心那些东西。    是的，但这无所谓。在模板类型推导与auto类型推导之间，有一个直接的映射，可以通过一种方法将他们互相转化。">
 <meta name="keywords" content="Effective Modern C++,Press Ban,禁止转载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="条款2：理解auto类型推导">
 <meta property="og:url" content="http://paruka.me/translation/effective_modern_cpp/item2.html">
 <meta property="og:site_name" content="Eloquent Programmer">
-<meta property="og:description" content="&amp;#x5982;&amp;#x679C;&amp;#x4F60;&amp;#x5DF2;&amp;#x7ECF;&amp;#x9605;&amp;#x8BFB;&amp;#x4E86;&amp;#x6761;&amp;#x6B3E;1&amp;#x4E2D;&amp;#x5173;&amp;#x4E8E;&amp;#x6A21;&amp;#x677F;&amp;#x7C7B;&amp;#x578B;&amp;#x63A8;&amp;#x5BFC;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#xFF">
+<meta property="og:description" content="如果你已经阅读了条款1中关于模板类型推导相关的内容，你应该已经掌握了几乎所有的关于auto类型推导相关的知识，因为与模板类型推导规则相比，auto类型推导规则只有一个例外。这是为什么呢？因为模板类型推导涉及了模板、函数和参数，但auto并不关心那些东西。    是的，但这无所谓。在模板类型推导与auto类型推导之间，有一个直接的映射，可以通过一种方法将他们互相转化。">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2017-08-06T18:42:09.625Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条款2：理解auto类型推导">
-<meta name="twitter:description" content="&amp;#x5982;&amp;#x679C;&amp;#x4F60;&amp;#x5DF2;&amp;#x7ECF;&amp;#x9605;&amp;#x8BFB;&amp;#x4E86;&amp;#x6761;&amp;#x6B3E;1&amp;#x4E2D;&amp;#x5173;&amp;#x4E8E;&amp;#x6A21;&amp;#x677F;&amp;#x7C7B;&amp;#x578B;&amp;#x63A8;&amp;#x5BFC;&amp;#x76F8;&amp;#x5173;&amp;#x7684;&amp;#x5185;&amp;#x5BB9;&amp;#xFF">
+<meta name="twitter:description" content="如果你已经阅读了条款1中关于模板类型推导相关的内容，你应该已经掌握了几乎所有的关于auto类型推导相关的知识，因为与模板类型推导规则相比，auto类型推导规则只有一个例外。这是为什么呢？因为模板类型推导涉及了模板、函数和参数，但auto并不关心那些东西。    是的，但这无所谓。在模板类型推导与auto类型推导之间，有一个直接的映射，可以通过一种方法将他们互相转化。">
 
 
 
@@ -401,208 +401,298 @@
       
         <div id="content">
 <p>
-&#x5982;&#x679C;&#x4F60;&#x5DF2;&#x7ECF;&#x9605;&#x8BFB;&#x4E86;<a href="./item1.html">&#x6761;&#x6B3E;1</a>&#x4E2D;&#x5173;&#x4E8E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x5DF2;&#x7ECF;&#x638C;&#x63E1;&#x4E86;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x5173;&#x4E8E;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x76F8;&#x5173;&#x7684;&#x77E5;&#x8BC6;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x76F8;&#x6BD4;&#xFF0C;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4F8B;&#x5916;&#x3002;&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;&#x56E0;&#x4E3A;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x6D89;&#x53CA;&#x4E86;&#x6A21;&#x677F;&#x3001;&#x51FD;&#x6570;&#x548C;&#x53C2;&#x6570;&#xFF0C;&#x4F46;auto&#x5E76;&#x4E0D;&#x5173;&#x5FC3;&#x90A3;&#x4E9B;&#x4E1C;&#x897F;&#x3002;
+如果你已经阅读了<a href="./item1.html">条款1</a>中关于模板类型推导相关的内容，你应该已经掌握了几乎所有的关于auto类型推导相关的知识，因为与模板类型推导规则相比，auto类型推导规则只有一个例外。这是为什么呢？因为模板类型推导涉及了模板、函数和参数，但auto并不关心那些东西。
 </p>
 
 <p>
-&#x662F;&#x7684;&#xFF0C;&#x4F46;&#x8FD9;&#x65E0;&#x6240;&#x8C13;&#x3002;&#x5728;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E0E;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E4B;&#x95F4;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x76F4;&#x63A5;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x5C06;&#x4ED6;&#x4EEC;&#x4E92;&#x76F8;&#x8F6C;&#x5316;&#x3002;
+是的，但这无所谓。在模板类型推导与auto类型推导之间，有一个直接的映射，可以通过一种方法将他们互相转化。
 </p>
 <a id="more"></a>
 
 <p>
-&#x5728;<a href="./item1.html">&#x6761;&#x6B3E;1</a>&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x5BF9;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x8FDB;&#x884C;&#x8BB2;&#x89E3;&#xFF1A;
+在<a href="./item1.html">条款1</a>中，我们使用如下模板函数对模板类型推导进行讲解：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(ParamType param)</span></span>;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">ParamType</span> <span style="color: #ff8700;">param</span>);
+</pre>
 </div>
 
 <p>
-&#x5E76;&#x4F7F;&#x7528;&#x5982;&#x4E0B;&#x65B9;&#x5F0F;&#x8C03;&#x7528;&#xFF1A;
+并使用如下方式调用：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f(expr);                <span class="comment">// call f with some expression</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span>f(expr);                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">call f with some expression</span>
+</pre>
 </div>
 
 <p>
-&#x5BF9;&#x4E8E;&#x51FD;&#x6570;f&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x4F7F;&#x7528;expr&#x6765;&#x63A8;&#x5BFC;T&#x548C;ParamType&#x7684;&#x7C7B;&#x578B;&#x3002;
+对于函数f的调用，编译器使用expr来推导T和ParamType的类型。
 </p>
 
 <p>
-&#x5F53;&#x4E00;&#x4E2A;&#x53D8;&#x91CF;&#x88AB;&#x58F0;&#x660E;&#x4E3A;auto&#xFF0C;auto&#x4FBF;&#x76F8;&#x5F53;&#x4E0E;&#x6A21;&#x677F;&#x4E2D;&#x7684;T&#xFF0C;&#x800C;&#x53D8;&#x91CF;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>&#x76F8;&#x5F53;&#x4E0E;ParamType&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x793A;&#x4F8B;&#x4EE3;&#x7801;&#x603B;&#x6BD4;&#x53E3;&#x5934;&#x63CF;&#x8FF0;&#x66F4;&#x4E3A;&#x6E05;&#x6670;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x4E3E;&#x4F8B;&#x5982;&#x4E0B;&#xFF1A;
+当一个变量被声明为auto，auto便相当与模板中的T，而变量类型描述符<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>相当与ParamType。当然，示例代码总比口头描述更为清晰，因此，举例如下：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x = <span class="number">27</span>;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x</span> = 27;
+</pre>
 </div>
 
 <p>
-x&#x7684;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x5C31;&#x662F;auto&#x672C;&#x8EAB;&#x3002;&#x800C;&#x5BF9;&#x4E8E;&#x5982;&#x4E0B;&#x58F0;&#x660E;&#xFF1A;
+x的类型描述符就是auto本身。而对于如下声明：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span> cx = x;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">const</span> <span style="color: #a1db00;">auto</span> cx = x;
+</pre>
 </div>
 
 <p>
-x&#x7684;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x662F;const auto&#x3002;&#x82E5;&#x5C06;&#x58F0;&#x660E;&#x7A0D;&#x4F5C;&#x4FEE;&#x6539;&#xFF1A;
+x的类型描述符是const auto。若将声明稍作修改：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; rx = x;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">const</span> <span style="color: #a1db00;">auto</span>&amp; <span style="color: #ff8700;">rx</span> = x;
+</pre>
 </div>
 
 <p>
-x&#x7684;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x4FBF;&#x53D8;&#x6210;&#x4E86;const auto&amp;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5BF9;&#x4E8E;&#x5982;&#x4E0A;&#x4F8B;&#x5B50;&#x4E2D;x&#xFF0C;cx&#x548C;rx&#x7684;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x8868;&#x73B0;&#x7684;&#x5C31;&#x50CF;&#x662F;&#x5728;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x521D;&#x59CB;&#x5316;&#x8868;&#x8FBE;&#x5F0F;&#x5BF9;&#x67D0;&#x4E00;&#x51FD;&#x6570;&#x6A21;&#x677F;&#x8FDB;&#x884C;&#x8C03;&#x7528;&#x4E00;&#x6837;&#xFF1A;
+x的类型描述符便变成了const auto&amp;。因此，对于如上例子中x，cx和rx的类型推导，编译器表现的就像是在用相应的初始化表达式对某一函数模板进行调用一样：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">teamplate&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_for_x</span><span class="params">(T param)</span></span>;   <span class="comment">// conceptual template for</span></span><br><span class="line">			    <span class="comment">// deducing x&apos;s type</span></span><br><span class="line"></span><br><span class="line">func_for_x(<span class="number">27</span>);             <span class="comment">// conceptual call: param&apos;s</span></span><br><span class="line">			    <span class="comment">// deduced type is x&apos;s type</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_for_cx</span><span class="params">(<span class="keyword">const</span> T param)</span></span>;   <span class="comment">// conceptual template for</span></span><br><span class="line">				   <span class="comment">// deducing cx&apos;s type</span></span><br><span class="line"></span><br><span class="line">func_for_cx(x);                    <span class="comment">// conceptual call: param&apos;s</span></span><br><span class="line">				   <span class="comment">// deduced type is cx&apos;s type</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func_for_rx</span><span class="params">(<span class="keyword">const</span> T&amp; param)</span></span>;  <span class="comment">// conceptual template for</span></span><br><span class="line">				   <span class="comment">// deducing rx&apos;s type</span></span><br><span class="line"></span><br><span class="line">func_for_rx(x);                    <span class="comment">// conceptual call: param&apos;s</span></span><br><span class="line">				   <span class="comment">// deduced type is rx&apos;s type</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr"> 1 </span><span style="color: #00d7af;">teamplate</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr"> 2 </span><span style="color: #00d7af;">void</span> func_for_x(<span style="color: #00d7af;">T</span> <span style="color: #ff8700;">param</span>);   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual template for</span>
+<span class="linenr"> 3 </span>                            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deducing x's type</span>
+<span class="linenr"> 4 </span>
+<span class="linenr"> 5 </span>func_for_x(27);             <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual call: param's</span>
+<span class="linenr"> 6 </span>                            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deduced type is x's type</span>
+<span class="linenr"> 7 </span>
+<span class="linenr"> 8 </span>
+<span class="linenr"> 9 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">10 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">func_for_cx</span>(<span style="color: #a1db00;">const</span> <span style="color: #00d7af;">T</span> <span style="color: #ff8700;">param</span>);   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual template for</span>
+<span class="linenr">11 </span>                                   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deducing cx's type</span>
+<span class="linenr">12 </span>
+<span class="linenr">13 </span>func_for_cx(x);                    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual call: param's</span>
+<span class="linenr">14 </span>                                   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deduced type is cx's type</span>
+<span class="linenr">15 </span>
+<span class="linenr">16 </span>
+<span class="linenr">17 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">18 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">func_for_rx</span>(<span style="color: #a1db00;">const</span> <span style="color: #00d7af;">T</span>&amp; <span style="color: #ff8700;">param</span>);  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual template for</span>
+<span class="linenr">19 </span>                                   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deducing rx's type</span>
+<span class="linenr">20 </span>
+<span class="linenr">21 </span>func_for_rx(x);                    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">conceptual call: param's</span>
+<span class="linenr">22 </span>                                   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">deduced type is rx's type</span>
+</pre>
 </div>
 
 <p>
-&#x8FD9;&#x6B63;&#x5982;&#x6211;&#x4E4B;&#x524D;&#x6240;&#x8BC9;&#xFF0C;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x53EA;&#x6709;&#x5728;&#x67D0;&#x4E00;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#x4E0B;&#x624D;&#x663E;&#x4E0D;&#x540C;&#xFF08;&#x6211;&#x4EEC;&#x5373;&#x5C06;&#x8BA8;&#x8BBA;&#xFF09;&#x3002;
+这正如我之前所诉，auto类型推导与模板类型推导只有在某一特殊情况下才显不同（我们即将讨论）。
 </p>
 
 <p>
-<a href="./item1.html">&#x6761;&#x6B3E;1</a>&#x5C06;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x4F9D;ParamType&#xFF08;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x5F62;&#x53C2;&#x7684;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#xFF09;&#x5206;&#x4E3A;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#x3002;&#x800C;&#x5728;auto&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E2D;&#xFF0C;&#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x76F8;&#x5F53;&#x4E0E;ParamType&#xFF0C;&#x56E0;&#x6B64;&#x4E5F;&#x6709;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#xFF1A;
+<a href="./item1.html">条款1</a>将模板类型推导规则依ParamType（模板函数形参的类型描述符）分为三种情况。而在auto变量声明中，类型描述符相当与ParamType，因此也有三种情况：
 </p>
 
 <ul class="org-ul">
-<li>&#x60C5;&#x5F62;1&#xFF1A; &#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x662F;&#x4E00;&#x4E2A;&#x6307;&#x9488;&#x6216;&#x5F15;&#x7528;&#xFF0C;&#x4F46;&#x4E0D;&#x662F;&#x901A;&#x7528;&#x5F15;&#x7528;<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>&#x3002;</li>
-<li>&#x60C5;&#x5F62;2&#xFF1A; &#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x662F;&#x4E00;&#x4E2A;&#x901A;&#x7528;&#x5F15;&#x7528;&#x3002;</li>
-<li>&#x60C5;&#x5F62;3&#xFF1A; &#x7C7B;&#x578B;&#x63CF;&#x8FF0;&#x7B26;&#x4E0D;&#x662F;&#x5F15;&#x7528;&#x4E5F;&#x4E0D;&#x662F;&#x6307;&#x9488;&#x3002;</li>
+<li>情形1： 类型描述符是一个指针或引用，但不是通用引用<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>。</li>
+<li>情形2： 类型描述符是一个通用引用。</li>
+<li>情形3： 类型描述符不是引用也不是指针。</li>
 </ul>
 
 <p>
-&#x6211;&#x4EEC;&#x4E4B;&#x524D;&#x5DF2;&#x7ECF;&#x770B;&#x8FC7;&#x60C5;&#x5F62;1&#x548C;&#x60C5;&#x5F62;3&#x7684;&#x4F8B;&#x5B50;&#x4E86;&#xFF1A;
+我们之前已经看过情形1和情形3的例子了：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x = <span class="number">27</span>;            <span class="comment">// case 3 (x is neither ptr nor reference)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span> x = x;       <span class="comment">// case 3 (cx is&apos;t either)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">auto</span>&amp; rx = x;     <span class="comment">// cast 1 (rx is a non-universal ref.)</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x</span> = 27;            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">case 3 (x is neither ptr nor reference)</span>
+<span class="linenr">2 </span>
+<span class="linenr">3 </span><span style="color: #a1db00;">const</span> <span style="color: #a1db00;">auto</span> x = x;       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">case 3 (cx is't either)</span>
+<span class="linenr">4 </span>
+<span class="linenr">5 </span><span style="color: #a1db00;">const</span> <span style="color: #a1db00;">auto</span>&amp; <span style="color: #ff8700;">rx</span> = x;     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">cast 1 (rx is a non-universal ref.)</span>
+</pre>
 </div>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x60C5;&#x5F62;2&#x4E5F;&#x5982;&#x4F60;&#x6240;&#x6599;&#xFF1A;
+当然，情形2也如你所料：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span>&amp;&amp; uref1 = x;       <span class="comment">// x is int and and lvalue,</span></span><br><span class="line">			<span class="comment">// so uref1&apos;s type is int&amp;.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp;&amp; uref2 = cx;      <span class="comment">// cx is const int and lvalue,</span></span><br><span class="line">			<span class="comment">// so uref2&apos;s type is const int&amp;.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp;&amp; uref3 = <span class="number">27</span>;      <span class="comment">// 27 is in and rvalue,</span></span><br><span class="line">			<span class="comment">// so uref3&apos;s type is int&amp;&amp;</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">uref1</span> = x;       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">x is int and and lvalue,</span>
+<span class="linenr">2 </span>                        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">so uref1's type is int&amp;.</span>
+<span class="linenr">3 </span>
+<span class="linenr">4 </span><span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">uref2</span> = cx;      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">cx is const int and lvalue,</span>
+<span class="linenr">5 </span>                        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">so uref2's type is const int&amp;.</span>
+<span class="linenr">6 </span>
+<span class="linenr">7 </span><span style="color: #a1db00;">auto</span>&amp;&amp; <span style="color: #ff8700;">uref3</span> = 27;      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">27 is in and rvalue,</span>
+<span class="linenr">8 </span>                        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">so uref3's type is int&amp;&amp;</span>
+</pre>
 </div>
 
 <p>
-<a href="./item1.html">&#x6761;&#x6B3E;1</a>&#x4E2D;&#x8BB2;&#x5230;&#xFF0C;&#x6570;&#x7EC4;&#x548C;&#x51FD;&#x6570;&#x5728;&#x4F20;&#x9012;&#x7ED9;&#x975E;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#x5F62;&#x53C2;&#x65F6;&#x4F1A;&#x9000;&#x5316;&#x4E3A;&#x76F8;&#x5E94;&#x7684;&#x6307;&#x9488;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x6B64;&#x89C4;&#x5219;&#x5BF9;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x540C;&#x6837;&#x9002;&#x7528;&#xFF1A;
+<a href="./item1.html">条款1</a>中讲到，数组和函数在传递给非引用类型形参时会退化为相应的指针，当然，此规则对auto类型推导同样适用：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> name[] = <span class="string">&quot;R. N. Briggs&quot;</span>;  <span class="comment">// name&apos;s type is const char[13]</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> arr1 = name;       <span class="comment">// arr1&apos;s type is const* char</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp; arr2 = name;      <span class="comment">// arr2&apos;s type is const char (&amp;)[13]</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">someFunc</span><span class="params">(<span class="keyword">int</span>, <span class="keyword">double</span>)</span></span>;   <span class="comment">// someFunc is a function;</span></span><br><span class="line">			      <span class="comment">// type is void (int, double)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> func1 = someFunc;        <span class="comment">// func1&apos;s type is void (*)(int, double)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span>&amp; func2 = soneFunc;       <span class="comment">// func2&apos;s type is void(&amp;)(int, double)</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr"> 1 </span><span style="color: #a1db00;">const</span> <span style="color: #00d7af;">char</span> <span style="color: #ff8700;">name</span>[] = <span style="color: #ff4ea3;">"R. N. Briggs"</span>;  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">name's type is const char[13]</span>
+<span class="linenr"> 2 </span>
+<span class="linenr"> 3 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">arr1</span> = name;       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">arr1's type is const* char</span>
+<span class="linenr"> 4 </span>
+<span class="linenr"> 5 </span><span style="color: #a1db00;">auto</span>&amp; <span style="color: #ff8700;">arr2</span> = name;      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">arr2's type is const char (&amp;)[13]</span>
+<span class="linenr"> 6 </span>
+<span class="linenr"> 7 </span>
+<span class="linenr"> 8 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">someFunc</span>(<span style="color: #00d7af;">int</span>, <span style="color: #00d7af;">double</span>);   <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">someFunc is a function;</span>
+<span class="linenr"> 9 </span>                              <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">type is void (int, double)</span>
+<span class="linenr">10 </span>
+<span class="linenr">11 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">func1</span> = someFunc;        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">func1's type is void (*)(int, double)</span>
+<span class="linenr">12 </span>
+<span class="linenr">13 </span><span style="color: #a1db00;">auto</span>&amp; <span style="color: #ff8700;">func2</span> = soneFunc;       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">func2's type is void(&amp;)(int, double)</span>
+</pre>
 </div>
 
 <p>
-&#x5982;&#x4F60;&#x6240;&#x89C1;&#xFF0C;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x975E;&#x5E38;&#x76F8;&#x4F3C;&#xFF0C;&#x5B83;&#x4EEC;&#x6070;&#x5982;&#x4E00;&#x679A;&#x94F6;&#x5E01;&#x7684;&#x6B63;&#x53CD;&#x4E24;&#x9762;&#x3002;
+如你所见，auto类型推导与模板类型推导非常相似，它们恰如一枚银币的正反两面。
 </p>
 
 <p>
-&#x4F46;&#x6709;&#x4E00;&#x4E2A;&#x4F8B;&#x5916;&#x3002;&#x6211;&#x4EEC;&#x5C06;&#x4ECE;&#x4EE5;&#x4E0B;&#x60C5;&#x51B5;&#x5F00;&#x59CB;&#x6162;&#x6162;&#x5206;&#x6790;&#xFF1A;&#x82E5;&#x7528;27&#x521D;&#x59CB;&#x5316;&#x58F0;&#x660E;&#x4E00;&#x4E2A;int&#x53D8;&#x91CF;&#xFF0C;C++98&#x6709;&#x4EE5;&#x4E0B;&#x4E24;&#x79CD;&#x65B9;&#x5F0F;&#xFF1A;
+但有一个例外。我们将从以下情况开始慢慢分析：若用27初始化声明一个int变量，C++98有以下两种方式：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x3 = <span class="number">27</span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">x4</span><span class="params">(<span class="number">27</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #00d7af;">int</span> <span style="color: #ff8700;">x3</span> = 27;
+<span class="linenr">2 </span><span style="color: #00d7af;">int</span> <span style="color: #ff8700;">x4</span>(27);
+</pre>
 </div>
 
 <p>
-C++11&#x5219;&#x63D0;&#x4F9B;&#x4E86;&#x7EDF;&#x4E00;&#x521D;&#x59CB;&#x5316;<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>&#x652F;&#x6301;&#xFF1A;
+C++11则提供了统一初始化<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup>支持：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x3 = { <span class="number">27</span> }:</span><br><span class="line"><span class="keyword">int</span> x4{ <span class="number">27</span> }:</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #00d7af;">int</span> <span style="color: #ff8700;">x3</span> = { 27 }:
+<span class="linenr">2 </span><span style="color: #00d7af;">int</span> <span style="color: #ff8700;">x4</span>{ 27 }:
+</pre>
 </div>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x8FD9;&#x56DB;&#x884C;&#x4EE3;&#x7801;&#x7ED3;&#x679C;&#x5B8C;&#x5168;&#x4E00;&#x6837;&#xFF0C;&#x5B83;&#x4EEC;&#x90FD;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x503C;&#x4E3A;27&#x7684;&#x6574;&#x6570;&#x3002;
+当然，这四行代码结果完全一样，它们都声明了一个初始值为27的整数。
 </p>
 
 <p>
-&#x6B63;&#x5982;<a href="./item5.html">&#x6761;&#x6B3E;5</a>&#x6240;&#x8BC9;&#xFF0C;&#x7528;auto&#x58F0;&#x660E;&#x53D8;&#x91CF;&#x6BD4;&#x901A;&#x8FC7;&#x5199;&#x51FA;&#x786E;&#x5B9A;&#x7684;&#x7C7B;&#x578B;&#x6765;&#x58F0;&#x660E;&#x53D8;&#x91CF;&#x66F4;&#x5177;&#x4F18;&#x52BF;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x4EE5;&#x4E0A;&#x53D8;&#x91CF;&#x58F0;&#x660E;&#x4E2D;&#xFF0C;&#x5C06;int&#x66FF;&#x6362;&#x4E3A;auto&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x660E;&#x667A;&#x7684;&#x505A;&#x6CD5;&#x3002;&#x66FF;&#x6362;&#x540E;&#x7684;&#x58F0;&#x660E;&#x5982;&#x4E0B;&#xFF1A;
+正如<a href="./item5.html">条款5</a>所诉，用auto声明变量比通过写出确定的类型来声明变量更具优势，因此，在以上变量声明中，将int替换为auto是一个很明智的做法。替换后的声明如下：
 </p>
 
 <pre class="example">
 auto x1 = 27;
 auto x2(x1);
 auto x3 = { 27 };
-auto x4{ 27 };</pre>
+auto x4{ 27 };
+</pre>
 
 <p>
-&#x53EF;&#x662F;&#xFF0C;&#x66FF;&#x6362;&#x540E;&#x7684;&#x58F0;&#x660E;&#x867D;&#x7136;&#x90FD;&#x80FD;&#x7F16;&#x8BD1;&#x901A;&#x8FC7;&#xFF0C;&#x5374;&#x62E5;&#x6709;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x542B;&#x4E49;&#x3002;&#x524D;&#x4E24;&#x6761;&#x8BED;&#x53E5;&#x4F9D;&#x65E7;&#x58F0;&#x660E;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x503C;&#x4E3A;27&#x7684;&#x6574;&#x6570;&#xFF0C;&#x4F46;&#x540E;&#x4E24;&#x6761;&#x8BED;&#x53E5;&#x58F0;&#x660E;&#x7684;&#x5374;&#x662F;&#x4E00;&#x4E2A;&#x4EC5;&#x6709;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#xFF08;27&#xFF09;&#x7684;std::initializer_list&lt;int&gt;&#xFF01;
+可是，替换后的声明虽然都能编译通过，却拥有了不同的含义。前两条语句依旧声明一个初始值为27的整数，但后两条语句声明的却是一个仅有一个元素（27）的std::initializer_list&lt;int&gt;！
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x1 = <span class="number">27</span>;           <span class="comment">// type is int, value is 27</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">auto</span> <span class="title">x2</span><span class="params">(<span class="number">27</span>)</span></span>;            <span class="comment">// ditto</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> x3 = { <span class="number">27</span> };       <span class="comment">// type is std::initializer_list&lt;int&gt;,</span></span><br><span class="line">			<span class="comment">// value is { 27 }</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> x4{ <span class="number">27</span> };         <span class="comment">// ditto</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x1</span> = 27;           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">type is int, value is 27</span>
+<span class="linenr">2 </span>
+<span class="linenr">3 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x2</span>(27);            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">ditto</span>
+<span class="linenr">4 </span>
+<span class="linenr">5 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x3</span> = { 27 };       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">type is std::initializer_list&lt;int&gt;,</span>
+<span class="linenr">6 </span>                        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">value is { 27 }</span>
+<span class="linenr">7 </span>
+<span class="linenr">8 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x4</span>{ 27 };         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">ditto</span>
+</pre>
 </div>
 
 <p>
-&#x8FD9;&#x662F;&#x7531;auto&#x7684;&#x4E00;&#x6761;&#x7279;&#x6B8A;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x51B3;&#x5B9A;&#x7684;&#x3002;&#x5F53;&#x4E00;&#x4F7F;&#x7528;auto&#x58F0;&#x660E;&#x7684;&#x53D8;&#x91CF;&#x4F7F;&#x7528;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF08;&#x88AB;{}&#x5305;&#x56F4;&#xFF09;&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#xFF0C;&#x5B83;&#x5C06;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#x4E3A;std::initializer_list&#x3002;&#x5982;&#x679C;&#x8BE5;&#x7C7B;&#x578B;&#x4E0D;&#x80FD;&#x88AB;&#x63A8;&#x5BFC;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x91CC;&#x7684;&#x5143;&#x7D20;&#x62E5;&#x6709;&#x4E0D;&#x540C;&#x7684;&#x7C7B;&#x578B;&#xFF09;&#xFF0C;&#x4EE3;&#x7801;&#x5C06;&#x4E0D;&#x80FD;&#x7F16;&#x8BD1;&#x901A;&#x8FC7;&#xFF1A;
+这是由auto的一条特殊推导规则决定的。当一使用auto声明的变量使用初始化列表（被{}包围）进行初始化时，它将会被推导为std::initializer_list。如果该类型不能被推导（例如：初始化列表里的元素拥有不同的类型），代码将不能编译通过：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x5 = { <span class="number">1</span>, <span class="number">2</span>, <span class="number">3.0</span> };  <span class="comment">// error! can&apos;t deduce T for</span></span><br><span class="line">			  <span class="comment">// std::initializer_list&lt;T&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x5</span> = { 1, 2, 3.0 };  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">error! can't deduce T for</span>
+<span class="linenr">2 </span>                          <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">std::initializer_list&lt;T&gt;</span>
+</pre>
 </div>
 
 <p>
-&#x6B63;&#x5982;&#x6CE8;&#x91CA;&#x6240;&#x8BC9;&#xFF0C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x5C06;&#x4F1A;&#x5931;&#x8D25;&#xFF0C;&#x4F46;&#x91CD;&#x8981;&#x7684;&#x662F;&#xFF0C;&#x4F60;&#x5FC5;&#x987B;&#x610F;&#x8BC6;&#x5230;&#x5B83;&#x5176;&#x5B9E;&#x89E6;&#x53D1;&#x4E86;&#x4E24;&#x6761;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#xFF0C;&#x5176;&#x4E00;&#x662F;&#x7F18;&#x4E8E;auto&#x7684;&#x4F7F;&#x7528;&#xFF1A;&#x7531;&#x4E8E;x5&#x4F7F;&#x7528;&#x4E86;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF0C;&#x5B83;&#x5FC5;&#x987B;&#x88AB;&#x63A8;&#x5BFC;&#x4E3A;std::initializer_list&#x7684;&#x4E00;&#x4E2A;&#x5B9E;&#x4F8B;&#xFF0C;&#x4F46;std::initializer_list&lt;T&gt;&#x662F;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#xFF0C;&#x8FD9;&#x610F;&#x5473;&#x7740;&#x7F16;&#x8BD1;&#x5668;&#x5FC5;&#x987B;&#x8981;&#x63A8;&#x5BFC;T&#x7684;&#x7C7B;&#x578B;&#x3002;&#x56E0;&#x6B64;&#x4FBF;&#x89E6;&#x53D1;&#x4E86;&#x7B2C;&#x4E8C;&#x6761;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x3002;&#x4F46;&#x7531;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x53D8;&#x91CF;&#x7C7B;&#x578B;&#x5E76;&#x4E0D;&#x4E00;&#x81F4;&#xFF0C;&#x63A8;&#x5BFC;&#x5931;&#x8D25;&#x3002;
+正如注释所诉，类型推导将会失败，但重要的是，你必须意识到它其实触发了两条类型推导规则，其一是缘于auto的使用：由于x5使用了初始化列表，它必须被推导为std::initializer_list的一个实例，但std::initializer_list&lt;T&gt;是一个模板，这意味着编译器必须要推导T的类型。因此便触发了第二条类型推导规则。但由于初始化列表中的变量类型并不一致，推导失败。
 </p>
 
 <p>
-&#x5728;auto&#x58F0;&#x660E;&#x7684;&#x53D8;&#x91CF;&#x4E2D;&#x4F7F;&#x7528;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF0C;&#x662F;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x7684;&#x552F;&#x4E00;&#x4E0D;&#x540C;&#x3002;&#x6B64;&#x65F6;&#x8BE5;&#x53D8;&#x91CF;&#x5C06;&#x4F1A;&#x88AB;&#x63A8;&#x5BFC;&#x4E3A;std::initializer_list&#x3002;&#x4F46;&#x5C06;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x4F20;&#x7ED9;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x5374;&#x662F;&#x4E00;&#x4E2A;&#x9519;&#x8BEF;&#x7684;&#x884C;&#x4E3A;&#xFF1A;
+在auto声明的变量中使用初始化列表，是auto类型推导与模板类型推导的唯一不同。此时该变量将会被推导为std::initializer_list。但将初始化列表传给一个模板函数却是一个错误的行为：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">auto</span> x = { <span class="number">11</span>, <span class="number">23</span>, <span class="number">9</span> };    <span class="comment">// x&apos;s type is</span></span><br><span class="line">			   <span class="comment">// std::initializer_list&lt;int&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;       <span class="comment">// template with parameter</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T param)</span></span>;           <span class="comment">// declaration equivalent to</span></span><br><span class="line">			   <span class="comment">// x&apos;s declaration</span></span><br><span class="line"></span><br><span class="line">f({ <span class="number">11</span>, <span class="number">23</span>, <span class="number">9</span>});           <span class="comment">// error! can&apos;t deduce type for T</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x</span> = { 11, 23, 9 };    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">x's type is</span>
+<span class="linenr">2 </span>                           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">std::initializer_list&lt;int&gt;</span>
+<span class="linenr">3 </span>
+<span class="linenr">4 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">template with parameter</span>
+<span class="linenr">5 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">T</span> <span style="color: #ff8700;">param</span>);           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">declaration equivalent to</span>
+<span class="linenr">6 </span>                           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">x's declaration</span>
+<span class="linenr">7 </span>
+<span class="linenr">8 </span>f({ 11, 23, 9});           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">error! can't deduce type for T</span>
+</pre>
 </div>
 
 <p>
-&#x7136;&#x800C;&#xFF0C;&#x5982;&#x679C;&#x5C06;&#x6A21;&#x677F;&#x7684;&#x53C2;&#x6570;&#x58F0;&#x660E;&#x4E3A;&#x67D0;&#x4E00;&#x7C7B;&#x578B;T&#x7684;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF08;std::initializer_list&lt;T&gt;&#xFF09;&#xFF0C;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x5C06;&#x80FD;&#x6B63;&#x786E;&#x7684;&#x63A8;&#x5BFC;&#x51FA;T&#x7684;&#x7C7B;&#x578B;&#xFF1A;
+然而，如果将模板的参数声明为某一类型T的初始化列表（std::initializer_list&lt;T&gt;），模板类型推导规则将能正确的推导出T的类型：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="built_in">std</span>::initialer_list&lt;T&gt; initList)</span></span>;</span><br><span class="line"></span><br><span class="line">f({ <span class="number">11</span>, <span class="number">23</span>, <span class="number">9</span>});           <span class="comment">// T deduced as int, and initList&apos;s</span></span><br><span class="line">			   <span class="comment">// type is std::initializer_list&lt;int&gt;</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">initialer_list</span>&lt;<span style="color: #00d7af;">T</span>&gt; <span style="color: #ff8700;">initList</span>);
+<span class="linenr">3 </span>
+<span class="linenr">4 </span>f({ 11, 23, 9});           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">T deduced as int, and initList's</span>
+<span class="linenr">5 </span>                           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">type is std::initializer_list&lt;int&gt;</span>
+</pre>
 </div>
 
 <p>
-&#x6240;&#x4EE5;&#xFF0C;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x552F;&#x4E00;&#x7684;&#x533A;&#x522B;&#x4FBF;&#x662F;&#xFF0C;auto&#x4F1A;&#x5C06;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x63A8;&#x5BFC;&#x4E3A;std::initializer_list&#xFF0C;&#x8FD9;&#x662F;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x6240;&#x4E0D;&#x5177;&#x5907;&#x7684;&#x80FD;&#x529B;&#x3002;
+所以，auto类型推导规则与模板类型推导规则唯一的区别便是，auto会将初始化列表推导为std::initializer_list，这是模板类型推导所不具备的能力。
 </p>
 
 <p>
-&#x4F60;&#x6216;&#x8BB8;&#x60F3;&#x77E5;&#x9053;&#x4E3A;&#x4F55;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4F1A;&#x6709;&#x8FD9;&#x6837;&#x4E00;&#x6761;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x6240;&#x6CA1;&#x6709;&#x7684;&#x7279;&#x6B8A;&#x89C4;&#x5219;&#x3002;&#x867D;&#x7136;&#x6211;&#x4E5F;&#x60F3;&#x77E5;&#x9053;&#xFF0C;&#x4F46;&#x9057;&#x61BE;&#x7684;&#x662F;&#xFF0C;&#x6211;&#x81EA;&#x5DF1;&#x4E5F;&#x6CA1;&#x6709;&#x627E;&#x7684;&#x4E00;&#x4E2A;&#x4EE4;&#x4EBA;&#x4FE1;&#x670D;&#x7684;&#x89E3;&#x91CA;&#x3002;&#x4F46;&#x89C4;&#x5219;&#x5C31;&#x662F;&#x89C4;&#x5219;&#xFF0C;&#x4F60;&#x5FC5;&#x987B;&#x8981;&#x8BB0;&#x4F4F;&#xFF1A;
-&#x5728;&#x7528;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;auto&#x53D8;&#x91CF;&#x65F6;&#xFF0C;&#x63A8;&#x5BFC;&#x51FA;&#x7684;&#x7C7B;&#x578B;&#x662F;std::initializer_list&#x3002;&#x7279;&#x522B;&#x662F;&#x5728;&#x4F60;&#x62E5;&#x62B1;&#x7EDF;&#x4E00;&#x521D;&#x59CB;&#x5316;&#x54F2;&#x5B66;&#xFF08;&#x5C06;&#x521D;&#x59CB;&#x503C;&#x7528;&#x5927;&#x62EC;&#x53F7;&#x6269;&#x8D77;&#x6765;&#xFF09;&#x65F6;&#xFF0C;&#x8FD9;&#x70B9;&#x5C24;&#x4E3A;&#x91CD;&#x8981;&#x3002;C++11&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x5E38;&#x89C1;&#x9519;&#x8BEF;&#x5C31;&#x662F;&#x610F;&#x5916;&#x7684;&#x58F0;&#x660E;&#x4E86;&#x4E00;&#x4E2A;std::initializer_list&#xFF0C;&#x8FD9;&#x4E00;&#x9677;&#x9631;&#x5BFC;&#x81F4;&#x8BB8;&#x591A;&#x7A0B;&#x5E8F;&#x5458;&#x53EA;&#x5728;&#x5FC5;&#x8981;&#x7684;&#x65F6;&#x5019;&#x624D;&#x4F1A;&#x4F7F;&#x7528;&#x5927;&#x62EC;&#x53F7;&#x8FDB;&#x884C;&#x521D;&#x59CB;&#x5316;&#x3002;&#xFF08;&#x6211;&#x4EEC;&#x5C06;&#x5728;<a href="./item7.html">&#x6761;&#x6B3E;7</a>&#x4E2D;&#x8BA8;&#x8BBA;&#x4F55;&#x65F6;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x5927;&#x62EC;&#x53F7;&#xFF09;
+你或许想知道为何auto类型推导会有这样一条模板类型推导所没有的特殊规则。虽然我也想知道，但遗憾的是，我自己也没有找的一个令人信服的解释。但规则就是规则，你必须要记住：
+在用初始化列表初始化一个auto变量时，推导出的类型是std::initializer_list。特别是在你拥抱统一初始化哲学（将初始值用大括号扩起来）时，这点尤为重要。C++11中的一个常见错误就是意外的声明了一个std::initializer_list，这一陷阱导致许多程序员只在必要的时候才会使用大括号进行初始化。（我们将在<a href="./item7.html">条款7</a>中讨论何时必须使用大括号）
 </p>
 
 <p>
-&#x5BF9;&#x4E8E;C++11&#x7684;auto&#x6765;&#x8BF4;&#xFF0C;&#x5DF2;&#x7ECF;&#x6CA1;&#x6709;&#x4EC0;&#x4E48;&#x89C4;&#x5219;&#x53EF;&#x4EE5;&#x8BB2;&#x8FF0;&#x4E86;&#xFF0C;&#x4F46;&#x5728;&#x6700;&#x65B0;&#x7684;C++14&#x6807;&#x51C6;&#x4E2D;&#xFF0C;&#x5374;&#x8FD8;&#x6709;&#x5185;&#x5BB9;&#x9700;&#x8981;&#x8865;&#x5145;&#x3002;C++14&#x5141;&#x8BB8;&#x4F7F;&#x7528;auto&#x5173;&#x952E;&#x5B57;&#x6807;&#x660E;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x503C;&#x9700;&#x8981;&#x88AB;&#x63A8;&#x5BFC;&#xFF08;&#x53C2;&#x8003;<a href="./item3.html">&#x6761;&#x6B3E;3</a>&#xFF09;&#xFF0C;&#x4E5F;&#x5141;&#x8BB8;&#x5728;lambda&#x51FD;&#x6570;&#x4E2D;&#x4F7F;&#x7528;auto&#x58F0;&#x660E;&#x53C2;&#x6570;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x8FD9;&#x4E9B;&#x5BF9;&#x4E8E;auto&#x7684;&#x7279;&#x6B8A;&#x4F7F;&#x7528;&#x6240;&#x89E6;&#x53D1;&#x7684;&#x90FD;&#x662F;&#x6A21;&#x677F;&#x7684;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF0C;&#x800C;&#x4E0D;&#x662F;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;&#x6240;&#x4EE5;&#xFF0C;&#x5728;&#x4E00;&#x4E2A;&#x58F0;&#x660E;&#x4E3A;auto&#x8FD4;&#x56DE;&#x503C;&#x7684;&#x51FD;&#x6570;&#x4E2D;&#x8FD4;&#x56DE;&#x4E00;&#x4E2A;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x5C06;&#x4F1A;&#x7F16;&#x8BD1;&#x5931;&#x8D25;&#xFF1A;
+对于C++11的auto来说，已经没有什么规则可以讲述了，但在最新的C++14标准中，却还有内容需要补充。C++14允许使用auto关键字标明函数返回值需要被推导（参考<a href="./item3.html">条款3</a>），也允许在lambda函数中使用auto声明参数。然而，这些对于auto的特殊使用所触发的都是模板的类型推导，而不是auto类型推导。所以，在一个声明为auto返回值的函数中返回一个初始化列表将会编译失败：
 </p>
 
 <pre class="example">
 auto createInitList()
 {
-    return { 1, 2, 3 };     // error: can&apos;t deduce type
+    return { 1, 2, 3 };     // error: can't deduce type
                             // for { 1, 2, 3 }
-}</pre>
+}
+</pre>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x5411;lambda&#x51FD;&#x6570;&#x7684;auto&#x53C2;&#x6570;&#x4F20;&#x9012;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#xFF0C;&#x4E5F;&#x4E0D;&#x80FD;&#x7F16;&#x8BD1;&#x901A;&#x8FC7;&#xFF1A;
+当然，向lambda函数的auto参数传递初始化列表，也不能编译通过：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"></span><br><span class="line"><span class="keyword">auto</span> resetV =</span><br><span class="line">    [&amp;v](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; newValue) { v = newValue; }; <span class="comment">// C++14</span></span><br><span class="line"></span><br><span class="line">resetV({ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> });       <span class="comment">// error! can&apos;t deduce type</span></span><br><span class="line">			   <span class="comment">// for { 1, 2, 3 }</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">vector</span>&lt;<span style="color: #00d7af;">int</span>&gt; <span style="color: #ff8700;">v</span>;
+<span class="linenr">2 </span>
+<span class="linenr">3 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">resetV</span> =
+<span class="linenr">4 </span>    [&amp;v](<span style="color: #a1db00;">const</span> <span style="color: #a1db00;">auto</span>&amp; <span style="color: #ff8700;">newValue</span>) { v = newValue; }; <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">C++14</span>
+<span class="linenr">5 </span>
+<span class="linenr">6 </span>resetV({ 1, 2, 3 });       <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">error! can't deduce type</span>
+<span class="linenr">7 </span>                           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">for { 1, 2, 3 }</span>
+</pre>
 </div>
 
-<div id="outline-container-org99e5142" class="outline-2">
-<h2 id="&#x8BB0;&#x4F4F;"><a id="org99e5142"></a>&#x8BB0;&#x4F4F;&#xFF1A;</h2>
-<div class="outline-text-2" id="text-&#x8BB0;&#x4F4F;">
+<div id="outline-container-org021ce65" class="outline-2">
+<h2 id="记住"><a id="org021ce65"></a>记住：</h2>
+<div class="outline-text-2" id="text-记住">
 <ul class="org-ul">
-<li>auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x901A;&#x5E38;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x76F8;&#x540C;&#xFF0C;&#x4F46;&#x5B83;&#x62E5;&#x6709;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x6240;&#x4E0D;&#x5177;&#x5907;&#x7684;&#x80FD;&#x529B;&#xFF1A;&#x5C06;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x63A8;&#x5BFC;&#x4E3A;std::initializer_list&#x3002;</li>
-<li>&#x5F53;auto&#x4F5C;&#x4E3A;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x6216;lambda&#x7684;&#x53C2;&#x6570;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#xFF0C;&#x800C;&#x4E0D;&#x662F;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x3002;</li>
+<li>auto类型推导通常与模板类型推导相同，但它拥有一个模板类型推导所不具备的能力：将初始化列表推导为std::initializer_list。</li>
+<li>当auto作为函数的返回值或lambda的参数时，使用的是模板类型推导规则，而不是auto类型推导。</li>
 </ul>
 </div>
 </div>
@@ -626,7 +716,7 @@ uniform initialization.
 </div>
 </div></div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated 2017-08-07 Mon 04:12. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-08-07 Mon 14:22</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
 </div>
 
       
@@ -766,7 +856,7 @@ uniform initialization.
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

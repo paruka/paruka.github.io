@@ -97,18 +97,18 @@
 
 
 
-<meta name="description" content="&amp;#x7B2C;&amp;#x4E94;&amp;#x7AE0; &amp;#x53F3;&amp;#x503C;&amp;#x5F15;&amp;#x7528;&amp;#x3001;&amp;#x79FB;&amp;#x52A8;&amp;#x8BED;&amp;#x4E49;&amp;#x53CA;&amp;#x5B8C;&amp;#x7F8E;&amp;#x8F6C;&amp;#x53D1;   &amp;#x5F53;&amp;#x4F60;&amp;#x521D;&amp;#x6B21;&amp;#x5B66;&amp;#x4E60;&amp;#x5B83;&amp;">
+<meta name="description" content="第五章 右值引用、移动语义及完美转发   当你初次学习它们时，移动语义和完美转发看起来非常直白：   移动语义 让编译器将代价高昂的拷贝操作替换为相对低廉的移动操作。正如其名，拷贝构造函数及拷贝赋值函数给予你控制对象复制的能力，与此类似，移动构造函数和移动赋值函数则给予你控制移动语义的能力。移动语义还允许你创建move-only类型的对象，例如： std::unique_ptr 、 std:">
 <meta name="keywords" content="Effective Modern C++,Press Ban,禁止转载">
 <meta property="og:type" content="article">
 <meta property="og:title" content="条款23：理解std::move和std::forward">
 <meta property="og:url" content="http://paruka.me/translation/effective_modern_cpp/item23.html">
 <meta property="og:site_name" content="Eloquent Programmer">
-<meta property="og:description" content="&amp;#x7B2C;&amp;#x4E94;&amp;#x7AE0; &amp;#x53F3;&amp;#x503C;&amp;#x5F15;&amp;#x7528;&amp;#x3001;&amp;#x79FB;&amp;#x52A8;&amp;#x8BED;&amp;#x4E49;&amp;#x53CA;&amp;#x5B8C;&amp;#x7F8E;&amp;#x8F6C;&amp;#x53D1;   &amp;#x5F53;&amp;#x4F60;&amp;#x521D;&amp;#x6B21;&amp;#x5B66;&amp;#x4E60;&amp;#x5B83;&amp;">
+<meta property="og:description" content="第五章 右值引用、移动语义及完美转发   当你初次学习它们时，移动语义和完美转发看起来非常直白：   移动语义 让编译器将代价高昂的拷贝操作替换为相对低廉的移动操作。正如其名，拷贝构造函数及拷贝赋值函数给予你控制对象复制的能力，与此类似，移动构造函数和移动赋值函数则给予你控制移动语义的能力。移动语义还允许你创建move-only类型的对象，例如： std::unique_ptr 、 std:">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-08-06T18:41:31.058Z">
+<meta property="og:updated_time" content="2017-08-30T08:02:20.867Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="条款23：理解std::move和std::forward">
-<meta name="twitter:description" content="&amp;#x7B2C;&amp;#x4E94;&amp;#x7AE0; &amp;#x53F3;&amp;#x503C;&amp;#x5F15;&amp;#x7528;&amp;#x3001;&amp;#x79FB;&amp;#x52A8;&amp;#x8BED;&amp;#x4E49;&amp;#x53CA;&amp;#x5B8C;&amp;#x7F8E;&amp;#x8F6C;&amp;#x53D1;   &amp;#x5F53;&amp;#x4F60;&amp;#x521D;&amp;#x6B21;&amp;#x5B66;&amp;#x4E60;&amp;#x5B83;&amp;">
+<meta name="twitter:description" content="第五章 右值引用、移动语义及完美转发   当你初次学习它们时，移动语义和完美转发看起来非常直白：   移动语义 让编译器将代价高昂的拷贝操作替换为相对低廉的移动操作。正如其名，拷贝构造函数及拷贝赋值函数给予你控制对象复制的能力，与此类似，移动构造函数和移动赋值函数则给予你控制移动语义的能力。移动语义还允许你创建move-only类型的对象，例如： std::unique_ptr 、 std:">
 
 
 
@@ -401,200 +401,275 @@
       
         <div id="content">
 
-<div id="outline-container-org3573098" class="outline-2">
-<h2 id="&#x7B2C;&#x4E94;&#x7AE0;-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;"><a id="org3573098"></a>&#x7B2C;&#x4E94;&#x7AE0; &#x53F3;&#x503C;&#x5F15;&#x7528;&#x3001;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;</h2>
-<div class="outline-text-2" id="text-&#x7B2C;&#x4E94;&#x7AE0;-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;">
+<div id="outline-container-orgdc926b6" class="outline-2">
+<h2 id="第五章-右值引用移动语义及完美转发"><a id="orgdc926b6"></a>第五章 右值引用、移动语义及完美转发</h2>
+<div class="outline-text-2" id="text-第五章-右值引用移动语义及完美转发">
 <p>
-&#x5F53;&#x4F60;&#x521D;&#x6B21;&#x5B66;&#x4E60;&#x5B83;&#x4EEC;&#x65F6;&#xFF0C;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x548C;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x770B;&#x8D77;&#x6765;&#x975E;&#x5E38;&#x76F4;&#x767D;&#xFF1A;
+当你初次学习它们时，移动语义和完美转发看起来非常直白：
 </p>
 <ul class="org-ul">
-<li><b>&#x79FB;&#x52A8;&#x8BED;&#x4E49;</b> &#x8BA9;&#x7F16;&#x8BD1;&#x5668;&#x5C06;&#x4EE3;&#x4EF7;&#x9AD8;&#x6602;&#x7684;&#x62F7;&#x8D1D;&#x64CD;&#x4F5C;&#x66FF;&#x6362;&#x4E3A;&#x76F8;&#x5BF9;&#x4F4E;&#x5EC9;&#x7684;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x3002;&#x6B63;&#x5982;&#x5176;&#x540D;&#xFF0C;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#x53CA;&#x62F7;&#x8D1D;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x7ED9;&#x4E88;&#x4F60;&#x63A7;&#x5236;&#x5BF9;&#x8C61;&#x590D;&#x5236;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x4E0E;&#x6B64;&#x7C7B;&#x4F3C;&#xFF0C;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;&#x79FB;&#x52A8;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x5219;&#x7ED9;&#x4E88;&#x4F60;&#x63A7;&#x5236;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x7684;&#x80FD;&#x529B;&#x3002;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x8FD8;&#x5141;&#x8BB8;&#x4F60;&#x521B;&#x5EFA;move-only&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <b>std::unique_ptr</b> &#x3001; <b>std::future</b> &#x548C; <b>std::thread</b> &#x3002;</li>
-<li><b>&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;</b> &#x4F7F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C06;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x53C2;&#xFF08;&#x4EFB;&#x610F;&#x4FEE;&#x9970;&#x7B26;&#x7684;&#x5B9E;&#x53C2;&#xFF09;&#x8F6C;&#x53D1;&#x7ED9;&#x53E6;&#x4E00;&#x51FD;&#x6570;&#x3002;</li>
+<li><b>移动语义</b> 让编译器将代价高昂的拷贝操作替换为相对低廉的移动操作。正如其名，拷贝构造函数及拷贝赋值函数给予你控制对象复制的能力，与此类似，移动构造函数和移动赋值函数则给予你控制移动语义的能力。移动语义还允许你创建move-only类型的对象，例如： <b>std::unique_ptr</b> 、 <b>std::future</b> 和 <b>std::thread</b> 。</li>
+<li><b>完美转发</b> 使我们可以将模板函数的实参（任意修饰符的实参）转发给另一函数。</li>
 </ul>
 <p>
-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x662F;&#x8FD9;&#x4E24;&#x4E2A;&#x8FE5;&#x5F02;&#x7279;&#x6027;&#x7684;&#x7C98;&#x5408;&#x5242;&#x3002;&#x5B83;&#x4EEC;&#x662F;&#x6784;&#x6210;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x7684;&#x57FA;&#x77F3;&#x3002;
+右值引用是这两个迥异特性的粘合剂。它们是构成移动语义及完美转发的基石。
 </p>
 <a id="more"></a>
 
 <p>
-&#x968F;&#x7740;&#x5BF9;&#x8FD9;&#x4E9B;&#x7279;&#x6027;&#x7684;&#x6DF1;&#x5165;&#x7406;&#x89E3;&#xFF0C;&#x4F60;&#x5C06;&#x66F4;&#x52A0;&#x610F;&#x8BC6;&#x5230;&#xFF0C;&#x4F60;&#x5BF9;&#x5B83;&#x4EEC;&#x4E00;&#x5F00;&#x59CB;&#x7684;&#x5370;&#x8C61;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7;&#x662F;&#x51B0;&#x5C71;&#x4E00;&#x89D2;&#x3002;&#x5B83;&#x4EEC;&#xFF08;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x3001;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x548C;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF09;&#x6BD4;&#x5448;&#x73B0;&#x51FA;&#x6765;&#x7684;&#xFF08;&#x6837;&#x5B50;&#xFF09;&#x66F4;&#x52A0;&#x5FAE;&#x5999;&#x3002;&#x6BD4;&#x5982;&#xFF1A; <b>std::move</b> &#x5E76;&#x4E0D;&#x79FB;&#x52A8;&#x4EFB;&#x4F55;&#x4E1C;&#x897F;&#xFF0C;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x4E5F;&#x5E76;&#x4E0D;&#x5B8C;&#x7F8E;&#x3002;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x5E76;&#x975E;&#x90FD;&#x6BD4;&#x62F7;&#x8D1D;&#x5EC9;&#x4EF7;&#x3001;&#x5E76;&#x975E;&#x4E00;&#x76F4;&#x5982;&#x4F60;&#x671F;&#x76FC;&#x7684;&#x5EC9;&#x4EF7;&#x3001;&#x4E5F;&#x5E76;&#x975E;&#x5728;&#x6BCF;&#x4E2A;&#x5177;&#x6709;&#x6709;&#x6548;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x7684;&#x5730;&#x65B9;&#x88AB;&#x8C03;&#x7528;&#x3002; <b>type&amp;&amp;</b> &#x4E5F;&#x5E76;&#x975E;&#x4E00;&#x76F4;&#x4EE3;&#x8868;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;
+随着对这些特性的深入理解，你将更加意识到，你对它们一开始的印象，只不过是冰山一角。它们（移动语义、完美转发和右值引用）比呈现出来的（样子）更加微妙。比如： <b>std::move</b> 并不移动任何东西，完美转发也并不完美。移动操作并非都比拷贝廉价、并非一直如你期盼的廉价、也并非在每个具有有效移动语义的地方被调用。 <b>type&amp;&amp;</b> 也并非一直代表右值引用。
 </p>
 
 <p>
-&#x65E0;&#x8BBA;&#x4F60;&#x5BF9;&#x90A3;&#x4E9B;&#x7279;&#x6027;&#x8FDB;&#x884C;&#x591A;&#x4E48;&#x6DF1;&#x5165;&#x7684;&#x7814;&#x7A76;&#xFF0C;&#x5B83;&#x4EEC;&#x770B;&#x4E0A;&#x53BB;&#x4F3C;&#x4E4E;&#x603B;&#x662F;&#x9690;&#x85CF;&#x7740;&#x66F4;&#x591A;&#x7684;&#x79D8;&#x5BC6;&#x3002;&#x5E78;&#x8FD0;&#x7684;&#x662F;&#xFF0C;&#x5B83;&#x4EEC;&#x5E76;&#x975E;&#x6DF1;&#x4E0D;&#x53EF;&#x6D4B;&#x3002;&#x672C;&#x7AE0;&#x5C06;&#x52A9;&#x4F60;&#x6253;&#x5F00;&#x8FD9;&#x6247;&#x795E;&#x79D8;&#x7684;&#x5927;&#x95E8;&#xFF0C;&#x8DE8;&#x8FC7;&#x5927;&#x95E8;&#xFF0C;&#x4F60;&#x5C06;&#x5BF9;C++11&#x4E2D;&#x7684;&#x8FD9;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x6709;&#x66F4;&#x6DF1;&#x5165;&#x7684;&#x7406;&#x89E3;&#x3002;&#x4F60;&#x5C06;&#x638C;&#x63E1; <b>std::move</b> &#x548C; <b>std::forward</b> &#x7684;&#x4F7F;&#x7528;&#x8BED;&#x5883;&#xFF0C;&#x5E76;&#x5BF9;&#x90A3;&#x6B67;&#x4E49;&#x6027;&#x5341;&#x8DB3;&#x7684;&quot;type&amp;&amp;&quot;&#x6709;&#x66F4;&#x672C;&#x8D28;&#x7684;&#x7406;&#x89E3;&#xFF0C;&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x4E5F;&#x5C06;&#x9886;&#x609F;&#x5230;&#x4E3A;&#x4F55;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;(move operation)&#x4F1A;&#x8868;&#x73B0;&#x51FA;&#x4EE4;&#x4EBA;&#x60CA;&#x5947;&#x7684;&#x591A;&#x6837;&#x6027;&#x884C;&#x4E3A;&#x3002;&#x4E4B;&#x540E;&#xFF0C;&#x6211;&#x4EEC;&#x53C8;&#x56DE;&#x5230;&#x4E86;&#x539F;&#x70B9;&#xFF0C;&#x56E0;&#x4E3A;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x3001;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x548C;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x770B;&#x8D77;&#x6765;&#x4F3C;&#x4E4E;&#x518D;&#x6B21;&#x53D8;&#x5F97;&#x975E;&#x5E38;&#x76F4;&#x767D;&#x3002;&#x4F46;&#x73B0;&#x5728;&#xFF0C;&#x5B83;&#x4EEC;&#x5DF2;&#x4E0D;&#x518D;&#x795E;&#x79D8;&#x3002;
+无论你对那些特性进行多么深入的研究，它们看上去似乎总是隐藏着更多的秘密。幸运的是，它们并非深不可测。本章将助你打开这扇神秘的大门，跨过大门，你将对C++11中的这部分内容有更深入的理解。你将掌握 <b>std::move</b> 和 <b>std::forward</b> 的使用语境，并对那歧义性十足的"type&amp;&amp;"有更本质的理解，当然，你也将领悟到为何移动操作(move operation)会表现出令人惊奇的多样性行为。之后，我们又回到了原点，因为移动语义、完美转发和右值引用看起来似乎再次变得非常直白。但现在，它们已不再神秘。
 </p>
 
 <p>
-&#x5728;&#x672C;&#x7AE0;&#x7684;&#x6240;&#x6709;&#x6761;&#x6B3E;&#x4E2D;&#xFF0C;&#x4F60;&#x9700;&#x8981;&#x8BB0;&#x4F4F;&#xFF0C;&#x5B9E;&#x53C2;&#x6C38;&#x8FDC;&#x662F;&#x5DE6;&#x503C;&#xFF0C;&#x5373;&#x4FBF;&#x5F62;&#x53C2;&#x7C7B;&#x578B;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF01;&#x8FD9;&#x70B9;&#x5C24;&#x4E3A;&#x91CD;&#x8981;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x7ED9;&#x5B9A;&#x5982;&#x4E0B;&#x51FD;&#x6570;&#xFF1A;
+在本章的所有条款中，你需要记住，实参永远是左值，即便形参类型为右值引用！这点尤为重要。例如，给定如下函数：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(Widget&amp;&amp; w)</span></span>;</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">f</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">w</span>);
+</pre>
 </div>
 
 <p>
-w&#x662F;&#x4E00;&#x4E2A;&#x5DE6;&#x503C;&#xFF0C;&#x5C3D;&#x7BA1;&#x5B83;&#x7684;&#x7C7B;&#x578B;&#x4E3A;Widget&#x7684;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#xFF08;&#x5982;&#x679C;&#x4F60;&#x611F;&#x5230;&#x60CA;&#x8BB6;&#xFF0C;&#x8BF7;&#x590D;&#x4E60;&#x672C;&#x4E66;&#x7B2C;&#x4E8C;&#x9875;&#x4E2D;&#x5DE6;&#x503C;&#x4E0E;&#x53F3;&#x503C;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#x3002;&#xFF09;
+w是一个左值，尽管它的类型为Widget的右值引用。（如果你感到惊讶，请复习本书第二页中左值与右值相关的内容。）
 </p>
 </div>
 
-<div id="outline-container-org4cc6800" class="outline-3">
-<h3 id="&#x6761;&#x6B3E;23&#x7406;&#x89E3;stdmove&#x548C;stdforward."><a id="org4cc6800"></a>&#x6761;&#x6B3E;23&#xFF1A;&#x7406;&#x89E3;std::move&#x548C;std::forward.</h3>
-<div class="outline-text-3" id="text-&#x6761;&#x6B3E;23&#x7406;&#x89E3;stdmove&#x548C;stdforward.">
+<div id="outline-container-orgc2d10a4" class="outline-3">
+<h3 id="条款23理解stdmove和stdforward."><a id="orgc2d10a4"></a>条款23：理解std::move和std::forward.</h3>
+<div class="outline-text-3" id="text-条款23理解stdmove和stdforward.">
 <p>
-&#x4E86;&#x89E3; <b>std::move</b> &#x548C; <b>std::forward</b> &#x4E0D;&#x4F1A;&#x505A;&#x4E9B;&#x4EC0;&#x4E48;&#x975E;&#x5E38;&#x6709;&#x7528;&#x3002; <b>std::move</b> &#x4E0D;&#x4F1A;&#x79FB;&#x52A8;&#x4EFB;&#x4F55;&#x4E1C;&#x897F;&#x3002; <b>std::forward</b> &#x4E5F;&#x4E0D;&#x4F1A;&#x8F6C;&#x53D1;&#x4EFB;&#x4F55;&#x4E1C;&#x897F;&#x3002;&#x5B83;&#x4EEC;&#x4E0D;&#x4F1A;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x505A;&#x4EFB;&#x4F55;&#x4E8B;&#x60C5;&#xFF0C;&#x4E0D;&#x4F1A;&#x751F;&#x6210;&#x54EA;&#x6015;&#x662F;&#x4E00;&#x6BD4;&#x7279;&#x7684;&#x53EF;&#x6267;&#x884C;&#x4EE3;&#x7801;&#x3002;
+了解 <b>std::move</b> 和 <b>std::forward</b> 不会做些什么非常有用。 <b>std::move</b> 不会移动任何东西。 <b>std::forward</b> 也不会转发任何东西。它们不会在运行时做任何事情，不会生成哪怕是一比特的可执行代码。
 </p>
 
 <p>
-<b>std::move</b> &#x548C; <b>std::forward</b> &#x4EC5;&#x4EC5;&#x662F;&#x4E24;&#x4E2A;&#x8F6C;&#x6362;&#x51FD;&#x6570;&#xFF08;&#x5176;&#x5B9E;&#x662F;&#x51FD;&#x6570;&#x6A21;&#x677F;&#xFF09;&#x3002; <b>std::move</b> &#x65E0;&#x6761;&#x4EF6;&#x7684;&#x5C06;&#x5B83;&#x7684;&#x5B9E;&#x53C2;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x800C; <b>std::forward</b> &#x4EC5;&#x5728;&#x6EE1;&#x8DB3;&#x6761;&#x4EF6;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x624D;&#x6267;&#x884C;&#x8FD9;&#x4E00;&#x8F6C;&#x6362;&#xFF08;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF09;&#x3002;&#x8FD9;&#x4E00;&#x89E3;&#x91CA;&#x867D;&#x89E6;&#x53D1;&#x4E86;&#x4E00;&#x8FDE;&#x4E32;&#x7684;&#x7591;&#x95EE;&#xFF0C;&#x4F46;&#x8FD9;&#x5374;&#x662F;&#x4E8B;&#x5B9E;&#x3002;
+<b>std::move</b> 和 <b>std::forward</b> 仅仅是两个转换函数（其实是函数模板）。 <b>std::move</b> 无条件的将它的实参转换为右值，而 <b>std::forward</b> 仅在满足条件的情况下，才执行这一转换（转换为右值）。这一解释虽触发了一连串的疑问，但这却是事实。
 </p>
 
 <p>
-&#x4E3A;&#x4E86;&#x66F4;&#x597D;&#x7684;&#x8BE0;&#x91CA;&#x8FD9;&#x4E00;&#x4E8B;&#x5B9E;&#xFF0C;&#x6211;&#x4EEC;&#x590D;&#x523B;&#x4E86;C++11&#x4E2D; <b>std::move</b> &#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x5B83;&#x53EA;&#x662F;&#x4E00;&#x4E2A;&#x4F8B;&#x5B50;&#xFF0C;&#x867D;&#x672A;&#x5B8C;&#x5168;&#x7B26;&#x5408;&#x6807;&#x51C6;&#xFF08;C++&#x6807;&#x51C6;&#xFF09;&#xFF0C;&#x4F46;&#x5DF2;&#x975E;&#x5E38;&#x63A5;&#x8FD1;&#xFF1A;
+为了更好的诠释这一事实，我们复刻了C++11中 <b>std::move</b> 的实现，它只是一个例子，虽未完全符合标准（C++标准），但已非常接近：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="keyword">typename</span> remove_reference&lt;T&gt;::type&amp;&amp;           <span class="comment">// in namespace std</span></span><br><span class="line">move(T&amp;&amp; param)</span><br><span class="line">{</span><br><span class="line">    <span class="keyword">using</span> ReturnType =                         <span class="comment">// alias declaration;</span></span><br><span class="line">	<span class="keyword">typename</span> remove_reference&lt;T&gt;::type&amp;&amp;;  <span class="comment">// see Item 9</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;ReturnType&gt;(param);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;
+<span class="linenr">2 </span><span style="color: #a1db00;">typename</span> <span style="color: #5fafd7;">remove_reference</span>&lt;<span style="color: #00d7af;">T</span>&gt;::<span style="color: #00d7af;">type</span>&amp;&amp;           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">in namespace std</span>
+<span class="linenr">3 </span><span style="color: #ffd700;">move</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>)
+<span class="linenr">4 </span>{
+<span class="linenr">5 </span>    <span style="color: #a1db00;">using</span> <span style="color: #00d7af;">ReturnType</span> =                         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">alias declaration;</span>
+<span class="linenr">6 </span>        <span style="color: #a1db00;">typename</span> <span style="color: #5fafd7;">remove_reference</span>&lt;<span style="color: #00d7af;">T</span>&gt;::<span style="color: #00d7af;">type</span>&amp;&amp;;  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">see Item 9</span>
+<span class="linenr">7 </span>
+<span class="linenr">8 </span>    <span style="color: #a1db00;">return</span> <span style="color: #a1db00;">static_cast</span>&lt;<span style="color: #00d7af;">ReturnType</span>&gt;(param);
+<span class="linenr">9 </span>}
+</pre>
 </div>
 
 <p>
-&#x6211;&#x4E3A;&#x4F60;&#x9AD8;&#x4EAE;&#x6807;&#x8BC6;&#x4E86;&#x4EE3;&#x7801;&#x4E2D;&#x7684;&#x4E24;&#x4E2A;&#x90E8;&#x5206;&#xFF1A;&#x51FD;&#x6570;&#x540D;&#x53CA;&#x8F6C;&#x6362;&#x8BED;&#x53E5;&#x3002;&#x6807;&#x8BC6;&#x51FD;&#x6570;&#x540D;&#x662F;&#x56E0;&#x4E3A;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x8FC7;&#x4E8E;&#x590D;&#x6742;&#xFF0C;&#x6211;&#x4E0D;&#x5E0C;&#x671B;&#x4F60;&#x8FF7;&#x5931;&#x5176;&#x4E2D;&#x5931;&#x53BB;&#x8010;&#x5FC3;&#xFF0C;&#x800C;&#x90A3;&#x6761;&#x8F6C;&#x6362;&#x8BED;&#x53E5;&#xFF0C;&#x5219;&#x5305;&#x542B;&#x4E86;&#x6B64;&#x51FD;&#x6570;&#x7684;&#x7CBE;&#x9AD3;&#x3002;&#x6B63;&#x5982;&#x4F60;&#x6240;&#x89C1;&#xFF0C; <b>std::move</b> &#x63A5;&#x6536;&#x4E00;&#x5BF9;&#x8C61;&#x7684;&#x5F15;&#x7528;&#xFF08;&#x901A;&#x7528;&#x5F15;&#x7528;: universal reference&#xFF0C;&#x8BE6;&#x60C5;&#x53C2;&#x9605;<a href="./item24.html">&#x6761;&#x6B3E;24</a>&#xFF09;&#xFF0C;&#x5E76;&#x8FD4;&#x56DE;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x5F15;&#x7528;&#x3002;
-</p>
-
-
-
-
-<p>
-&#x8FD4;&#x56DE;&#x503C;&#x4E2D;&#x7684;&quot;&amp;&amp;&quot;&#x6697;&#x793A;&#x6211;&#x4EEC;&#xFF0C; <b>std::move</b> &#x8FD4;&#x56DE;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4F46;&#x6B63;&#x5982;<a href="./item28.html">&#x6761;&#x6B3E;28</a>&#x6240;&#x8FF0;&#xFF0C;&#x5982;&#x679C; <b>T</b> &#x6070;&#x5DE7;&#x662F;&#x4E00;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#xFF0C; <b>T&amp;&amp;</b> &#x5C06;&#x540C;&#x4E3A;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x3002;&#x4E3A;&#x907F;&#x514D;&#x8FD9;&#x4E00;&#x60C5;&#x51B5;&#xFF0C;&#x578B;&#x522B;&#x7C7B;&#x578B;&#x5224;&#x5B9A;&#x6280;&#x6CD5;&#xFF08;type trait&#xFF0C;&#x53C2;&#x7167;<a href="./item9.html">&#x6761;&#x6B3E;9</a>&#xFF09;&#x4E2D;&#x7684; <b>std::remove_reference</b> &#x4FBF;&#x6D3E;&#x4E0A;&#x4E86;&#x7528;&#x573A;&#xFF0C;&#x5B83;&#x4F5C;&#x7528;&#x4E0E; <b>T</b> &#xFF0C;&#x4EE5;&#x786E;&#x4FDD;&quot;&amp;&amp;&quot;&#x88AB;&#x5E94;&#x7528;&#x4E0E;&#x4E00;&#x4E2A;&#x578B;&#x522B;&#xFF08;a type&#xFF09;&#x800C;&#x4E0D;&#x662F;&#x5F15;&#x7528;&#x3002;&#x8FD9;&#x5BF9;&#x786E;&#x4FDD; <b>std::move</b> &#x8FD4;&#x56DE;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x975E;&#x5E38;&#x91CD;&#x8981;&#xFF0C;&#x56E0;&#x4E3A;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x7684;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x662F;&#x53F3;&#x503C;&#x3002;&#x56E0;&#x6B64; <b>std::move</b> &#x5C06;&#x4F20;&#x9012;&#x7ED9;&#x5B83;&#x7684;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x8FD9;&#x4FBF;&#x662F;&#x5B83;&#x6240;&#x505A;&#x7684;&#x4E00;&#x5207;&#x3002;
+我为你高亮标识了代码中的两个部分：函数名及转换语句。标识函数名是因为返回值类型过于复杂，我不希望你迷失其中失去耐心，而那条转换语句，则包含了此函数的精髓。正如你所见， <b>std::move</b> 接收一对象的引用（通用引用: universal reference，详情参阅<a href="./item24.html">条款24</a>），并返回该对象的引用。
 </p>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x7528;C++14&#x5B9E;&#x73B0; <b>std::move</b> &#x5C06;&#x66F4;&#x52A0;&#x4F18;&#x96C5;&#x3002;&#x8FD9;&#x5F52;&#x529F;&#x4E8E;&#x51FD;&#x6570;&#x7684;&#x8FD4;&#x56DE;&#x503C;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#xFF08;&#x53C2;&#x7167;<a href="./item3.html">&#x6761;&#x6B3E;3</a>&#xFF09;&#x53CA;&#x6807;&#x51C6;&#x5E93;&#x4E2D;&#x7684;&#x6A21;&#x677F;&#x522B;&#x540D; <b>std::remove_reference_t</b> &#xFF08;&#x53C2;&#x7167;<a href="./item9.html">&#x6761;&#x6B3E;9</a>&#xFF09;&#xFF0C;&#x5B9E;&#x73B0;&#x5982;&#x4E0B;&#xFF1A;
+返回值中的"&amp;&amp;"暗示我们， <b>std::move</b> 返回一右值引用，但正如<a href="./item28.html">条款28</a>所述，如果 <b>T</b> 恰巧是一左值引用， <b>T&amp;&amp;</b> 将同为左值引用。为避免这一情况，型别类型判定技法（type trait，参照<a href="./item9.html">条款9</a>）中的 <b>std::remove_reference</b> 便派上了用场，它作用与 <b>T</b> ，以确保"&amp;&amp;"被应用与一个型别（a type）而不是引用。这对确保 <b>std::move</b> 返回右值引用非常重要，因为函数返回的右值引用是右值。因此 <b>std::move</b> 将传递给它的参数转换为右值，这便是它所做的一切。
+</p>
+
+<p>
+当然，用C++14实现 <b>std::move</b> 将更加优雅。这归功于函数的返回值类型推导（参照<a href="./item3.html">条款3</a>）及标准库中的模板别名 <b>std::remove_reference_t</b> （参照<a href="./item9.html">条款9</a>），实现如下：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;                <span class="comment">// C++14; still in</span></span><br><span class="line"><span class="keyword">decltype</span>(<span class="keyword">auto</span>) move(T&amp;&amp; param)      <span class="comment">// namespace std</span></span><br><span class="line">{</span><br><span class="line">    <span class="keyword">using</span> ReturnType = <span class="keyword">remove_reference_t</span>&lt;T&gt;&amp;&amp;;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;ReturnType&gt;(param);</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">C++14; still in</span>
+<span class="linenr">2 </span><span style="color: #a1db00;">decltype</span>(<span style="color: #a1db00;">auto</span>) <span style="color: #ffd700;">move</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>)      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">namespace std</span>
+<span class="linenr">3 </span>{
+<span class="linenr">4 </span>    <span style="color: #a1db00;">using</span> <span style="color: #00d7af;">ReturnType</span> = <span style="color: #00d7af;">remove_reference_t</span>&lt;<span style="color: #00d7af;">T</span>&gt;&amp;&amp;;
+<span class="linenr">5 </span>    <span style="color: #a1db00;">return</span> <span style="color: #a1db00;">static_cast</span>&lt;<span style="color: #00d7af;">ReturnType</span>&gt;(param);
+<span class="linenr">6 </span>}
+</pre>
 </div>
 
 <p>
-&#x770B;&#x8D77;&#x6765;&#x66F4;&#x52A0;&#x7B80;&#x5355;&#x4E86;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#xFF1F;
+看起来更加简单了，是不是？
 </p>
 
 <p>
-&#x6B63;&#x56E0;&#x5982;&#x4E0A;&#x6240;&#x8BC9;&#xFF08; <b>std::move</b> &#x53EA;&#x662F;&#x5C06;&#x4F20;&#x9012;&#x7ED9;&#x5B83;&#x7684;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF09;&#xFF0C;&#x8BB8;&#x591A;&#x4EBA;&#x5EFA;&#x8BAE;&#x5C06;&#x5B83;&#x547D;&#x540D;&#x4E3A; <b>rvalue_cast</b> &#x4E4B;&#x7C7B;&#x7684;&#x4E1C;&#x897F;&#x3002;&#x5C3D;&#x7BA1;&#x5982;&#x6B64;&#xFF0C;&#x5B83;&#x4ECD;&#x88AB;&#x547D;&#x540D;&#x4E3A; <b>std::move</b> &#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x4F60;&#x5FC5;&#x987B;&#x8981;&#x8BB0;&#x4F4F;&#xFF1A; <b>std::move</b> &#x4EC5;&#x8F6C;&#x6362;&#x4E0D;&#x79FB;&#x52A8;&#x3002;
+正因如上所诉（ <b>std::move</b> 只是将传递给它的参数转换为右值），许多人建议将它命名为 <b>rvalue_cast</b> 之类的东西。尽管如此，它仍被命名为 <b>std::move</b> ，所以，你必须要记住： <b>std::move</b> 仅转换不移动。
 </p>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x53F3;&#x503C;&#x53EF;&#x4EE5;&#x88AB;&#x79FB;&#x52A8;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x5BF9;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#x8C03;&#x7528; <b>std::move</b> &#x5C06;&#x544A;&#x8BC9;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x88AB;&#x79FB;&#x52A8;&#x3002;&#x8FD9;&#x4FBF;&#x662F;&#x8FD9;&#x4E00;&#x547D;&#x540D;&#x7684;&#x7528;&#x610F;&#xFF1A;&#x4E00;&#x773C;&#x4FBF;&#x53EF;&#x770B;&#x51FA;&#x8BE5;&#x5BF9;&#x8C61;&#x53EF;&#x4EE5;&#x88AB;&#x79FB;&#x52A8;&#x3002;
+当然，右值可以被移动，所以，对一个对象调用 <b>std::move</b> 将告诉编译器，它可以被移动。这便是这一命名的用意：一眼便可看出该对象可以被移动。
 </p>
 
 <p>
-&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x53EA;&#x6709;&#x53F3;&#x503C;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x3002;&#x5047;&#x8BBE;&#x4F60;&#x6B63;&#x7F16;&#x5199;&#x4E00;&#x4E2A;&#x5907;&#x6CE8;&#x7C7B;&#xFF0C;&#x5B83;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x63A5;&#x6536;&#x4E00;&#x4E2A;&#x7528;&#x4EE5;&#x63CF;&#x8FF0;&#x5907;&#x6CE8;&#x5185;&#x5BB9;&#x7684; <b>std::string</b> &#x5BF9;&#x8C61;&#xFF0C;&#x5E76;&#x5C06;&#x5176;&#x62F7;&#x8D1D;&#x81F3;&#x8BE5;&#x7C7B;&#x7684;&#x6570;&#x636E;&#x6210;&#x5458;&#x4E2D;&#x3002;&#x9075;&#x5FAA;<a href="./item24.html">&#x6761;&#x6B3E;24</a>&#x7684;&#x5EFA;&#x8BAE;&#xFF0C;&#x6211;&#x4EEC;&#x5C06;&#x8BE5;&#x53C2;&#x6570;&#x4EE5;&#x503C;&#x4F20;&#x9012;&#xFF1A;
+事实上，只有右值能被移动。假设你正编写一个备注类，它的构造函数接收一个用以描述备注内容的 <b>std::string</b> 对象，并将其拷贝至该类的数据成员中。遵循<a href="./item24.html">条款24</a>的建议，我们将该参数以值传递：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Annotation {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Annotation</span><span class="params">(<span class="built_in">std</span>::<span class="built_in">string</span> text)</span></span>; <span class="comment">// param to be copied,</span></span><br><span class="line">    ...                                    <span class="comment">// so per Item 41,</span></span><br><span class="line">};                                         <span class="comment">// pass by value</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Annotation</span> {
+<span class="linenr">2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr">3 </span>    <span style="color: #a1db00;">explicit</span> <span style="color: #ffd700;">Annotation</span>(<span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">string</span> <span style="color: #ff8700;">text</span>); <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param to be copied,</span>
+<span class="linenr">4 </span>    ...                                    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">so per Item 41,</span>
+<span class="linenr">5 </span>};                                         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">pass by value</span>
+</pre>
 </div>
 
 <p>
-&#x53EF;&#x662F;&#xFF0C; <b>Annotation</b> &#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x53EA;&#x9700;&#x8981;&#x8BFB;&#x53D6; <b>text</b> &#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x4E0D;&#x9700;&#x8981;&#x5BF9;&#x5B83;&#x505A;&#x4EFB;&#x4F55;&#x4FEE;&#x6539;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x57FA;&#x4E8E; <b>&#x5C3D;&#x53EF;&#x80FD;&#x7684;&#x4F7F;&#x7528;const</b> &#x8FD9;&#x4E00;&#x53E4;&#x8001;&#x4F20;&#x7EDF;&#xFF0C;&#x4F60;&#x5C06;&#x4F60;&#x7684;&#x7533;&#x660E;&#x7A0D;&#x4F5C;&#x6539;&#x8FDB;&#xFF1A;
+可是， <b>Annotation</b> 的构造函数只需要读取 <b>text</b> 的内容，不需要对它做任何修改。因此，基于 <b>尽可能的使用const</b> 这一古老传统，你将你的申明稍作改进：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Annotation {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">explicit</span> <span class="title">Annotation</span><span class="params">(<span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">string</span> text)</span></span>;</span><br><span class="line">    ...</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Annotation</span> {
+<span class="linenr">2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr">3 </span>    <span style="color: #a1db00;">explicit</span> <span style="color: #ffd700;">Annotation</span>(<span style="color: #a1db00;">const</span> <span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">string</span> <span style="color: #ff8700;">text</span>);
+<span class="linenr">4 </span>    ...
+<span class="linenr">5 </span>};
+</pre>
 </div>
 
 <p>
-&#x6700;&#x540E;&#xFF0C;&#x4E3A;&#x51CF;&#x5C11; <b>text</b> &#x81F3;&#x6570;&#x636E;&#x6210;&#x5458;&#x7684;&#x4E00;&#x6B21;&#x62F7;&#x8D1D;&#x5F00;&#x9500;&#xFF0C;&#x4F60;&#x9075;&#x5FAA;<a href="./item41.html">&#x6761;&#x6B3E;41</a>&#x7684;&#x5EFA;&#x8BAE;&#xFF0C;&#x5BF9; <b>text</b> &#x4F7F;&#x7528; <b>std::move</b> &#xFF0C;&#x4EE5;&#x4FBF;&#x4EA7;&#x751F;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#xFF1A;
+最后，为减少 <b>text</b> 至数据成员的一次拷贝开销，你遵循<a href="./item41.html">条款41</a>的建议，对 <b>text</b> 使用 <b>std::move</b> ，以便产生一个右值：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Annotation {</span><br><span class="line">public:</span><br><span class="line">    explicit Annotation(const std::string text)</span><br><span class="line">    : value(std::move(text))  // &quot;move&quot; text into value; this code</span><br><span class="line">    {...}                     // doesn&apos;t do what it seems to!</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">private:</span><br><span class="line">    std::string value;</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr"> 1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Annotation</span> {
+<span class="linenr"> 2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr"> 3 </span>    <span style="color: #a1db00;">explicit</span> <span style="color: #ffd700;">Annotation</span>(<span style="color: #a1db00;">const</span> <span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">string</span> <span style="color: #ff8700;">text</span>)
+<span class="linenr"> 4 </span>    : value(<span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">move</span>(<span style="color: #ff8700;">text</span>))  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">"move" text into value; this code</span>
+<span class="linenr"> 5 </span>    {...}                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">doesn't do what it seems to!</span>
+<span class="linenr"> 6 </span>
+<span class="linenr"> 7 </span>    ...
+<span class="linenr"> 8 </span>
+<span class="linenr"> 9 </span><span style="color: #a1db00;">private</span>:
+<span class="linenr">10 </span>    <span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">string</span> <span style="color: #ff8700;">value</span>;
+<span class="linenr">11 </span>};
+</pre>
 </div>
 
 <p>
-&#x7F16;&#x8BD1;&#x3001;&#x94FE;&#x63A5;&#x3001;&#x8FD0;&#x884C;&#xFF0C;&#x5B83;&#x8FD0;&#x884C;&#x7684;&#x5982;&#x4F60;&#x6240;&#x613F;&#xFF0C;&#x5374;&#x4E0E;&#x4F60;&#x8FFD;&#x6C42;&#x7684;&#x5B8C;&#x7F8E;&#x76F8;&#x5DEE;&#x751A;&#x8FDC;&#xFF0C;&#x53EA;&#x56E0; <b>text</b> &#x672A;&#x88AB;&#x79FB;&#x52A8;&#xFF0C;&#x800C;&#x662F;&#x62F7;&#x8D1D;&#x3002; <b>text</b> &#x867D;&#x88AB; <b>std::move</b> &#x8F6C;&#x6362;&#x4E3A;&#x4E86;&#x53F3;&#x503C;&#xFF0C;&#x4F46;&#x5B83;&#x5374;&#x88AB;&#x7533;&#x660E;&#x4E3A; <b>const std::string</b> &#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x88AB;&#x8F6C;&#x6362;&#x524D;&#xFF0C; <b>text</b> &#x662F;&#x4E00; <b>const std::string</b> &#x7C7B;&#x578B;&#x7684;&#x5DE6;&#x503C;&#xFF0C;&#x5728;&#x8F6C;&#x6362;&#x540E;&#xFF0C;&#x5E38;&#x5C5E;&#x6027;&#x5F97;&#x4EE5;&#x4FDD;&#x7559;&#xFF0C;&#x53D8;&#x6210;&#x4E00; <b>const std::string</b> &#x7C7B;&#x578B;&#x7684;&#x53F3;&#x503C;&#x3002;
+编译、链接、运行，它运行的如你所愿，却与你追求的完美相差甚远，只因 <b>text</b> 未被移动，而是拷贝。 <b>text</b> 虽被 <b>std::move</b> 转换为了右值，但它却被申明为 <b>const std::string</b> ，因此，在被转换前， <b>text</b> 是一 <b>const std::string</b> 类型的左值，在转换后，常属性得以保留，变成一 <b>const std::string</b> 类型的右值。
 </p>
 
 <p>
-&#x601D;&#x8003;&#x4E00;&#x4E0B;&#x7F16;&#x8BD1;&#x5668;&#x9009;&#x62E9;&#x8C03;&#x7528; <b>std::string</b> &#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x60C5;&#x5F62;&#xFF0C;&#x5B83;&#x6709;&#x4E24;&#x79CD;&#x53EF;&#x80FD;&#x6027;&#xFF1A;
+思考一下编译器选择调用 <b>std::string</b> 构造函数的情形，它有两种可能性：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="built_in">string</span> {               <span class="comment">// std::string is actually a</span></span><br><span class="line"><span class="keyword">public</span>:                      <span class="comment">// typedef of std::basic_string&lt;char&gt;</span></span><br><span class="line">    ...</span><br><span class="line">    <span class="built_in">string</span>(<span class="keyword">const</span> <span class="built_in">string</span>&amp; rhs); <span class="comment">// copy ctor</span></span><br><span class="line">    <span class="built_in">string</span>(<span class="built_in">string</span>&amp;&amp; rhs);      <span class="comment">// move ctor</span></span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">string</span> {               <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">std::string is actually a</span>
+<span class="linenr">2 </span><span style="color: #a1db00;">public</span>:                      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">typedef of std::basic_string&lt;char&gt;</span>
+<span class="linenr">3 </span>    ...
+<span class="linenr">4 </span>    string(<span style="color: #a1db00;">const</span> <span style="color: #00d7af;">string</span>&amp; <span style="color: #ff8700;">rhs</span>); <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">copy ctor</span>
+<span class="linenr">5 </span>    <span style="color: #ffd700;">string</span>(<span style="color: #00d7af;">string</span>&amp;&amp; <span style="color: #ff8700;">rhs</span>);      <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">move ctor</span>
+<span class="linenr">6 </span>};
+</pre>
 </div>
 
 <p>
-&#x5728; <b>Annotation</b> &#x7C7B;&#x7684;&#x6784;&#x9020;&#x51FD;&#x6570;&#x521D;&#x59CB;&#x5316;&#x5217;&#x8868;&#x4E2D;&#xFF0C; <b>std::move(text)</b> &#x7684;&#x7ED3;&#x679C;&#x662F;&#x4E00;&#x4E2A; <b>const std::string</b> &#x7C7B;&#x578B;&#x7684;&#x53F3;&#x503C;&#x3002;&#x5B83;&#x4E0D;&#x80FD;&#x88AB;&#x4F20;&#x9012;&#x81F3; <b>std::string</b> &#x7684;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#xFF08;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF09;&#x63A5;&#x6536;&#x4E00;&#x975E;&#x5E38;&#x91CF; <b>std::string</b> &#x7684;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x3002;&#x4F46;&#x5B83;&#x5374;&#x53EF;&#x4EE5;&#x88AB;&#x4F20;&#x9012;&#x7ED9;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x4E3A;&#x5E38;&#x5DE6;&#x503C;&#x5F15;&#x7528;&#x53EF;&#x4EE5;&#x7ED1;&#x5B9A;&#x81F3;&#x5E38;&#x53F3;&#x503C;&#x3002;&#x56E0;&#x6B64;&#xFF0C; <b>value</b> &#x7684;&#x521D;&#x59CB;&#x5316;&#x4FBF;&#x8C03;&#x7528;&#x4E86; <b>std::string</b> &#x7684;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x5C3D;&#x7BA1; <b>text</b> &#x5DF2;&#x7ECF;&#x88AB;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF01;&#x8FD9;&#x4E00;&#x884C;&#x4E3A;&#x5BF9;&#x7EF4;&#x6301;&#x5E38;&#x91CF;&#x6B63;&#x786E;&#x6027;&#xFF08;&#x5E38;&#x91CF;&#x5C5E;&#x6027;&#x7684;&#x6B63;&#x786E;&#x6027;&#xFF1A;const-correctness&#xFF09;&#x975E;&#x5E38;&#x91CD;&#x8981;&#xFF0C;&#x6BD5;&#x7ADF;&#x5C06;&#x5BF9;&#x8C61;&#x7684;&#x503C;&#x79FB;&#x51FA;&#x8BE5;&#x5BF9;&#x8C61;&#x4FBF;&#x610F;&#x5473;&#x7740;&#x4FEE;&#x6539;&#x4E86;&#x8BE5;&#x5BF9;&#x8C61;<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x8BED;&#x6CD5;&#x5C42;&#x9762;&#x4E0A;&#x5E94;&#x7981;&#x6B62;&#x5C06;const&#x5BF9;&#x8C61;&#x4F20;&#x9012;&#x81F3;&#x90A3;&#x4E9B;&#x4F1A;&#x5BF9;&#x5BF9;&#x8C61;&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#x7684;&#x51FD;&#x6570;&#xFF08;&#x6B63;&#x5982;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF09;&#x3002;
+在 <b>Annotation</b> 类的构造函数初始化列表中， <b>std::move(text)</b> 的结果是一个 <b>const std::string</b> 类型的右值。它不能被传递至 <b>std::string</b> 的移动构造函数，因为它（移动构造函数）接收一非常量 <b>std::string</b> 的右值引用作为参数。但它却可以被传递给拷贝构造函数，因为常左值引用可以绑定至常右值。因此， <b>value</b> 的初始化便调用了 <b>std::string</b> 的拷贝构造函数，尽管 <b>text</b> 已经被转换为右值！这一行为对维持常量正确性（常量属性的正确性：const-correctness）非常重要，毕竟将对象的值移出该对象便意味着修改了该对象<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>，因此，语法层面上应禁止将const对象传递至那些会对对象进行修改的函数（正如拷贝构造函数）。
 </p>
 
 <p>
-&#x4ECE;&#x8FD9;&#x4E2A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x5F97;&#x51FA;&#x4E24;&#x6761;&#x7ED3;&#x8BBA;&#x3002;&#x7B2C;&#x4E00;&#xFF0C;&#x4E0D;&#x8981;&#x5C06;&#x6709;&#x53EF;&#x80FD;&#x8FDB;&#x884C;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x7684;&#x5BF9;&#x8C61;&#x7533;&#x660E;&#x4E3A; <b>const</b> &#xFF0C;&#x56E0;&#x4E3A;&#x5BF9;&#x5E38;&#x91CF;&#x5BF9;&#x8C61;&#x7684;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#xFF0C;&#x4F1A;&#x81EA;&#x52A8;&#x7684;&#x8F6C;&#x6362;&#x4E3A;&#x62F7;&#x8D1D;&#x64CD;&#x4F5C;&#x3002;&#x7B2C;&#x4E8C;&#xFF0C; <b>std::move</b> &#x5E76;&#x4E0D;&#x4F1A;&#x79FB;&#x52A8;&#x4EFB;&#x4F55;&#x4E1C;&#x897F;&#xFF0C;&#x4E5F;&#x4E0D;&#x80FD;&#x4FDD;&#x8BC1;&#x5176;&#x8F6C;&#x6362;&#x51FA;&#x7684;&#x5BF9;&#x8C61;&#x80FD;&#x88AB;&#x79FB;&#x52A8;&#x3002;&#x552F;&#x4E00;&#x80FD;&#x786E;&#x5B9A;&#x7684;&#x662F; <b>std::move</b> &#x5904;&#x7406;&#x540E;&#x7684;&#x5BF9;&#x8C61;&#x662F;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#x3002;
+从这个例子中，我们得出两条结论。第一，不要将有可能进行移动操作的对象申明为 <b>const</b> ，因为对常量对象的移动操作，会自动的转换为拷贝操作。第二， <b>std::move</b> 并不会移动任何东西，也不能保证其转换出的对象能被移动。唯一能确定的是 <b>std::move</b> 处理后的对象是一个右值。
 </p>
 
 <p>
-<b>std::forward</b> &#x4E0E; <b>std::move</b> &#x7C7B;&#x4F3C;&#xFF0C;&#x53EA;&#x4E0D;&#x8FC7; <b>std::move</b> &#x4F1A;&#x65E0;&#x6761;&#x4EF6;&#x7684;&#x5C06;&#x5176;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x800C; <b>std::forward</b> &#x53EA;&#x4F1A;&#x5728;&#x7279;&#x5B9A;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#x624D;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#x3002;&#x56E0;&#x6B64;&#xFF0C; <b>std::forward</b> &#x662F;&#x6709;&#x6761;&#x4EF6;&#x7684;&#x8F6C;&#x6362;&#x3002;&#x8981;&#x7406;&#x89E3;&#x5B83;&#x7684;&#x8F6C;&#x6362;&#x6761;&#x4EF6;&#xFF0C;&#x5C31;&#x9700;&#x8981;&#x6211;&#x4EEC;&#x56DE;&#x5FC6;&#x4E00;&#x4E0B; <b>std::forward</b> &#x7684;&#x4F7F;&#x7528;&#x60C5;&#x666F;&#x3002;&#x6700;&#x5E38;&#x7528;&#x7684;&#x4F7F;&#x7528;&#x60C5;&#x666F;&#x4FBF;&#x662F;&#x5728;&#x4E00;&#x63A5;&#x6536;&#x901A;&#x7528;&#x5F15;&#x7528;&#x4E3A;&#x53C2;&#x6570;&#x7684;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x4E2D;&#xFF0C;&#x5C06;&#x5176;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9;&#x53E6;&#x4E00;&#x51FD;&#x6570;&#xFF1A;
+<b>std::forward</b> 与 <b>std::move</b> 类似，只不过 <b>std::move</b> 会无条件的将其参数转换为右值，而 <b>std::forward</b> 只会在特定的情形下才进行转换。因此， <b>std::forward</b> 是有条件的转换。要理解它的转换条件，就需要我们回忆一下 <b>std::forward</b> 的使用情景。最常用的使用情景便是在一接收通用引用为参数的模板函数中，将其参数传递给另一函数：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(<span class="keyword">const</span> Widget&amp; lvalArg)</span></span>;     <span class="comment">// process lvalues</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">process</span><span class="params">(Widget&amp;&amp; rvalArg)</span></span>;          <span class="comment">// process rvalues</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;                     <span class="comment">// template that passes</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">logAndProcess</span><span class="params">(T&amp;&amp; param)</span>            <span class="comment">// param to process</span></span><br><span class="line"></span>{</span><br><span class="line">    <span class="keyword">auto</span> now =                           <span class="comment">// get current time</span></span><br><span class="line">       <span class="built_in">std</span>::chrono::system_clock::now();</span><br><span class="line"></span><br><span class="line">    makeLogEntry(<span class="string">&quot;Calling &apos;process&apos;&quot;</span>, now);</span><br><span class="line">    process(<span class="built_in">std</span>::forward&lt;T&gt;(param));</span><br><span class="line">}</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr"> 1 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">process</span>(<span style="color: #a1db00;">const</span> <span style="color: #00d7af;">Widget</span>&amp; <span style="color: #ff8700;">lvalArg</span>);     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">process lvalues</span>
+<span class="linenr"> 2 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">process</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">rvalArg</span>);          <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">process rvalues</span>
+<span class="linenr"> 3 </span>
+<span class="linenr"> 4 </span><span style="color: #a1db00;">template</span>&lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">template that passes</span>
+<span class="linenr"> 5 </span><span style="color: #00d7af;">void</span> <span style="color: #ffd700;">logAndProcess</span>(<span style="color: #00d7af;">T</span>&amp;&amp; <span style="color: #ff8700;">param</span>)            <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">param to process</span>
+<span class="linenr"> 6 </span>{
+<span class="linenr"> 7 </span>    <span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">now</span> =                           <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">get current time</span>
+<span class="linenr"> 8 </span>       <span style="color: #5fafd7;">std</span>::<span style="color: #5fafd7;">chrono</span>::<span style="color: #5fafd7;">system_clock</span>::now();
+<span class="linenr"> 9 </span>
+<span class="linenr">10 </span>    makeLogEntry(<span style="color: #ff4ea3;">"Calling 'process'"</span>, now);
+<span class="linenr">11 </span>    process(<span style="color: #5fafd7;">std</span>::forward&lt;<span style="color: #00d7af;">T</span>&gt;(param));
+<span class="linenr">12 </span>}
+</pre>
 </div>
 
 <p>
-&#x8003;&#x8651;&#x5206;&#x522B;&#x7528;&#x5DE6;&#x503C;&#x548C;&#x53F3;&#x503C;&#x8C03;&#x7528; <b>logAndProcess</b> &#x65B9;&#x6CD5;&#x7684;&#x60C5;&#x5F62;&#xFF1A;
+考虑分别用左值和右值调用 <b>logAndProcess</b> 方法的情形：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Widget w;</span><br><span class="line"></span><br><span class="line">logAndProcess(w);             <span class="comment">// call with lvalue</span></span><br><span class="line">logAndProcess(<span class="built_in">std</span>::move(w));  <span class="comment">// call with rvalue</span></span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #00d7af;">Widget</span> <span style="color: #ff8700;">w</span>;
+<span class="linenr">2 </span>
+<span class="linenr">3 </span>logAndProcess(w);             <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">call with lvalue</span>
+<span class="linenr">4 </span>logAndProcess(<span style="color: #5fafd7;">std</span>::move(w));  <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">call with rvalue</span>
+</pre>
 </div>
 
 <p>
-&#x5728;&#x51FD;&#x6570; <b>logAndProcess</b> &#x4E2D;&#xFF0C;&#x53C2;&#x6570; <b>param</b> &#x88AB;&#x4F20;&#x9012;&#x7ED9; <b>process</b> &#x51FD;&#x6570;&#xFF0C; <b>process</b> &#x51FD;&#x6570;&#x6709;&#x9488;&#x5BF9;&#x5DE6;&#x503C;&#x53CA;&#x53F3;&#x503C;&#x53C2;&#x6570;&#x7684;&#x91CD;&#x8F7D;&#x3002;&#x6211;&#x4EEC;&#x81EA;&#x7136;&#x5E0C;&#x671B;&#xFF0C;&#x5728;&#x4F7F;&#x7528;&#x5DE6;&#x503C;&#x8C03;&#x7528; <b>process</b> &#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x8BE5;&#x5DE6;&#x503C;&#x4F1A;&#x88AB;&#x8F6C;&#x53D1;&#x7ED9; <b>process</b> &#xFF0C;&#x800C;&#x5728;&#x4F7F;&#x7528;&#x53F3;&#x503C;&#x8C03;&#x7528; <b>logAndProcess</b> &#x51FD;&#x6570;&#x65F6;&#xFF0C;&#x5219;&#x4F1A;&#x8C03;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x53F3;&#x503C;&#x91CD;&#x8F7D;&#x7248;&#x672C;&#x3002;
+在函数 <b>logAndProcess</b> 中，参数 <b>param</b> 被传递给 <b>process</b> 函数， <b>process</b> 函数有针对左值及右值参数的重载。我们自然希望，在使用左值调用 <b>process</b> 函数时，该左值会被转发给 <b>process</b> ，而在使用右值调用 <b>logAndProcess</b> 函数时，则会调用相应的右值重载版本。
 </p>
 
 <p>
-&#x53EF;&#x662F;&#xFF0C;&#x6240;&#x6709;&#x7684;&#x53C2;&#x6570;&#xFF08;&#x6B63;&#x5982;&#x6240;&#x6709;&#x7684;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x4E00;&#x6837;&#xFF09;&#xFF0C;&#x90FD;&#x662F;&#x5DE6;&#x503C;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5728;&#x51FD;&#x6570; <b>logAndProcess</b> &#x4E2D;&#x5BF9; <b>process</b> &#x7684;&#x8C03;&#x7528;&#xFF0C;&#x90FD;&#x4F1A;&#x89E6;&#x53D1;&#x5DE6;&#x503C;&#x91CD;&#x8F7D;&#x7248;&#x672C;&#x7684; <b>process</b> &#x51FD;&#x6570;&#x3002;&#x4E3A;&#x963B;&#x6B62;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x53D1;&#x751F;&#xFF0C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x4E00;&#x79CD;&#x673A;&#x5236;&#xFF0C;&#x5B83;&#x80FD;&#x5728;&#x9002;&#x5F53;&#x7684;&#x65F6;&#x5019; &#x2500;&#x2500;&#x5F53;&#x4F20;&#x9012;&#x7ED9; <b>logAndProcsss</b> &#x7684;&#x53C2;&#x6570;&#x662F;&#x53F3;&#x503C;&#x7684;&#x65F6;&#x5019;&#x2500;&#x2500; &#x5C06;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#x3002;&#x8FD9;&#x4FBF;&#x662F; <b>std::forward</b> &#x6240;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x3002;&#x56E0;&#x6B64;&#xFF0C; <b>std::forward</b> &#x88AB;&#x79F0;&#x4E3A;&#x6761;&#x4EF6;&#x8F6C;&#x6362;&#xFF1A;&#x5B83;&#x4EC5;&#x5728;&#x5176;&#x53C2;&#x6570;&#x7531;&#x53F3;&#x503C;&#x521D;&#x59CB;&#x5316;&#x65F6;&#xFF0C;&#x624D;&#x5C06;&#x5176;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#x3002;
+可是，所有的参数（正如所有的函数参数一样），都是左值。因此，在函数 <b>logAndProcess</b> 中对 <b>process</b> 的调用，都会触发左值重载版本的 <b>process</b> 函数。为阻止这种情况发生，我们需要一种机制，它能在适当的时候 ──当传递给 <b>logAndProcsss</b> 的参数是右值的时候── 将参数转换为右值。这便是 <b>std::forward</b> 所做的事情。因此， <b>std::forward</b> 被称为条件转换：它仅在其参数由右值初始化时，才将其转换为右值。
 </p>
 
 <p>
-&#x4F60;&#x4E5F;&#x8BB8;&#x4F1A;&#x60F3;&#x77E5;&#x9053;&#xFF0C; <b>std::forward</b> &#x662F;&#x5982;&#x4F55;&#x77E5;&#x9053;&#x5176;&#x53C2;&#x6570;&#x662F;&#x7531;&#x53F3;&#x503C;&#x521D;&#x59CB;&#x5316;&#x800C;&#x6765;&#x7684;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x5982;&#x4E0A;&#x4F8B;&#x5B50;&#x4E2D;&#xFF0C; <b>std::forward</b> &#x662F;&#x5982;&#x4F55;&#x77E5;&#x9053;&#x521D;&#x59CB;&#x5316;&#x5176;&#x53C2;&#x6570;&#x7684;&#x662F;&#x5DE6;&#x503C;&#x8FD8;&#x662F;&#x53F3;&#x503C;&#xFF1F;&#x8981;&#x70B9;&#x5728;&#x4E8E; <b>logAndProcess</b> &#x7684;&#x6A21;&#x677F;&#x53C2;&#x6570;T&#xFF0C;&#x53C2;&#x6570;&#x7684;&#x5DE6;&#x3001;&#x53F3;&#x503C;&#x4FE1;&#x606F;&#x4FBF;&#x9690;&#x85CF;&#x5176;&#x4E2D;&#xFF0C;&#x501F;&#x7531; <b>std::forward</b> &#x5C06;&#x5176;&#x8FD8;&#x539F;&#x3002;&#x8BE6;&#x7EC6;&#x60C5;&#x51B5;&#x6211;&#x5C06;&#x4E0E;<a href="./item28.html">&#x6761;&#x6B3E;28</a>&#x4E2D;&#x4E3A;&#x4F60;&#x8BB2;&#x8FF0;&#x3002;
+你也许会想知道， <b>std::forward</b> 是如何知道其参数是由右值初始化而来的。例如，在如上例子中， <b>std::forward</b> 是如何知道初始化其参数的是左值还是右值？要点在于 <b>logAndProcess</b> 的模板参数T，参数的左、右值信息便隐藏其中，借由 <b>std::forward</b> 将其还原。详细情况我将与<a href="./item28.html">条款28</a>中为你讲述。
 </p>
 
 <p>
-<b>std::move</b> &#x548C; <b>std::forward</b> &#x90FD;&#x88AB;&#x5F52;&#x7ED3;&#x4E3A;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x51FD;&#x6570;&#xFF0C;&#x5B83;&#x4EEC;&#x7684;&#x552F;&#x4E00;&#x533A;&#x522B;&#x662F; <b>std::move</b> &#x603B;&#x662F;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF0C;&#x800C; <b>std::forward</b> &#x5219;&#x53EA;&#x4F1A;&#x5728;&#x9700;&#x8981;&#x7684;&#x65F6;&#x5019;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF0C;&#x4F60;&#x4E5F;&#x8BB8;&#x4F1A;&#x95EE;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x5426;&#x53EF;&#x4EE5;&#x6452;&#x5F03; <b>std::move</b> &#xFF0C;&#x53EA;&#x4F7F;&#x7528; <b>std::forward</b> &#xFF1F;&#x4ECE;&#x6280;&#x672F;&#x5C42;&#x9762;&#x6765;&#x8BF4;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x90A3;&#x4E48;&#x505A;&#xFF0C; <b>std::move</b> &#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x4F60;&#x53EF;&#x4EE5;&#x8BA4;&#x4E3A;&#x5B83;&#x4EEC;&#x4E24;&#x90FD;&#x4E0D;&#x662F;&#x5FC5;&#x987B;&#x7684;&#xFF0C;&#x56E0;&#x4E3A;&#x4F60;&#x53EF;&#x4EE5;&#x5728;&#x4EFB;&#x4F55;&#x9700;&#x8981;&#x8F6C;&#x6362;&#x7684;&#x5730;&#x65B9;&#x624B;&#x52A8;&#x7F16;&#x5199;&#x8F6C;&#x6362;&#x4EE3;&#x7801;&#xFF0C;&#x4F46;&#x6211;&#x8FD8;&#x662F;&#x5E0C;&#x671B;&#x5927;&#x5BB6;&#x5C3D;&#x91CF;&#x4F7F;&#x7528;&#x5B83;&#x4EEC;&#xFF0C;&#x6BD5;&#x7ADF;&#x968F;&#x5904;&#x53EF;&#x89C1;&#x7684;&#x76F8;&#x4F3C;&#x4EE3;&#x7801;&#xFF08;&#x624B;&#x52A8;&#x7F16;&#x5199;&#x7684;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#x4EE3;&#x7801;&#xFF09;&#xFF0C;&#x5E76;&#x4E0D;&#x7B26;&#x5408;&#x8F6F;&#x4EF6;&#x5F00;&#x53D1;&#x7684;&#x54F2;&#x5B66;&#x3002;
+<b>std::move</b> 和 <b>std::forward</b> 都被归结为类型转换函数，它们的唯一区别是 <b>std::move</b> 总是进行转换，而 <b>std::forward</b> 则只会在需要的时候进行转换，你也许会问，我们是否可以摒弃 <b>std::move</b> ，只使用 <b>std::forward</b> ？从技术层面来说，你可以那么做， <b>std::move</b> 不是必须的。当然，你可以认为它们两都不是必须的，因为你可以在任何需要转换的地方手动编写转换代码，但我还是希望大家尽量使用它们，毕竟随处可见的相似代码（手动编写的类型转换代码），并不符合软件开发的哲学。
 </p>
 
 <p>
-<b>std::move</b> &#x7684;&#x5438;&#x5F15;&#x529B;&#x5728;&#x4E8E;&#x65B9;&#x4FBF;&#x3001;&#x51CF;&#x5C11;&#x53EF;&#x80FD;&#x7684;&#x9519;&#x8BEF;&#x4EE5;&#x53CA;&#x8BED;&#x4E49;&#x6E05;&#x6670;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x9700;&#x8981;&#x7EDF;&#x8BA1;&#x67D0;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#x6B21;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x53EA;&#x9700;&#x8981;&#x5B9A;&#x4E49;&#x4E00;&#x9759;&#x6001;&#x8BA1;&#x6570;&#x5668;&#xFF0C;&#x5C06;&#x5176;&#x4E8E;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x4E2D;&#x81EA;&#x589E;&#xFF0C;&#x5047;&#x4F7F;&#x8BE5;&#x7C7B;&#x4EC5;&#x6709;&#x4E00;&#x4E2A; <b>std::string</b> &#x7C7B;&#x578B;&#x7684;&#x975E;&#x9759;&#x6001;&#x6210;&#x5458;&#x53D8;&#x91CF;&#xFF0C;&#x90A3;&#x4E48;&#xFF0C;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x73B0;&#x4FBF;&#x975E;&#x5E38;&#x7B80;&#x5355;&#xFF08;&#x4F7F;&#x7528; <b>std::move</b> &#xFF09;&#xFF1A;
+<b>std::move</b> 的吸引力在于方便、减少可能的错误以及语义清晰。如果我们需要统计某移动构造函数的调用次数，我们只需要定义一静态计数器，将其于移动构造函数中自增，假使该类仅有一个 <b>std::string</b> 类型的非静态成员变量，那么，移动构造函数的实现便非常简单（使用 <b>std::move</b> ）：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Widget {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Widget(Widget&amp;&amp; rhs)</span><br><span class="line">	: s(<span class="built_in">std</span>::move(rhs.s))</span><br><span class="line">    { ++moveCtorCalls; }</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> <span class="built_in">std</span>::<span class="keyword">size_t</span> moveCtorCalls;</span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">string</span> s;</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr"> 1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Widget</span> {
+<span class="linenr"> 2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr"> 3 </span>    <span style="color: #ffd700;">Widget</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">rhs</span>)
+<span class="linenr"> 4 </span>        : s(<span style="color: #5fafd7;">std</span>::move(rhs.s))
+<span class="linenr"> 5 </span>    { ++moveCtorCalls; }
+<span class="linenr"> 6 </span>
+<span class="linenr"> 7 </span>    ...
+<span class="linenr"> 8 </span><span style="color: #a1db00;">private</span>:
+<span class="linenr"> 9 </span>    <span style="color: #a1db00;">static</span> <span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">size_t</span> <span style="color: #ff8700;">moveCtorCalls</span>;
+<span class="linenr">10 </span>    <span style="color: #5fafd7;">std</span>::<span style="color: #00d7af;">string</span> <span style="color: #ff8700;">s</span>;
+<span class="linenr">11 </span>};
+</pre>
 </div>
 
 <p>
-&#x5F53;&#x7136;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x4F7F;&#x7528; <b>std::forward</b> &#x5B9E;&#x73B0;&#x8BE5;&#x51FD;&#x6570;&#xFF1A;
+当然，也可以使用 <b>std::forward</b> 实现该函数：
 </p>
 
 <div class="org-src-container">
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Widget {</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Widget(Widget&amp;&amp; rhs)                         <span class="comment">// unconventional,</span></span><br><span class="line">	: s(<span class="built_in">std</span>::forward&lt;<span class="built_in">std</span>::<span class="built_in">string</span>&gt;(rhs.s))    <span class="comment">// undesirable</span></span><br><span class="line">    { ++moveCtorCalls; }                         <span class="comment">// implementation</span></span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">};</span><br></pre></td></tr></table></figure>
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">Widget</span> {
+<span class="linenr">2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr">3 </span>    <span style="color: #ffd700;">Widget</span>(<span style="color: #00d7af;">Widget</span>&amp;&amp; <span style="color: #ff8700;">rhs</span>)                         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">unconventional,</span>
+<span class="linenr">4 </span>        : s(<span style="color: #5fafd7;">std</span>::forward&lt;<span style="color: #5fafd7;">std</span>::string&gt;(rhs.s))    <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">undesirable</span>
+<span class="linenr">5 </span>    { ++moveCtorCalls; }                         <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">implementation</span>
+<span class="linenr">6 </span>
+<span class="linenr">7 </span>    ...
+<span class="linenr">8 </span>};
+</pre>
 </div>
 
 <p>
-&#x6CE8;&#x610F;&#xFF0C;&#x5728;&#x4F7F;&#x7528; <b>std::move</b> &#x65F6;&#xFF0C;&#x4F60;&#x53EA;&#x9700;&#x5411;&#x5B83;&#x4F20;&#x9012;&#x4E00;&#x4E2A;&#x53C2;&#x6570;&#xFF08;rhs.s&#xFF09;&#x5373;&#x53EF;&#xFF0C;&#x800C; <b>std::forward</b> &#x8FD8;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x4E00;&#x4E2A;&#x6A21;&#x677F;&#x53C2;&#x6570;&#xFF08; <b>std::string</b> &#xFF09;&#xFF0C;&#x4F60;&#x4E0D;&#x9700;&#x8981;&#x4E3A;&#x5B83;&#xFF08;&#x6A21;&#x677F;&#x53C2;&#x6570;&#xFF09;&#x6307;&#x5B9A;&#x5F15;&#x7528;&#x7C7B;&#x578B;&#xFF0C;&#x56E0;&#x4E3A;&#x8FD9;&#xFF08;&#x5B83;&#x662F;&#x4E00;&#x4E2A;&#x53F3;&#x503C;&#xFF09;&#x5DF2;&#x7ECF;&#x662F;&#x7EA6;&#x5B9A;&#x4FD7;&#x6210;&#x7684;&#x4E1C;&#x897F;&#x4E86;&#xFF08;&#x53C2;&#x9605;<a href="./item28.html">&#x6761;&#x6B3E;28</a>&#xFF09;&#x3002;&#x56E0;&#x6B64;&#x4F7F;&#x7528; <b>std::move</b> &#x6BD4; <b>std::forward</b> &#x66F4;&#x65B9;&#x4FBF;&#xFF0C;&#x8FD8;&#x80FD;&#x907F;&#x514D;&#x9519;&#x8BEF;&#x7684;&#x7C7B;&#x578B;&#x53C2;&#x6570;&#x5BFC;&#x81F4;&#x7684;&#x884C;&#x4E3A;&#x5F02;&#x5E38;&#xFF08;&#x4F8B;&#x5982;&#xFF1A;&#x4F20;&#x5165; <b>std::string&amp;</b> &#x5C06;&#x5BFC;&#x81F4;&#x6210;&#x5458;&#x53D8;&#x91CF; <b>s</b> &#x88AB;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#xFF0C;&#x800C;&#x4E0D;&#x662F;&#x79FB;&#x52A8;&#x6784;&#x9020;&#xFF09;&#x3002;
+注意，在使用 <b>std::move</b> 时，你只需向它传递一个参数（rhs.s）即可，而 <b>std::forward</b> 还需要指定一个模板参数（ <b>std::string</b> ），你不需要为它（模板参数）指定引用类型，因为这（它是一个右值）已经是约定俗成的东西了（参阅<a href="./item28.html">条款28</a>）。因此使用 <b>std::move</b> 比 <b>std::forward</b> 更方便，还能避免错误的类型参数导致的行为异常（例如：传入 <b>std::string&amp;</b> 将导致成员变量 <b>s</b> 被拷贝构造，而不是移动构造）。
 </p>
 
 <p>
-&#x66F4;&#x91CD;&#x8981;&#x7684;&#x662F;&#xFF0C; <b>std::move</b> &#x7684;&#x4F7F;&#x7528;&#x7ED9;&#x6211;&#x4EEC;&#x4F20;&#x9012;&#x4E86;&#x65E0;&#x6761;&#x4EF6;&#x53F3;&#x503C;&#x8F6C;&#x6362;&#x7684;&#x8BED;&#x4E49;&#xFF0C;&#x800C; <b>std::forward</b> &#x5219;&#x8868;&#x660E;&#x4EC5;&#x4F1A;&#x5BF9;&#x7ED1;&#x5B9A;&#x81F3;&#x53F3;&#x503C;&#x7684;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#xFF0C;&#x8FD9;&#x662F;&#x4E24;&#x79CD;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x884C;&#x4E3A;&#xFF0C;&#x524D;&#x8005;&#x662F;&#x5178;&#x578B;&#x7684;&#x79FB;&#x52A8;&#xFF0C;&#x540E;&#x8005;&#x53EA;&#x662F;&#x5C06;&#x5BF9;&#x8C61;&#x2500;&#x2500; <b>&#x8F6C;&#x53D1;</b> &#x2500;&#x2500;&#x7ED9;&#x53E6;&#x4E00;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x4FDD;&#x7559;&#x5B83;&#x7684;&#x5DE6;&#x3001;&#x53F3;&#x503C;&#x5C5E;&#x6027;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x8BBE;&#x8BA1;&#x4E24;&#x4E2A;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x51FD;&#x6570;&#xFF08;&#x53CA;&#x51FD;&#x6570;&#x540D;&#xFF09;&#x533A;&#x5206;&#x5B83;&#x4EEC;&#xFF0C;&#x662F;&#x4E00;&#x4E2A;&#x5F88;&#x597D;&#x7684;&#x51B3;&#x8BAE;&#x3002;
+更重要的是， <b>std::move</b> 的使用给我们传递了无条件右值转换的语义，而 <b>std::forward</b> 则表明仅会对绑定至右值的参数进行转换，这是两种完全不同的行为，前者是典型的移动，后者只是将对象── <b>转发</b> ──给另一函数，并保留它的左、右值属性，因此，设计两个完全不同的函数（及函数名）区分它们，是一个很好的决议。
 </p>
 </div>
 
-<div id="outline-container-orgde28b4e" class="outline-4">
-<h4 id="&#x8BB0;&#x4F4F;"><a id="orgde28b4e"></a>&#x8BB0;&#x4F4F;&#xFF1A;</h4>
-<div class="outline-text-4" id="text-&#x8BB0;&#x4F4F;">
+<div id="outline-container-orgd4f03aa" class="outline-4">
+<h4 id="记住"><a id="orgd4f03aa"></a>记住：</h4>
+<div class="outline-text-4" id="text-记住">
 <ul class="org-ul">
-<li><b>std::move</b> &#x65E0;&#x6761;&#x4EF6;&#x7684;&#x5C06;&#x5176;&#x53C2;&#x6570;&#x8F6C;&#x6362;&#x4E3A;&#x53F3;&#x503C;&#xFF0C;&#x5B83;&#x4E0D;&#x4F1A;&#x8FDB;&#x884C;&#x4EFB;&#x4F55;&#x79FB;&#x52A8;&#x3002;</li>
-<li><b>std::forward</b> &#x53EA;&#x4F1A;&#x5728;&#x5176;&#x53C2;&#x6570;&#x4E3A;&#x53F3;&#x503C;&#x65F6;&#xFF0C;&#x624D;&#x4F1A;&#x8FDB;&#x884C;&#x8F6C;&#x6362;&#x3002;</li>
-<li><b>std::move</b> &#x4E0E; <b>std::forward</b> &#x5747;&#x65E0;&#x8FD0;&#x884C;&#x65F6;&#x5F00;&#x9500;&#x3002;</li>
+<li><b>std::move</b> 无条件的将其参数转换为右值，它不会进行任何移动。</li>
+<li><b>std::forward</b> 只会在其参数为右值时，才会进行转换。</li>
+<li><b>std::move</b> 与 <b>std::forward</b> 均无运行时开销。</li>
 </ul>
 </div>
 </div>
@@ -605,14 +680,14 @@ w&#x662F;&#x4E00;&#x4E2A;&#x5DE6;&#x503C;&#xFF0C;&#x5C3D;&#x7BA1;&#x5B83;&#x7684
 <div id="text-footnotes">
 
 <div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
-Moving a value out of an object generally modifies the object.&#x610F;&#x4E3A;&#x5BF9;&#x8BE5;&#x5BF9;&#x8C61;&#x8C03;&#x7528; <b>std::move</b> &#x540E;&#xFF0C;&#x8BE5;&#x5BF9;&#x8C61;&#x53D8;&#x6210;&#x4E86;&#x53F3;&#x503C;&#xFF0C;&#x5176;&#x5B9E;&#x4FBF;&#x662F;&#x4FEE;&#x6539;&#x4E86;&#x8BE5;&#x5BF9;&#x8C61;&#xFF0C;&#x4E0E;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;const&#x5C5E;&#x6027;&#x76F8;&#x77DB;&#x76FE;&#x3002;
+Moving a value out of an object generally modifies the object.意为对该对象调用 <b>std::move</b> 后，该对象变成了右值，其实便是修改了该对象，与该对象的const属性相矛盾。
 </p></div></div>
 
 
 </div>
 </div></div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated 2017-08-07 Mon 04:12. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-08-30 Wed 16:17</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
 </div>
 
       
@@ -752,7 +827,7 @@ Moving a value out of an object generally modifies the object.&#x610F;&#x4E3A;&#
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>

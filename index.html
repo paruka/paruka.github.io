@@ -277,6 +277,199 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://paruka.me/translation/effective_modern_cpp/item33.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paruka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eloquent Programmer">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/translation/effective_modern_cpp/item33.html" itemprop="url">条款33：在对auto&&参数执行std::forward时使用decltype</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-08-30T15:53:00+08:00">
+                2017-08-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Translation/" itemprop="url" rel="index">
+                    <span itemprop="name">Translation</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Translation/Effective-Modern-C/" itemprop="url" rel="index">
+                    <span itemprop="name">Effective Modern C++</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/translation/effective_modern_cpp/item33.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="translation/effective_modern_cpp/item33.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/translation/effective_modern_cpp/item33.html" class="leancloud_visitors" data-flag-title="条款33：在对auto&&参数执行std::forward时使用decltype">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <div id="content">
+<p>
+<b>C++14</b> 中最令人兴奋的特性之一便是 <i>泛型lambda</i> ──可用 <b>auto</b> 声明lambda函数的参数。这一特性的实现很直白：将该lambda闭包类的 <b>operator()</b> 实现为一模板。以如下 <b>lambda</b> 为例：
+</p>
+<div class="org-src-container">
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">f</span> = [](<span style="color: #a1db00;">auto</span> <span style="color: #ff8700;">x</span>) { <span style="color: #a1db00;">return</span> func(normalize(x)); };
+</pre>
+</div>
+<p>
+其闭包类的函数调用操作符大致如下：
+</p>
+
+<div class="org-src-container">
+<pre class="src src-C++"><span class="linenr">1 </span><span style="color: #a1db00;">class</span> <span style="color: #00d7af;">SomeCompilerGeneratedClassName</span> {
+<span class="linenr">2 </span><span style="color: #a1db00;">public</span>:
+<span class="linenr">3 </span>    <span style="color: #a1db00;">template</span> &lt;<span style="color: #a1db00;">typename</span> <span style="color: #00d7af;">T</span>&gt;              <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">see Item 3 for</span>
+<span class="linenr">4 </span>    <span style="color: #a1db00;">auto</span> <span style="color: #a1db00;">operator</span> <span style="color: #ffd700;">()</span>(<span style="color: #00d7af;">T</span> <span style="color: #ff8700;">x</span>) <span style="color: #a1db00;">const</span>        <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">auto return type</span>
+<span class="linenr">5 </span>    { <span style="color: #a1db00;">return</span> func(<span style="color: #00d7af;">normalize</span>(<span style="color: #ff8700;">x</span>)); }
+<span class="linenr">6 </span>
+<span class="linenr">7 </span>    ...                                <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">other closure class</span>
+<span class="linenr">8 </span>};                                     <span style="color: #6c6c6c; font-style: italic;">// </span><span style="color: #6c6c6c; font-style: italic;">functionality</span>
+</pre>
+</div></div>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/translation/effective_modern_cpp/item33.html#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://paruka.me/study_notes/ocw/mit/6.828/lab_0.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -401,20 +594,20 @@
         
           <div id="content">
 
-<div id="outline-container-orgc070b10" class="outline-2">
-<h2 id="&#x7B80;&#x4ECB;"><a id="orgc070b10"></a>&#x7B80;&#x4ECB;</h2>
-<div class="outline-text-2" id="text-&#x7B80;&#x4ECB;">
+<div id="outline-container-orgcddb736" class="outline-2">
+<h2 id="简介"><a id="orgcddb736"></a>简介</h2>
+<div class="outline-text-2" id="text-简介">
 <p>
-<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit 6.828</a>&#x662F;&#x4E00;&#x95E8;&#x5E7F;&#x53D7;&#x597D;&#x8BC4;&#x7684;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x8BFE;&#x7A0B;&#xFF0C;&#x5B83;&#x79C9;&#x627F;&#x5B9E;&#x8DF5;&#x4E3A;&#x4E3B;&#x7684;&#x7406;&#x5FF5;&#xFF0C;&#x901A;&#x8FC7;&#x8BBE;&#x8BA1;&#x5E76;&#x5B9E;&#x73B0;&#x4E00;unix-like&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#xFF0C;&#x52A0;&#x6DF1;&#x5B66;&#x4E60;&#x8005;&#x5BF9;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x7684;&#x7406;&#x89E3;&#x3002;&#x672C;&#x6587;&#x5C06;&#x9075;&#x5FAA;<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>&#x7684;&#x6307;&#x5F15;&#xFF0C;&#x5B8C;&#x6210;&#x5B66;&#x4E60;&#x73AF;&#x5883;&#x7684;&#x642D;&#x5EFA;&#xFF0C;&#x4E3A;&#x540E;&#x7EED;&#x5B66;&#x4E60;&#x505A;&#x597D;&#x51C6;&#x5907;&#x3002;
+<a href="https://pdos.csail.mit.edu/6.828/2016/schedule.html" target="_blank" rel="external">mit 6.828</a>是一门广受好评的操作系统课程，它秉承实践为主的理念，通过设计并实现一unix-like操作系统，加深学习者对操作系统的理解。本文将遵循<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>的指引，完成学习环境的搭建，为后续学习做好准备。
 </p>
 
 <p>
-&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x672C;&#x6587;&#x5185;&#x5BB9;&#x6E90;&#x4E8E;<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>&#xFF0C;&#x672C;&#x5E94;&#x4E0E;&#x4E0B;&#x4E00;&#x7BC7;&#x5B66;&#x4E60;&#x7B14;&#x8BB0;&#x4E00;&#x8D77;&#xFF0C;&#x63A2;&#x8BA8;&#x8BA1;&#x7B97;&#x673A;&#x7684;&#x542F;&#x52A8;&#x6D41;&#x7A0B;&#xFF0C;&#x4F46;&#x56E0;&#x672C;&#x4EBA;&#x592A;&#x61D2;&#xFF0C;&#x8FD8;&#x662F;&#x5206;&#x6210;&#x4E24;&#x7BC7;&#x535A;&#x6587;&#x8BB2;&#x89E3;&#x5427;&#x3002;
+事实上，本文内容源于<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>，本应与下一篇学习笔记一起，探讨计算机的启动流程，但因本人太懒，还是分成两篇博文讲解吧。
 </p>
 
 <p>
-Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x4E60;&#xFF0C;&#x76EE;&#x7684;&#x662F;&#x4ECB;&#x7ECD;x86&#x6C47;&#x7F16;&#x4EE5;&#x53CA;PC&#x7684;&#x542F;&#x52A8;&#x6D41;&#x7A0B;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x9700;&#x8981;QEMU&#x53CA;QEMU/GDB&#x8FDB;&#x884C;&#x534F;&#x8C03;&#x8C03;&#x8BD5;&#x3002;&#x5173;&#x4E8E;x86&#x6C47;&#x7F16;&#x76F8;&#x5173;&#x77E5;&#x8BC6;&#xFF0C;<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>&#x4E2D;&#x7ED9;&#x4E88;&#x4E86;&#x5F88;&#x591A;&#x5B66;&#x4E60;&#x8D44;&#x6599;&#xFF0C;&#x5728;&#x6B64;&#x4FBF;&#x4E0D;&#x518D;&#x5E9F;&#x8BDD;&#x4E86;&#xFF0C;&#x672C;&#x6587;&#x53EA;&#x4F1A;&#x8BB0;&#x5F55;&#x5B66;&#x4E60;&#x73AF;&#x5883;&#x7684;&#x642D;&#x5EFA;&#x8FC7;&#x7A0B;&#x3002;
-</p>
+Lab 1是该课程的第一个练习，目的是介绍x86汇编以及PC的启动流程，因此，需要QEMU及QEMU/GDB进行协调调试。关于x86汇编相关知识，<a href="https://pdos.csail.mit.edu/6.828/2016/labs/lab1/" target="_blank" rel="external">Lab 1: Booting a PC</a>中给予了很多学习资料，在此便不再废话了，本文只会记录学习环境的搭建过程。
+</p></div></div></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/study_notes/ocw/mit/6.828/lab_0.html#more" rel="contents">
@@ -587,12 +780,12 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 <p>
-&#x90FD;&#x8BF4;&#x771F;&#x7406;&#x8BA9;&#x4EBA;&#x5982;&#x83B7;&#x81EA;&#x7531;&#xFF0C;&#x4F46;&#x5728;&#x6B63;&#x786E;&#x7684;&#x60C5;&#x5F62;&#x4E0B;&#xFF0C;&#x4E00;&#x4E2A;&#x6070;&#x5F53;&#x7684;&#x8C0E;&#x8A00;&#x5374;&#x80FD;&#x4EA7;&#x751F;&#x540C;&#x6837;&#x7684;&#x6548;&#x679C;&#x3002;&#x6B64;&#x6761;&#x6B3E;&#x4FBF;&#x662F;&#x4E00;&#x4E2A;&#x8FD9;&#x6837;&#x7684;&#x8C0E;&#x8A00;&#x3002;&#x4E0D;&#x8FC7;&#xFF0C;&#x6211;&#x4EEC;&#x662F;&#x5728;&#x4E0E;&#x8F6F;&#x4EF6;&#x6253;&#x4EA4;&#x9053;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5E94;&#x907F;&#x514D;&#x4F7F;&#x7528;&quot;&#x8C0E;&#x8A00;&quot;&#x8FD9;&#x6837;&#x7684;&#x654F;&#x611F;&#x8BCD;&#x6C47;&#xFF0C;&#x6545;&#x7528;&quot;&#x62BD;&#x8C61;&quot;&#x4E00;&#x8BCD;&#x53D6;&#x800C;&#x4EE3;&#x4E4B;&#x3002;
+都说真理让人如获自由，但在正确的情形下，一个恰当的谎言却能产生同样的效果。此条款便是一个这样的谎言。不过，我们是在与软件打交道，因此，应避免使用"谎言"这样的敏感词汇，故用"抽象"一词取而代之。
 </p>
 
 <p>
-&#x4F60;&#x4F7F;&#x7528; <b>T&amp;&amp;</b> &#x7684;&#x65B9;&#x5F0F;&#x6765;&#x58F0;&#x660E;&#x4E00;&#x53F3;&#x503C;&#x5F15;&#x7528;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x5047;&#x5B9A;&#x4EE3;&#x7801;&#x4E2D;&#x770B;&#x5230;&#x7684;&quot;T&amp;&amp;&quot;&#x4E3A;&#x53F3;&#x503C;&#x5F15;&#x7528;&#xFF0C;&#x4F3C;&#x4E4E;&#x5408;&#x4E4E;&#x60C5;&#x7406;&#x3002;&#x54CE;&#xFF0C;&#x53EF;&#x60DC;&#x5B83;&#x5E76;&#x975E;&#x5982;&#x6B64;&#x7B80;&#x5355;&#x3002;
-</p>
+你使用 <b>T&amp;&amp;</b> 的方式来声明一右值引用。因此，假定代码中看到的"T&amp;&amp;"为右值引用，似乎合乎情理。哎，可惜它并非如此简单。
+</p></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/effective_modern_cpp/item24.html#more" rel="contents">
@@ -765,19 +958,19 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 <p>
-&#x7FFB;&#x8BD1;&#x81F3;<a href="http://en.cppreference.com/w/cpp/language/copy_elision" target="_blank" rel="external">cppreference</a>&#x3002;
+翻译至<a href="http://en.cppreference.com/w/cpp/language/copy_elision" target="_blank" rel="external">cppreference</a>。
 </p>
 
 <p>
-&#x4F18;&#x5316;&#x4E86;&#x62F7;&#x8D1D;&#x53CA;&#x79FB;&#x52A8;(since C++11)&#x6784;&#x9020;&#x51FD;&#x6570;&#xFF0C;&#x63D0;&#x4F9B;&#x503C;&#x4F20;&#x9012;&#x7684;&#x96F6;&#x62F7;&#x8D1D;&#x8BED;&#x4E49;&#x3002;
+优化了拷贝及移动(since C++11)构造函数，提供值传递的零拷贝语义。
 </p>
 
-<div id="outline-container-org3d5e3eb" class="outline-2">
-<h2 id="&#x89E3;&#x91CA;"><a id="org3d5e3eb"></a>&#x89E3;&#x91CA;</h2>
-<div class="outline-text-2" id="text-&#x89E3;&#x91CA;">
+<div id="outline-container-orge82ac14" class="outline-2">
+<h2 id="解释"><a id="orge82ac14"></a>解释</h2>
+<div class="outline-text-2" id="text-解释">
 <p>
-&#x5728;&#x4EE5;&#x4E0B;&#x60C5;&#x51B5;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5FC5;&#x987B;&#x7701;&#x7565;&#x62F7;&#x8D1D;&#x53CA;&#x590D;&#x5236;&#x6784;&#x9020;&#x51FD;&#x6570;&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x5373;&#x4FBF;&#x8BE5;&#x5BF9;&#x8C61;&#x7684;&#x62F7;&#x8D1D;/&#x590D;&#x5236;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;&#x6790;&#x6784;&#x51FD;&#x6570;&#x6709;&#x660E;&#x663E;&#x7684;&#x526F;&#x4F5C;&#x7528;&#x3002;
-</p>
+在以下情况，编译器必须省略拷贝及复制构造函数的调用，即便该对象的拷贝/复制构造函数和析构函数有明显的副作用。
+</p></div></div></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/cppreference/copy_elision.html#more" rel="contents">
@@ -950,19 +1143,19 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 
-<div id="outline-container-org3573098" class="outline-2">
-<h2 id="&#x7B2C;&#x4E94;&#x7AE0;-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;"><a id="org3573098"></a>&#x7B2C;&#x4E94;&#x7AE0; &#x53F3;&#x503C;&#x5F15;&#x7528;&#x3001;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;</h2>
-<div class="outline-text-2" id="text-&#x7B2C;&#x4E94;&#x7AE0;-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;">
+<div id="outline-container-orgdc926b6" class="outline-2">
+<h2 id="第五章-右值引用移动语义及完美转发"><a id="orgdc926b6"></a>第五章 右值引用、移动语义及完美转发</h2>
+<div class="outline-text-2" id="text-第五章-右值引用移动语义及完美转发">
 <p>
-&#x5F53;&#x4F60;&#x521D;&#x6B21;&#x5B66;&#x4E60;&#x5B83;&#x4EEC;&#x65F6;&#xFF0C;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x548C;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x770B;&#x8D77;&#x6765;&#x975E;&#x5E38;&#x76F4;&#x767D;&#xFF1A;
+当你初次学习它们时，移动语义和完美转发看起来非常直白：
 </p>
 <ul class="org-ul">
-<li><b>&#x79FB;&#x52A8;&#x8BED;&#x4E49;</b> &#x8BA9;&#x7F16;&#x8BD1;&#x5668;&#x5C06;&#x4EE3;&#x4EF7;&#x9AD8;&#x6602;&#x7684;&#x62F7;&#x8D1D;&#x64CD;&#x4F5C;&#x66FF;&#x6362;&#x4E3A;&#x76F8;&#x5BF9;&#x4F4E;&#x5EC9;&#x7684;&#x79FB;&#x52A8;&#x64CD;&#x4F5C;&#x3002;&#x6B63;&#x5982;&#x5176;&#x540D;&#xFF0C;&#x62F7;&#x8D1D;&#x6784;&#x9020;&#x51FD;&#x6570;&#x53CA;&#x62F7;&#x8D1D;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x7ED9;&#x4E88;&#x4F60;&#x63A7;&#x5236;&#x5BF9;&#x8C61;&#x590D;&#x5236;&#x7684;&#x80FD;&#x529B;&#xFF0C;&#x4E0E;&#x6B64;&#x7C7B;&#x4F3C;&#xFF0C;&#x79FB;&#x52A8;&#x6784;&#x9020;&#x51FD;&#x6570;&#x548C;&#x79FB;&#x52A8;&#x8D4B;&#x503C;&#x51FD;&#x6570;&#x5219;&#x7ED9;&#x4E88;&#x4F60;&#x63A7;&#x5236;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x7684;&#x80FD;&#x529B;&#x3002;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x8FD8;&#x5141;&#x8BB8;&#x4F60;&#x521B;&#x5EFA;move-only&#x7C7B;&#x578B;&#x7684;&#x5BF9;&#x8C61;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A; <b>std::unique_ptr</b> &#x3001; <b>std::future</b> &#x548C; <b>std::thread</b> &#x3002;</li>
-<li><b>&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;</b> &#x4F7F;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5C06;&#x6A21;&#x677F;&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x53C2;&#xFF08;&#x4EFB;&#x610F;&#x4FEE;&#x9970;&#x7B26;&#x7684;&#x5B9E;&#x53C2;&#xFF09;&#x8F6C;&#x53D1;&#x7ED9;&#x53E6;&#x4E00;&#x51FD;&#x6570;&#x3002;</li>
+<li><b>移动语义</b> 让编译器将代价高昂的拷贝操作替换为相对低廉的移动操作。正如其名，拷贝构造函数及拷贝赋值函数给予你控制对象复制的能力，与此类似，移动构造函数和移动赋值函数则给予你控制移动语义的能力。移动语义还允许你创建move-only类型的对象，例如： <b>std::unique_ptr</b> 、 <b>std::future</b> 和 <b>std::thread</b> 。</li>
+<li><b>完美转发</b> 使我们可以将模板函数的实参（任意修饰符的实参）转发给另一函数。</li>
 </ul>
 <p>
-&#x53F3;&#x503C;&#x5F15;&#x7528;&#x662F;&#x8FD9;&#x4E24;&#x4E2A;&#x8FE5;&#x5F02;&#x7279;&#x6027;&#x7684;&#x7C98;&#x5408;&#x5242;&#x3002;&#x5B83;&#x4EEC;&#x662F;&#x6784;&#x6210;&#x79FB;&#x52A8;&#x8BED;&#x4E49;&#x53CA;&#x5B8C;&#x7F8E;&#x8F6C;&#x53D1;&#x7684;&#x57FA;&#x77F3;&#x3002;
-</p>
+右值引用是这两个迥异特性的粘合剂。它们是构成移动语义及完美转发的基石。
+</p></div></div></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/effective_modern_cpp/item23.html#more" rel="contents">
@@ -1135,12 +1328,12 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 <p>
-&#x7FFB;&#x8BD1;&#x81F3;<a href="http://en.cppreference.com/w/cpp/language/value_category" target="_blank" rel="external">cppreference</a>&#x3001;<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/language/value_category&amp;oldid=85137" target="_blank" rel="external">cppreference</a>&#xFF0C;&#x5E76;&#x5BF9;&#x5176;&#x8FDB;&#x884C;&#x4E86;&#x6574;&#x5408;&#x3002;(&#x867D;&#x7136;&#x6211;&#x5E76;&#x4E0D;&#x660E;&#x767D;&#x8FD9;&#x4E24;&#x4E2A;&#x7F51;&#x7AD9;&#x7684;&#x533A;&#x522B;&#x2026;)
+翻译至<a href="http://en.cppreference.com/w/cpp/language/value_category" target="_blank" rel="external">cppreference</a>、<a href="http://en.cppreference.com/mwiki/index.php?title=cpp/language/value_category&amp;oldid=85137" target="_blank" rel="external">cppreference</a>，并对其进行了整合。(虽然我并不明白这两个网站的区别&#x2026;)
 </p>
 
 <p>
-&#x6BCF;&#x4E00;&#x4E2A;C++<a href="http://en.cppreference.com/w/cpp/language/expressions" target="_blank" rel="external">&#x8868;&#x8FBE;&#x5F0F;</a>&#xFF08;&#x6709;&#x64CD;&#x4F5C;&#x6570;&#x7684;&#x8FD0;&#x7B97;&#x7B26;&#x3001;&#x5B57;&#x9762;&#x503C;&#x3001;&#x53D8;&#x91CF;&#x540D;&#x7B49;&#xFF09;&#x90FD;&#x88AB;&#x8D4B;&#x4E88;&#x4E24;&#x79CD;&#x72EC;&#x7ACB;&#x7684;&#x5C5E;&#x6027;&#xFF1A;&#x578B;&#x522B;&#x548C;&#x503C;&#x7C7B;&#x578B;&#xFF08;value categories&#xFF09;&#x3002;&#x6BCF;&#x4E00;&#x4E2A;&#x8868;&#x8FBE;&#x5F0F;&#x90FD;&#x6709;&#x4E00;&#x4E9B;&#x975E;&#x5F15;&#x7528;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x4E14;&#x5F52;&#x5C5E;&#x4E0E;&#x4EE5;&#x4E0B;&#x4E09;&#x79CD;&#x503C;&#x7C7B;&#x578B;&#x4E2D;&#x7684;&#x4E00;&#x79CD;&#xFF1A;prvalue&#x3001;xvalue&#x3001;lvalue&#x3002;&#x5B83;&#x4EEC;&#x7684;&#x5B9A;&#x4E49;&#x5982;&#x4E0B;&#xFF1A;
-</p>
+每一个C++<a href="http://en.cppreference.com/w/cpp/language/expressions" target="_blank" rel="external">表达式</a>（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：
+</p></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/cppreference/value-categories.html#more" rel="contents">
@@ -1313,12 +1506,12 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 <p>
-&#x5982;&#x679C;&#x4F60;&#x5DF2;&#x7ECF;&#x9605;&#x8BFB;&#x4E86;<a href="./item1.html">&#x6761;&#x6B3E;1</a>&#x4E2D;&#x5173;&#x4E8E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x4F60;&#x5E94;&#x8BE5;&#x5DF2;&#x7ECF;&#x638C;&#x63E1;&#x4E86;&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x7684;&#x5173;&#x4E8E;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x76F8;&#x5173;&#x7684;&#x77E5;&#x8BC6;&#xFF0C;&#x56E0;&#x4E3A;&#x4E0E;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x76F8;&#x6BD4;&#xFF0C;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4F8B;&#x5916;&#x3002;&#x8FD9;&#x662F;&#x4E3A;&#x4EC0;&#x4E48;&#x5462;&#xFF1F;&#x56E0;&#x4E3A;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x6D89;&#x53CA;&#x4E86;&#x6A21;&#x677F;&#x3001;&#x51FD;&#x6570;&#x548C;&#x53C2;&#x6570;&#xFF0C;&#x4F46;auto&#x5E76;&#x4E0D;&#x5173;&#x5FC3;&#x90A3;&#x4E9B;&#x4E1C;&#x897F;&#x3002;
+如果你已经阅读了<a href="./item1.html">条款1</a>中关于模板类型推导相关的内容，你应该已经掌握了几乎所有的关于auto类型推导相关的知识，因为与模板类型推导规则相比，auto类型推导规则只有一个例外。这是为什么呢？因为模板类型推导涉及了模板、函数和参数，但auto并不关心那些东西。
 </p>
 
 <p>
-&#x662F;&#x7684;&#xFF0C;&#x4F46;&#x8FD9;&#x65E0;&#x6240;&#x8C13;&#x3002;&#x5728;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E0E;auto&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x4E4B;&#x95F4;&#xFF0C;&#x6709;&#x4E00;&#x4E2A;&#x76F4;&#x63A5;&#x7684;&#x6620;&#x5C04;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x4E00;&#x79CD;&#x65B9;&#x6CD5;&#x5C06;&#x4ED6;&#x4EEC;&#x4E92;&#x76F8;&#x8F6C;&#x5316;&#x3002;
-</p>
+是的，但这无所谓。在模板类型推导与auto类型推导之间，有一个直接的映射，可以通过一种方法将他们互相转化。
+</p></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/effective_modern_cpp/item2.html#more" rel="contents">
@@ -1491,12 +1684,12 @@ Lab 1&#x662F;&#x8BE5;&#x8BFE;&#x7A0B;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x7EC3;&#x
         
           <div id="content">
 
-<div id="outline-container-org1ee874b" class="outline-2">
-<h2 id="&#x7B2C;&#x4E00;&#x7AE0;-&#x7C7B;&#x578B;&#x63A8;&#x5BFC;"><a id="org1ee874b"></a>&#x7B2C;&#x4E00;&#x7AE0; &#x7C7B;&#x578B;&#x63A8;&#x5BFC;</h2>
-<div class="outline-text-2" id="text-&#x7B2C;&#x4E00;&#x7AE0;-&#x7C7B;&#x578B;&#x63A8;&#x5BFC;">
+<div id="outline-container-orgbdf6f5b" class="outline-2">
+<h2 id="第一章-类型推导"><a id="orgbdf6f5b"></a>第一章 类型推导</h2>
+<div class="outline-text-2" id="text-第一章-类型推导">
 <p>
-C++98&#x6709;&#x4E00;&#x5957;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x7528;&#x4E8E;&#x51FD;&#x6570;&#x6A21;&#x677F;&#x7C7B;&#x578B;&#x7684;&#x63A8;&#x5BFC;&#x3002;C++11&#x5BF9;&#x5B83;&#x7A0D;&#x4F5C;&#x4FEE;&#x6539;&#xFF0C;&#x5E76;&#x589E;&#x52A0;&#x4E86;&#x4E24;&#x6761;&#xFF1A; <b>auto</b> &#x548C; <b>decltype</b> &#x3002;C++14&#x6269;&#x5C55;&#x4E86; <b>auto</b> &#x548C; <b>decltype</b> &#x7684;&#x4F7F;&#x7528;&#x8BED;&#x5883;&#x3002;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x7684;&#x666E;&#x904D;&#x5E94;&#x7528;&#xFF0C;&#x5C06;&#x4F60;&#x4ECE;&#x624B;&#x52A8;&#x62FC;&#x5199;&#x90A3;&#x4E9B;&#x591A;&#x4F59;&#x4E14;&#x660E;&#x663E;&#x7684;&#x7C7B;&#x578B;&#x7684;&#x7E41;&#x91CD;&#x4EFB;&#x52A1;&#x4E2D;&#x89E3;&#x653E;&#x51FA;&#x6765;&#xFF0C;&#x5B83;&#x8BA9;C++&#x4EE3;&#x7801;&#x66F4;&#x52A0;&#x901A;&#x7528;&#xFF0C;&#x5B83;&#x4F1A;&#x81EA;&#x52A8;&#x7684;&#xFF0C;&#x5C06;&#x4F60;&#x5BF9;&#x7C7B;&#x578B;&#x7684;&#x4FEE;&#x6539;&#x4F20;&#x64AD;&#x5230;&#x5176;&#x4ED6;&#x5730;&#x65B9;&#x3002;&#x5F53;&#x7136;&#xFF0C;&#x5B83;&#x4E5F;&#x4F1A;&#x8BA9;&#x4EE3;&#x7801;&#x884C;&#x4E3A;&#x66F4;&#x96BE;&#x63A8;&#x6D4B;&#xFF0C;&#x6BD5;&#x7ADF;&#x7F16;&#x8BD1;&#x5668;&#x63A8;&#x5BFC;&#x51FA;&#x7684;&#x7C7B;&#x578B;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x76F4;&#x90FD;&#x5982;&#x4F60;&#x6240;&#x6599;&#x3002;
-</p>
+C++98有一套类型推导规则用于函数模板类型的推导。C++11对它稍作修改，并增加了两条： <b>auto</b> 和 <b>decltype</b> 。C++14扩展了 <b>auto</b> 和 <b>decltype</b> 的使用语境。类型推导的普遍应用，将你从手动拼写那些多余且明显的类型的繁重任务中解放出来，它让C++代码更加通用，它会自动的，将你对类型的修改传播到其他地方。当然，它也会让代码行为更难推测，毕竟编译器推导出的类型并不是一直都如你所料。
+</p></div></div></div>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/translation/effective_modern_cpp/item1.html#more" rel="contents">
@@ -1582,7 +1775,7 @@ C++98&#x6709;&#x4E00;&#x5957;&#x7C7B;&#x578B;&#x63A8;&#x5BFC;&#x89C4;&#x5219;&#x
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
