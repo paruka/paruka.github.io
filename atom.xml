@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://paruka.me/"/>
-  <updated>2017-08-31T18:50:53.631Z</updated>
+  <updated>2017-08-31T19:25:53.101Z</updated>
   <id>http://paruka.me/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://paruka.me/study_notes/cc/top_level_const.html"/>
     <id>http://paruka.me/study_notes/cc/top_level_const.html</id>
     <published>2017-08-31T17:19:00.000Z</published>
-    <updated>2017-08-31T18:50:53.631Z</updated>
+    <updated>2017-08-31T19:25:53.101Z</updated>
     
     <content type="html"><![CDATA[<div id="content">
 <p>
@@ -28,7 +28,7 @@
 </p>
 <blockquote>
 <p>
-As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the objectsto which it can point are const. We use the term top-level const to indicate that thepointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the object to which it can point are const. We use the term top-level const to indicate that the pointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
 </p>
 </blockquote>
 <a id="more"></a>
@@ -133,7 +133,7 @@ char *const p = &amp;x;
 </p>
 </div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-09-01 Fri 02:50</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-09-01 Fri 03:26</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
 </div>
 ]]></content>
     
@@ -145,7 +145,7 @@ char *const p = &amp;x;
 &lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;
-As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the objectsto which it can point are const. We use the term top-level const to indicate that thepointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the object to which it can point are const. We use the term top-level const to indicate that the pointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
 &lt;/p&gt;
 &lt;/blockquote&gt;&lt;/div&gt;
     
