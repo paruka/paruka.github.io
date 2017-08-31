@@ -81,7 +81,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="c++" />
+  <meta name="keywords" content="C++," />
 
 
 
@@ -99,13 +99,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Eloquent Programmer">
-<meta property="og:url" content="http://paruka.me/archives/2017/07/index.html">
+<meta name="description" content="Stanley B. Lippman 在其传世名作 《C++ Primer》中对它们定义如下：    As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="top-level const与low-level const">
+<meta property="og:url" content="http://paruka.me/study_notes/cc/top_level_const.html">
 <meta property="og:site_name" content="Eloquent Programmer">
+<meta property="og:description" content="Stanley B. Lippman 在其传世名作 《C++ Primer》中对它们定义如下：    As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const">
 <meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-08-31T18:50:53.631Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Eloquent Programmer">
+<meta name="twitter:title" content="top-level const与low-level const">
+<meta name="twitter:description" content="Stanley B. Lippman 在其传世名作 《C++ Primer》中对它们定义如下：    As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const">
 
 
 
@@ -135,13 +140,13 @@
 
 
 
-  <link rel="canonical" href="http://paruka.me/archives/2017/07/"/>
+  <link rel="canonical" href="http://paruka.me/study_notes/cc/top_level_const.html"/>
 
 
 
 
 
-  <title>Archive | Eloquent Programmer</title>
+  <title>top-level const与low-level const | Eloquent Programmer</title>
   
 
 
@@ -169,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -263,148 +268,314 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://paruka.me/study_notes/cc/top_level_const.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Paruka">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/header.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Eloquent Programmer">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">top-level const与low-level const</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-09-01T01:19:00+08:00">
+                2017-09-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        Um..! 9 posts in total. Keep on posting.
-      </span>
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study-Notes/" itemprop="url" rel="index">
+                    <span itemprop="name">Study Notes</span>
+                  </a>
+                </span>
 
-      
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study-Notes/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C++</span>
+                  </a>
+                </span>
 
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2017">2017</h1>
-          </div>
-        
-        
 
-        
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/study_notes/cc/top_level_const.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="study_notes/cc/top_level_const.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/study_notes/cc/top_level_const.html" class="leancloud_visitors" data-flag-title="top-level const与low-level const">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/study_notes/ocw/mit/6.828/lab_0.html" itemprop="url">
-              
-                <span itemprop="name">Lab 0：环境搭建</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-20T18:03:00+08:00"
-              content="2017-07-20" >
-          07-20
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/translation/effective_modern_cpp/item24.html" itemprop="url">
-              
-                <span itemprop="name">条款24：区别通用引用与右值引用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-10T15:22:00+08:00"
-              content="2017-07-10" >
-          07-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/translation/cppreference/copy_elision.html" itemprop="url">
-              
-                <span itemprop="name">Copy elision</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-07-10T12:38:00+08:00"
-              content="2017-07-10" >
-          07-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <div id="content">
+<p>
+<a href="https://en.wikipedia.org/wiki/Stanley_B._Lippman" target="_blank" rel="external">Stanley B. Lippman</a> 在其传世名作 <a href="https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B00CE43I04/ref=sr_1_2?ie=UTF8&amp;qid=1504203020&amp;sr=8-2&amp;keywords=C%2B%2B+Primer" target="_blank" rel="external">《C++ Primer》</a>中对它们定义如下：
+</p>
+<blockquote>
+<p>
+As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the objectsto which it can point are const. We use the term top-level const to indicate that thepointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+</p>
+</blockquote>
+<a id="more"></a>
+<p>
+大意是：本身为const的指针称为 <b>top-level const</b> ，指向的内容为const的指针为 <b>low-level const</b> 。
+</p>
+
+<p>
+<a href="https://stackoverflow.com/questions/7914444/what-are-top-level-const-qualifiers" target="_blank" rel="external">stackoverflow</a>上有一个很好的解答：
+</p>
+
+<p>
+A top-level const qualifier affects the object itself. Others are only relevant with pointers and references. They do not make the object const, and only prevent modification through a path using the pointer or reference. Thus:
+</p>
+<blockquote>
+<p>
+char x;<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+This is not a top-level const, and none of the objects are immutable. The expression <code>*p</code> cannot be used to modify <code>x</code>, but other expressions can be; <code>x</code> is not const. For that matter
+</p>
+<blockquote>
+<p>
+*const_cast&lt;char*&gt;( p ) = 't'
+</p>
+</blockquote>
+<p>
+is legal and well defined.<br>
+But
+</p>
+<blockquote>
+<p>
+char const x = 't';<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+This time, there is a top-level const on <code>x</code>, so <code>x</code> is immutable. No expression is allowed to change it (even if <code>const_cast</code> is used). The compiler may put <code>x</code> in read-only memory, and it may assume that the value of <code>x</code> never changes, regardless of what other code may do.
+</p>
+
+<p>
+To give the pointer top-level <code>const</code>, you'd write:
+</p>
+<blockquote>
+<p>
+char x = 't';<br>
+char *const p = &amp;x;
+</p>
+</blockquote>
+<p>
+In this case, <code>p</code> will point to <code>x</code> forever; any attempt to change this is undefined behavior (and the compiler may put <code>p</code> in read-only memory, or assume that <code>*p</code> refers to <code>x</code>, regardless of any other code).
+</p>
+
+<p>
+大概翻译一下：
+</p>
+
+<p>
+<b>top-level const</b> 限定符影响的是对象本身。另一个只与指针和引用相关。它们（指针和引用）并不能使对象变为常量，只是阻止使用该指针或引用修改此对象的值：
+</p>
+<blockquote>
+<p>
+char x;<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+这并不是一个 <b>top-level const</b> ，且没有一个对象是不可变的，你无法使用表达式 <code>*p</code> 修改 <code>x</code> 的值，却可以使用别的表达式达到这一目的； <code>x</code> 并不是常量。因此：
+</p>
+<blockquote>
+<p>
+*const_cast&lt;char*&gt;( p ) = 't'
+</p>
+</blockquote>
+<p>
+是合法且语义清晰的。<br>
+但
+</p>
+<blockquote>
+<p>
+char const x = 't';<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+有一个作用与 <code>x</code> 的 <b>top-level const</b> 限定符，所以 <code>x</code> 是不可变的。没有任何表达式可以修改它（哪怕是 <code>const_cast</code> ）。编译器将 <code>x</code> 放至只读内存中，并认为 <code>x</code> 的值绝对不会发送改变，无论代码对它做任何操作。
+</p>
+
+<p>
+赋予一个指针 <b>top-level const</b> 限定符，你可以这样写：
+</p>
+<blockquote>
+<p>
+char x = 't';<br>
+char *const p = &amp;x;
+</p>
+</blockquote>
+<p>
+此时， <code>p</code> 将永远指向 <code>x</code> ；任何企图修改其指向的行为都是未定义的（且编译器会将 <code>p</code> 存放至只读内存中，或假定 <code>*p</code> 便是 <code>x</code> ，不管其它代码有何企图）。
+</p>
+</div>
+<div id="postamble" class="status">
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-09-01 Fri 02:50</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+</div>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/translation/effective_modern_cpp/item33.html" rel="next" title="条款33：在对auto&&参数执行std::forward时使用decltype">
+                <i class="fa fa-chevron-left"></i> 条款33：在对auto&&参数执行std::forward时使用decltype
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -412,6 +583,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -638,6 +820,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
 
   
 
@@ -655,6 +841,18 @@
       <script id="dsq-count-scr" src="https://paruuka.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://paruka.me/study_notes/cc/top_level_const.html';
+          this.page.identifier = 'study_notes/cc/top_level_const.html';
+          this.page.title = 'top-level const与low-level const';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://paruuka.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   

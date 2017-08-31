@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://paruka.me/"/>
-  <updated>2017-08-30T14:53:51.240Z</updated>
+  <updated>2017-08-31T18:50:53.631Z</updated>
   <id>http://paruka.me/</id>
   
   <author>
@@ -14,6 +14,151 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>top-level const与low-level const</title>
+    <link href="http://paruka.me/study_notes/cc/top_level_const.html"/>
+    <id>http://paruka.me/study_notes/cc/top_level_const.html</id>
+    <published>2017-08-31T17:19:00.000Z</published>
+    <updated>2017-08-31T18:50:53.631Z</updated>
+    
+    <content type="html"><![CDATA[<div id="content">
+<p>
+<a href="https://en.wikipedia.org/wiki/Stanley_B._Lippman" target="_blank" rel="external">Stanley B. Lippman</a> 在其传世名作 <a href="https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B00CE43I04/ref=sr_1_2?ie=UTF8&amp;qid=1504203020&amp;sr=8-2&amp;keywords=C%2B%2B+Primer" target="_blank" rel="external">《C++ Primer》</a>中对它们定义如下：
+</p>
+<blockquote>
+<p>
+As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the objectsto which it can point are const. We use the term top-level const to indicate that thepointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+</p>
+</blockquote>
+<a id="more"></a>
+<p>
+大意是：本身为const的指针称为 <b>top-level const</b> ，指向的内容为const的指针为 <b>low-level const</b> 。
+</p>
+
+<p>
+<a href="https://stackoverflow.com/questions/7914444/what-are-top-level-const-qualifiers" target="_blank" rel="external">stackoverflow</a>上有一个很好的解答：
+</p>
+
+<p>
+A top-level const qualifier affects the object itself. Others are only relevant with pointers and references. They do not make the object const, and only prevent modification through a path using the pointer or reference. Thus:
+</p>
+<blockquote>
+<p>
+char x;<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+This is not a top-level const, and none of the objects are immutable. The expression <code>*p</code> cannot be used to modify <code>x</code>, but other expressions can be; <code>x</code> is not const. For that matter
+</p>
+<blockquote>
+<p>
+*const_cast&lt;char*&gt;( p ) = 't'
+</p>
+</blockquote>
+<p>
+is legal and well defined.<br>
+But
+</p>
+<blockquote>
+<p>
+char const x = 't';<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+This time, there is a top-level const on <code>x</code>, so <code>x</code> is immutable. No expression is allowed to change it (even if <code>const_cast</code> is used). The compiler may put <code>x</code> in read-only memory, and it may assume that the value of <code>x</code> never changes, regardless of what other code may do.
+</p>
+
+<p>
+To give the pointer top-level <code>const</code>, you'd write:
+</p>
+<blockquote>
+<p>
+char x = 't';<br>
+char *const p = &amp;x;
+</p>
+</blockquote>
+<p>
+In this case, <code>p</code> will point to <code>x</code> forever; any attempt to change this is undefined behavior (and the compiler may put <code>p</code> in read-only memory, or assume that <code>*p</code> refers to <code>x</code>, regardless of any other code).
+</p>
+
+<p>
+大概翻译一下：
+</p>
+
+<p>
+<b>top-level const</b> 限定符影响的是对象本身。另一个只与指针和引用相关。它们（指针和引用）并不能使对象变为常量，只是阻止使用该指针或引用修改此对象的值：
+</p>
+<blockquote>
+<p>
+char x;<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+这并不是一个 <b>top-level const</b> ，且没有一个对象是不可变的，你无法使用表达式 <code>*p</code> 修改 <code>x</code> 的值，却可以使用别的表达式达到这一目的； <code>x</code> 并不是常量。因此：
+</p>
+<blockquote>
+<p>
+*const_cast&lt;char*&gt;( p ) = 't'
+</p>
+</blockquote>
+<p>
+是合法且语义清晰的。<br>
+但
+</p>
+<blockquote>
+<p>
+char const x = 't';<br>
+char const* p = &amp;x;
+</p>
+</blockquote>
+<p>
+有一个作用与 <code>x</code> 的 <b>top-level const</b> 限定符，所以 <code>x</code> 是不可变的。没有任何表达式可以修改它（哪怕是 <code>const_cast</code> ）。编译器将 <code>x</code> 放至只读内存中，并认为 <code>x</code> 的值绝对不会发送改变，无论代码对它做任何操作。
+</p>
+
+<p>
+赋予一个指针 <b>top-level const</b> 限定符，你可以这样写：
+</p>
+<blockquote>
+<p>
+char x = 't';<br>
+char *const p = &amp;x;
+</p>
+</blockquote>
+<p>
+此时， <code>p</code> 将永远指向 <code>x</code> ；任何企图修改其指向的行为都是未定义的（且编译器会将 <code>p</code> 存放至只读内存中，或假定 <code>*p</code> 便是 <code>x</code> ，不管其它代码有何企图）。
+</p>
+</div>
+<div id="postamble" class="status">
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-09-01 Fri 02:50</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+</div>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;div id=&quot;content&quot;&gt;
+&lt;p&gt;
+&lt;a href=&quot;https://en.wikipedia.org/wiki/Stanley_B._Lippman&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Stanley B. Lippman&lt;/a&gt; 在其传世名作 &lt;a href=&quot;https://www.amazon.cn/%E5%9B%BE%E4%B9%A6/dp/B00CE43I04/ref=sr_1_2?ie=UTF8&amp;amp;qid=1504203020&amp;amp;sr=8-2&amp;amp;keywords=C%2B%2B+Primer&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;《C++ Primer》&lt;/a&gt;中对它们定义如下：
+&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;
+As we’ve seen, a pointer is an object that can point to a different object. As a result,we can talk independently about whether a pointer is const and whether the objectsto which it can point are const. We use the term top-level const to indicate that thepointer itself is a const. When a pointer can point to a const object, we refer to that const as a low-level const.
+&lt;/p&gt;
+&lt;/blockquote&gt;&lt;/div&gt;
+    
+    </summary>
+    
+      <category term="Study Notes" scheme="http://paruka.me/categories/Study-Notes/"/>
+    
+      <category term="C++" scheme="http://paruka.me/categories/Study-Notes/C/"/>
+    
+    
+      <category term="C++" scheme="http://paruka.me/tags/C/"/>
+    
+  </entry>
   
   <entry>
     <title>条款33：在对auto&amp;&amp;参数执行std::forward时使用decltype</title>
