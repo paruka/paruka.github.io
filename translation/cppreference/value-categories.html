@@ -2,6 +2,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
   
 
 
@@ -9,8 +18,11 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
 <meta name="theme-color" content="#222">
+
+
+
 
 
 
@@ -40,36 +52,6 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
-  
 
 
 
@@ -78,39 +60,25 @@
 
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="cppreference," />
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
 
 
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
 
 
-
-  <link rel="alternate" href="/atom.xml" title="Eloquent Programmer" type="application/atom+xml" />
-
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
 
 
-
-  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
 
 
 
 
 
 
-<meta name="description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
-<meta name="keywords" content="cppreference">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Value categories">
-<meta property="og:url" content="http://paruka.me/translation/cppreference/value-categories.html">
-<meta property="og:site_name" content="Eloquent Programmer">
-<meta property="og:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-08-06T18:40:49.011Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Value categories">
-<meta name="twitter:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
 
 
 
@@ -119,15 +87,13 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '5.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
     tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn"}},
-    duoshuo: {
-      userId: '0',
-      author: 'Author'
-    },
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
     algolia: {
       applicationID: '',
       apiKey: '',
@@ -139,12 +105,40 @@
 </script>
 
 
+  
+
+
+
+
+  <meta name="description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
+<meta name="keywords" content="cppreference">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Value categories">
+<meta property="og:url" content="http://paruka.me/translation/cppreference/value-categories.html">
+<meta property="og:site_name" content="Eloquent Programmer">
+<meta property="og:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2017-08-06T18:40:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Value categories">
+<meta name="twitter:description" content="翻译至cppreference、cppreference，并对其进行了整合。(虽然我并不明白这两个网站的区别&amp;#x2026;)    每一个C++表达式（有操作数的运算符、字面值、变量名等）都被赋予两种独立的属性：型别和值类型（value categories）。每一个表达式都有一些非引用的类型，且归属与以下三种值类型中的一种：prvalue、xvalue、lvalue。它们的定义如下：">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Eloquent Programmer" type="application/atom+xml" />
+
+
+
 
   <link rel="canonical" href="http://paruka.me/translation/cppreference/value-categories.html"/>
 
 
 
-
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
 
   <title>Value categories | Eloquent Programmer</title>
   
@@ -152,18 +146,46 @@
 
 
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122855506-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-  ga('create', 'UA-85750364-1', 'auto');
-  ga('send', 'pageview');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-122855506-1');
 </script>
 
 
 
 
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
 
 </head>
 
@@ -183,19 +205,17 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
+      <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Eloquent Programmer</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-      
-        <p class="site-subtitle"></p>
-      
+    
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -203,68 +223,97 @@
   </div>
 </div>
 
-<nav class="site-nav">
-  
 
+
+<nav class="site-nav">
   
     <ul id="menu" class="menu">
       
         
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            Home
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            Tags
-          </a>
-        </li>
-      
         
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            Categories
-          </a>
-        </li>
-      
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Archives</a>
+  </li>
 
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
       
     </ul>
   
 
   
+    
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
 </nav>
 
 
 
- </div>
+  
+
+
+
+</div>
     </header>
+
+    
+
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
           <div id="content" class="content">
             
 
@@ -277,6 +326,8 @@
   
   
 
+  
+
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
   
   
@@ -285,7 +336,7 @@
     <link itemprop="mainEntityOfPage" href="http://paruka.me/translation/cppreference/value-categories.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Paruka">
+      <meta itemprop="name" content="paruka">
       <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/header.jpg">
     </span>
@@ -299,11 +350,19 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Value categories</h1>
+          <h1 class="post-title" itemprop="name headline">Value categories
+              
+            
+          </h1>
         
 
         <div class="post-meta">
           <span class="post-time">
+
+            
+            
+            
+
             
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
@@ -311,13 +370,30 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-30T01:42:00+08:00">
-                2016-12-30
-              </time>
+
+              
+                
+              
+
+              <time title="Created: 2016-12-30 01:42:00" itemprop="dateCreated datePublished" datetime="2016-12-30T01:42:00+08:00">2016-12-30</time>
             
 
             
+              
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2017-08-07 02:40:49" itemprop="dateModified" datetime="2017-08-07T02:40:49+08:00">2017-08-07</time>
+              
             
           </span>
 
@@ -333,22 +409,14 @@
                 <span class="post-meta-item-text">In</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Translation/" itemprop="url" rel="index">
-                    <span itemprop="name">Translation</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Translation/" itemprop="url" rel="index"><span itemprop="name">Translation</span></a></span>
 
                 
                 
                   , 
                 
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Translation/cppreference/" itemprop="url" rel="index">
-                    <span itemprop="name">cppreference</span>
-                  </a>
-                </span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Translation/cppreference/" itemprop="url" rel="index"><span itemprop="name">cppreference</span></a></span>
 
                 
                 
@@ -357,17 +425,6 @@
           
 
           
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/translation/cppreference/value-categories.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="translation/cppreference/value-categories.html" itemprop="commentCount"></span>
-                </a>
-              </span>
             
           
 
@@ -379,7 +436,7 @@
                  <i class="fa fa-eye"></i>
                </span>
                
-                 <span class="post-meta-item-text">Visitors&#58;</span>
+                 <span class="post-meta-item-text">Views: </span>
                
                  <span class="leancloud-visitors-count"></span>
              </span>
@@ -430,8 +487,8 @@
 注意: 这一分类方式与之前的C++标准相比有巨大的变化，详情请看<a href="http://en.cppreference.com/w/cpp/language/value_category#History" target="_blank" rel="external">历史</a>。
 </p>
 
-<div id="outline-container-org3d31af4" class="outline-2">
-<h2 id="primary-categories"><a id="org3d31af4"></a>Primary categories</h2>
+<div id="outline-container-orgc7cfb43" class="outline-2">
+<h2 id="primary-categories"><a id="orgc7cfb43"></a>Primary categories</h2>
 <div class="outline-text-2" id="text-primary-categories">
 <p>
 主类型对应表达式的两个属性：
@@ -452,8 +509,8 @@
 </ul>
 </div>
 
-<div id="outline-container-orgc02a7ec" class="outline-3">
-<h3 id="lvalue"><a id="orgc02a7ec"></a><b>lvalue</b></h3>
+<div id="outline-container-org0436a84" class="outline-3">
+<h3 id="lvalue"><a id="org0436a84"></a><b>lvalue</b></h3>
 <div class="outline-text-3" id="text-lvalue">
 <p>
 <i>lvalue</i> ("left value")表达式有身份且不能被移动。"左值"这个名字具有历史性的意义，它完美的标识了它在CPL编程语言中的作用：赋值运算符的左操作数。
@@ -482,9 +539,9 @@
 </ul>
 </div>
 
-<div id="outline-container-orgcecc9f3" class="outline-4">
-<h4 id="orgcecc9f3">属性:</h4>
-<div class="outline-text-4" id="text-orgcecc9f3">
+<div id="outline-container-orgeb7342a" class="outline-4">
+<h4 id="orgeb7342a">属性:</h4>
+<div class="outline-text-4" id="text-orgeb7342a">
 <ul class="org-ul">
 <li>拥有glvalue的所有属性(稍后介绍)。</li>
 <li>可以获取左值的地址： <code>&amp;++i</code> <sup><a id="fnr.4" class="footref" href="#fn.4">4</a></sup>和 <code>&amp;std::endl</code> 都是合法的表达式。</li>
@@ -495,8 +552,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgd8ba291" class="outline-3">
-<h3 id="prvalue"><a id="orgd8ba291"></a><b>prvalue</b></h3>
+<div id="outline-container-orgcdc0abf" class="outline-3">
+<h3 id="prvalue"><a id="orgcdc0abf"></a><b>prvalue</b></h3>
 <div class="outline-text-3" id="text-prvalue">
 <p>
 <i>prvalue("pure rvalue")</i> 表达式是那些 <i>没有身份</i> 且 <i>可以被移动</i> 的表达式。
@@ -524,9 +581,9 @@
 <li><a href="http://en.cppreference.com/w/cpp/language/lambda" target="_blank" rel="external">lambda表达式</a>，例如： <code>[](int x){ return x * x; }。(since c++11)</code> 。</li>
 </ul>
 </div>
-<div id="outline-container-orgf2c9fd1" class="outline-4">
-<h4 id="orgf2c9fd1">属性</h4>
-<div class="outline-text-4" id="text-orgf2c9fd1">
+<div id="outline-container-orgf7d5af0" class="outline-4">
+<h4 id="orgf7d5af0">属性</h4>
+<div class="outline-text-4" id="text-orgf7d5af0">
 <ul class="org-ul">
 <li>拥有rvalue的所有属性（稍后介绍）。</li>
 <li>prvalue不具备<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">多态性</a>：它所标示的对象的<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">动态型别</a>总是表达式本身的型别。</li>
@@ -537,8 +594,8 @@
 </div>
 </div>
 
-<div id="outline-container-orgcc72855" class="outline-3">
-<h3 id="xvalue"><a id="orgcc72855"></a><b>xvalue</b></h3>
+<div id="outline-container-org83bc9db" class="outline-3">
+<h3 id="xvalue"><a id="org83bc9db"></a><b>xvalue</b></h3>
 <div class="outline-text-3" id="text-xvalue">
 <p>
 <i>xvalue</i> ("expiring value")表达式是那些 <i>有身份</i> 且 <i>可以被移动</i> 的表达式。
@@ -556,8 +613,8 @@
 <li>至右值引用的转换表达式，例如： <code>static_cast&lt;char&amp;&amp;&gt;(x)</code> 。</li>
 </ul>
 </div>
-<div id="outline-container-org57ef3fa" class="outline-4">
-<h4 id="属性"><a id="org57ef3fa"></a>属性</h4>
+<div id="outline-container-org8c1d3c9" class="outline-4">
+<h4 id="属性"><a id="org8c1d3c9"></a>属性</h4>
 <div class="outline-text-4" id="text-属性">
 <ul class="org-ul">
 <li>拥有rvalue的所有属性（稍后介绍）。</li>
@@ -572,21 +629,21 @@
 </div>
 </div>
 
-<div id="outline-container-org09ec044" class="outline-2">
-<h2 id="mixed-categories"><a id="org09ec044"></a>Mixed categories</h2>
+<div id="outline-container-org877b026" class="outline-2">
+<h2 id="mixed-categories"><a id="org877b026"></a>Mixed categories</h2>
 <div class="outline-text-2" id="text-mixed-categories">
 </div>
 
-<div id="outline-container-org6cb09cd" class="outline-3">
-<h3 id="glvalue"><a id="org6cb09cd"></a><b>glvalue</b></h3>
+<div id="outline-container-orgd584fb2" class="outline-3">
+<h3 id="glvalue"><a id="orgd584fb2"></a><b>glvalue</b></h3>
 <div class="outline-text-3" id="text-glvalue">
 <p>
 <i>glvalue</i> 表达式是 <i>lvalue</i> 表达式与 <i>xvalue</i> 表达式的总称（它是一个 <i>lvalue</i> 表达式或 <i>xvalue</i> 表达式）。它 <i>有身份</i> ，但在 <i>可移动性</i> 上没有硬性规定。
 </p>
 </div>
-<div id="outline-container-org4ccfadb" class="outline-4">
-<h4 id="org4ccfadb">属性</h4>
-<div class="outline-text-4" id="text-org4ccfadb">
+<div id="outline-container-orga1efd22" class="outline-4">
+<h4 id="orga1efd22">属性</h4>
+<div class="outline-text-4" id="text-orga1efd22">
 <ul class="org-ul">
 <li>glvalue可以被隐式转换为prvalue，这归功于左值至右值（lvalue-to-rvalue）、数组至指针、函数至指针的<a href="http://en.cppreference.com/w/cpp/language/implicit_conversion" target="_blank" rel="external">隐形转化规则</a>。</li>
 <li>glvalue可以被<a href="http://en.cppreference.com/w/cpp/language/object#Polymorphic_objects" target="_blank" rel="external">多态化(polymorphic)</a>： 表达式标识对象的<a href="http://en.cppreference.com/w/cpp/language/type#Dynamic_type" target="_blank" rel="external">动态类型标识符</a>并不总是该对象的静态类型。</li>
@@ -596,16 +653,16 @@
 </div>
 </div>
 
-<div id="outline-container-orgc10a1c5" class="outline-3">
-<h3 id="rvalue"><a id="orgc10a1c5"></a><b>rvalue</b></h3>
+<div id="outline-container-orgea38c50" class="outline-3">
+<h3 id="rvalue"><a id="orgea38c50"></a><b>rvalue</b></h3>
 <div class="outline-text-3" id="text-rvalue">
 <p>
 <i>rvalue</i> 表达式是 <i>prvalue</i> 表达式和 <i>xvalue</i> 表达式的总称。它 <i>能被移动</i> ，但对 <i>身份</i> 没有硬性规定。"右值"这个名字具有历史性的意义，它完美的标识了它在CPL编程语言中的作用：赋值运算符的右操作数。
 </p>
 </div>
-<div id="outline-container-org92dc031" class="outline-4">
-<h4 id="org92dc031">属性</h4>
-<div class="outline-text-4" id="text-org92dc031">
+<div id="outline-container-orgf883490" class="outline-4">
+<h4 id="orgf883490">属性</h4>
+<div class="outline-text-4" id="text-orgf883490">
 <ul class="org-ul">
 <li>不能获取右值的地址： <code>&amp;int()</code> 、 <code>&amp;i++</code> 、 <code>&amp;42</code> 和 <code>&amp;std::move(x)</code> 都是不合法的表达式。</li>
 <li>不能被用作内置赋值运算符和内置复合赋值运算符的左操作数。</li>
@@ -618,21 +675,21 @@
 </div>
 </div>
 
-<div id="outline-container-orgda8a6e8" class="outline-2">
-<h2 id="special-categories"><a id="orgda8a6e8"></a>Special categories</h2>
+<div id="outline-container-org73ff47d" class="outline-2">
+<h2 id="special-categories"><a id="org73ff47d"></a>Special categories</h2>
 <div class="outline-text-2" id="text-special-categories">
 </div>
 
-<div id="outline-container-org68af95c" class="outline-3">
-<h3 id="pending-member-function-call"><a id="org68af95c"></a><b>Pending member function call</b></h3>
+<div id="outline-container-org61e2e25" class="outline-3">
+<h3 id="pending-member-function-call"><a id="org61e2e25"></a><b>Pending member function call</b></h3>
 <div class="outline-text-3" id="text-pending-member-function-call">
 <p>
 以下两组表达式： <code>a.mf</code> 、 <code>p-&gt;mf</code> (mf为<a href="http://en.cppreference.com/w/cpp/language/member_functions" target="_blank" rel="external">非静态成员函数</a>) 及 <code>a.*mfp</code> 、 <code>p-&gt;*mfp</code> (mfp为<a href="http://en.cppreference.com/w/cpp/language/pointer#Pointers_to_member_functions" target="_blank" rel="external">指向成员函数的指针</a>)均被标识为prvalue表达式，但它们不能被用来初始化引用，也不能被用作函数实参或其它任何意图，它们只能被用作函数调用操作符的左操作数： <code>(p-&gt;*mfp)(args)</code> 。
 </p>
 </div>
 </div>
-<div id="outline-container-org7dda62c" class="outline-3">
-<h3 id="void-expressions"><a id="org7dda62c"></a><b>Void expressions</b></h3>
+<div id="outline-container-org7567741" class="outline-3">
+<h3 id="void-expressions"><a id="org7567741"></a><b>Void expressions</b></h3>
 <div class="outline-text-3" id="text-void-expressions">
 <p>
 返回值为 <code>void</code> 的函数调用表达式、至 <code>void</code> 的转换表达式及<a href="http://en.cppreference.com/w/cpp/language/throw" target="_blank" rel="external">抛出异常表达式</a>均被标识为prvalue表达式，但它们不能初始化引用及函数实参。它们可以表示某些空值(discarded-value)内容（例如：仅有该表达式的一行代码、逗号表达式的左操作数等），也可以用作 <code>返回值为void的函数</code> 的返回值。此外，抛出异常表达式也可作为<a href="http://en.cppreference.com/w/cpp/language/operator_other" target="_blank" rel="external">问号条件操作符（ <b>?</b> ）</a>的第二个或第三个操作数。
@@ -640,8 +697,8 @@
 </div>
 </div>
 
-<div id="outline-container-org878c141" class="outline-3">
-<h3 id="bit-fields"><a id="org878c141"></a><b>Bit fields</b></h3>
+<div id="outline-container-orgaefd1b6" class="outline-3">
+<h3 id="bit-fields"><a id="orgaefd1b6"></a><b>Bit fields</b></h3>
 <div class="outline-text-3" id="text-bit-fields">
 <p>
 <a href="http://en.cppreference.com/w/cpp/language/bit_field" target="_blank" rel="external">位域</a>操作表达式（例如： <code>a.m</code> ，当a为 <code>struct A { int m: 3;}</code> 的左值时）为lvalue表达式：它可以用作赋值操作符的左操作数，但它不能被取地址，也不能被绑定至非常左值引用。常左值引用虽然可以被位域左值初始化，但它只是绑定了该位域的临时拷贝对象，你无法将位域直接绑定至引用。
@@ -689,11 +746,14 @@ special rvalue category, see pending member function call
 </div>
 </div></div>
 <div id="postamble" class="status">
-<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2017-08-07 Mon 14:22</b>. <br><a href="http://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 25.2.1 (<a href="http://orgmode.org" target="_blank" rel="external">Org</a> mode 9.0.9)</div>
+<div style="font-size: 14px;padding: 5px;line-height: 20px;border: 1px solid;">Last Updated <b>2018-07-05 Thu 01:57</b>. <br><a href="https://www.gnu.org/software/emacs/" target="_blank" rel="external">Emacs</a> 27.0.50 (<a href="https://orgmode.org" target="_blank" rel="external">Org</a> mode 9.1.13)</div>
 </div>
 
       
     </div>
+
+    
+
     
     
     
@@ -752,6 +812,12 @@ special rvalue category, see pending member function call
 
     <div class="post-spread">
       
+        <!-- Go to www.addthis.com/dashboard to customize your tools -->
+<div class="addthis_inline_share_toolbox">
+  <script type = "text/javascript" src = "//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5b575fc3d1f6d949" async = "async" ></script>
+</div>
+
+      
     </div>
   </div>
 
@@ -759,18 +825,10 @@ special rvalue category, see pending member function call
           </div>
           
 
+  
+    <div id="gitalk-container"></div>
+  
 
-          
-  <div class="comments" id="comments">
-    
-      <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
-      </div>
-    
-  </div>
 
 
         </div>
@@ -793,98 +851,128 @@ special rvalue category, see pending member function call
 
       
         <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
             Table of Contents
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
             Overview
           </li>
         </ul>
       
 
-      <section class="site-overview sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-          
-            <img class="site-author-image" itemprop="image"
-              src="/images/header.jpg"
-              alt="Paruka" />
-          
-            <p class="site-author-name" itemprop="name">Paruka</p>
-            <p class="site-description motion-element" itemprop="description"></p>
-        </div>
-
-        <nav class="site-state motion-element">
-
-          
-            <div class="site-state-item site-state-posts">
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <a href="/archives/">
+              <img class="site-author-image" itemprop="image"
+                src="/images/header.jpg"
+                alt="paruka" />
             
-                <span class="site-state-item-count">9</span>
-                <span class="site-state-item-name">posts</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-categories">
-              <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">categories</span>
-              </a>
-            </div>
-          
-
-          
-            
-            
-            <div class="site-state-item site-state-tags">
-              <a href="/tags/index.html">
-                <span class="site-state-item-count">6</span>
-                <span class="site-state-item-name">tags</span>
-              </a>
-            </div>
-          
-
-        </nav>
-
-        
-          <div class="feed-link motion-element">
-            <a href="/atom.xml" rel="alternate">
-              <i class="fa fa-rss"></i>
-              RSS
-            </a>
+              <p class="site-author-name" itemprop="name">paruka</p>
+              <p class="site-description motion-element" itemprop="description"></p>
           </div>
-        
 
-        <div class="links-of-author motion-element">
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/paruukaa" target="_blank" title="Twitter"><i class="fa fa-fw fa-globe"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
           
             
-              <span class="links-of-author-item">
-                <a href="https://twitter.com/paruukaa" target="_blank" title="Twitter">
-                  
-                    <i class="fa fa-fw fa-globe"></i>
-                  
-                    
-                      Twitter
-                    
-                </a>
-              </span>
-            
           
+          
+
         </div>
-
-        
-        
-
-        
-        
-
-        
-
-
       </section>
 
       
@@ -897,7 +985,7 @@ special rvalue category, see pending member function call
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#primary-categories"><span class="nav-number">1.</span> <span class="nav-text">Primary categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lvalue"><span class="nav-number">1.1.</span> <span class="nav-text">lvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgcecc9f3"><span class="nav-number">1.1.1.</span> <span class="nav-text">属性:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prvalue"><span class="nav-number">1.2.</span> <span class="nav-text">prvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgf2c9fd1"><span class="nav-number">1.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xvalue"><span class="nav-number">1.3.</span> <span class="nav-text">xvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">1.3.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixed-categories"><span class="nav-number">2.</span> <span class="nav-text">Mixed categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#glvalue"><span class="nav-number">2.1.</span> <span class="nav-text">glvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org4ccfadb"><span class="nav-number">2.1.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rvalue"><span class="nav-number">2.2.</span> <span class="nav-text">rvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#org92dc031"><span class="nav-number">2.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#special-categories"><span class="nav-number">3.</span> <span class="nav-text">Special categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pending-member-function-call"><span class="nav-number">3.1.</span> <span class="nav-text">Pending member function call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-expressions"><span class="nav-number">3.2.</span> <span class="nav-text">Void expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bit-fields"><span class="nav-number">3.3.</span> <span class="nav-text">Bit fields</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Footnotes: </span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#primary-categories"><span class="nav-number">1.</span> <span class="nav-text">Primary categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lvalue"><span class="nav-number">1.1.</span> <span class="nav-text">lvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgeb7342a"><span class="nav-number">1.1.1.</span> <span class="nav-text">属性:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prvalue"><span class="nav-number">1.2.</span> <span class="nav-text">prvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgf7d5af0"><span class="nav-number">1.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xvalue"><span class="nav-number">1.3.</span> <span class="nav-text">xvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#属性"><span class="nav-number">1.3.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mixed-categories"><span class="nav-number">2.</span> <span class="nav-text">Mixed categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#glvalue"><span class="nav-number">2.1.</span> <span class="nav-text">glvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orga1efd22"><span class="nav-number">2.1.1.</span> <span class="nav-text">属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rvalue"><span class="nav-number">2.2.</span> <span class="nav-text">rvalue</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#orgf883490"><span class="nav-number">2.2.1.</span> <span class="nav-text">属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#special-categories"><span class="nav-number">3.</span> <span class="nav-text">Special categories</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pending-member-function-call"><span class="nav-number">3.1.</span> <span class="nav-text">Pending member function call</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-expressions"><span class="nav-number">3.2.</span> <span class="nav-text">Void expressions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bit-fields"><span class="nav-number">3.3.</span> <span class="nav-text">Bit fields</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">Footnotes: </span></a></li></ol></div>
             
 
           </div>
@@ -917,27 +1005,35 @@ special rvalue category, see pending member function call
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright" >
-  
-  &copy; 
-  <span itemprop="copyrightYear">2017</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Paruka</span>
+  <span class="author" itemprop="copyrightHolder">paruka</span>
+
+  
 
   
 </div>
 
 
-  <div class="powered-by">Powered by <a class="theme-link" href="https://hexo.io">Hexo</a></div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> v3.3.8</div>
+
+
 
   <span class="post-meta-divider">|</span>
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.2</div>
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Mist</a> v6.3.0</div>
+
+
 
 
         
+
 
 
 
@@ -954,6 +1050,8 @@ special rvalue category, see pending member function call
         <i class="fa fa-arrow-up"></i>
         
       </div>
+    
+
     
 
   </div>
@@ -974,7 +1072,6 @@ special rvalue category, see pending member function call
 
 
 
-  
 
 
 
@@ -987,79 +1084,53 @@ special rvalue category, see pending member function call
 
 
 
-  
-  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-
-  
-  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-
-  
-  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-  
-  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
 
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
 
 
 
   
   
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
 
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
 
 
 
   
+  
 
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
 
 
 
   
 
 
-  
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
 
-    
-      <script id="dsq-count-scr" src="https://paruuka.disqus.com/count.js" async></script>
-    
 
-    
-      <script type="text/javascript">
-        var disqus_config = function () {
-          this.page.url = 'http://paruka.me/translation/cppreference/value-categories.html';
-          this.page.identifier = 'translation/cppreference/value-categories.html';
-          this.page.title = 'Value categories';
-        };
-        var d = document, s = d.createElement('script');
-        s.src = 'https://paruuka.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      </script>
-    
 
   
-
 
 
 
@@ -1075,12 +1146,354 @@ special rvalue category, see pending member function call
 
 
 
+  
 
 
 
+
+
+
+
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+   <script type="text/javascript">
+        var gitalk = new Gitalk({
+          clientID: '921aa498a77d4cfc3f7e',
+          clientSecret: '949dfc2b6da3aa774ff769c08208d1c890dd6cf8',
+          repo: 'paruka.github.io',
+          owner: 'paruka',
+          admin: ['paruka'],
+          id: location.pathname,
+          distractionFreeMode: 'true'
+        })
+        gitalk.render('gitalk-container')           
+       </script>
 
 
   
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
 
 
 
@@ -1090,7 +1503,7 @@ special rvalue category, see pending member function call
 
   
   <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
-  <script>AV.initialize("02JnwaxQh2JSgsPGLWzeCVYO-gzGzoHsz", "U712O4wAGBr2arqb8RnaKGgj");</script>
+  <script>AV.initialize("02JnwaxQh2JSgsPGLWzeCVYO-gzGzoHsz#<app_id>", "U712O4wAGBr2arqb8RnaKGgj#<app_key>");</script>
   <script>
     function showTime(Counter) {
       var query = new AV.Query(Counter);
@@ -1146,35 +1559,24 @@ special rvalue category, see pending member function call
             var counter = results[0];
             counter.fetchWhenSave(true);
             counter.increment("time");
+            
             counter.save(null, {
               success: function(counter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.get('time'));
+                
               },
               error: function(counter, error) {
                 console.log('Failed to save Visitor num, with error message: ' + error.message);
               }
             });
           } else {
-            var newcounter = new Counter();
-            /* Set ACL */
-            var acl = new AV.ACL();
-            acl.setPublicReadAccess(true);
-            acl.setPublicWriteAccess(true);
-            newcounter.setACL(acl);
-            /* End Set ACL */
-            newcounter.set("title", title);
-            newcounter.set("url", url);
-            newcounter.set("time", 1);
-            newcounter.save(null, {
-              success: function(newcounter) {
-                var $element = $(document.getElementById(url));
-                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
-              },
-              error: function(newcounter, error) {
-                console.log('Failed to create');
-              }
-            });
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
         },
         error: function(error) {
@@ -1194,6 +1596,15 @@ special rvalue category, see pending member function call
   </script>
 
 
+
+  
+
+  
+
+  
+
+  
+  
 
   
 
